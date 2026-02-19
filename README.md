@@ -42,7 +42,7 @@ myWebsite/
 ├── assets/
 │   └── images/             # Image assets (webp)
 │       ├── me.webp
-│       └── softwrench-logo.webp
+│       └── company-logo.webp
 ├── css/
 │   ├── variables.css       # CSS custom properties and theme tokens
 │   └── style.css           # Layout, components, and animations
