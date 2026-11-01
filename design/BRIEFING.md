@@ -61,10 +61,10 @@ O protótipo navegável está em `design/prototipo/index.html`.
 Regra do Felipe: o design não pode remeter a nenhum setor de negócio, apenas a TI. A v2 (Matrix) foi reprovada; a v3 segue a referência enviada por ele (pôster escuro com vermelho, palavra gigante atrás da foto recortada).
 
 - **Abertura:** log de boot, contador 000→100%, barra de progresso e a tela abrindo ao meio com um traço vermelho. Botão para pular (Enter/Esc) e para rever.
-- **Hero:** "PORTFOLIO" gigante em vermelho atrás da foto recortada (Felipe com microfone e notebook). Nome, cargo, bio e CTAs à esquerda; janela de terminal do Guardião e números (7 projetos, 3º lugar, 17 certificados) à direita. Cursores colaborativos flutuando (C#, SQL Server, AngularJS) e um cursor "você" que segue o mouse.
+- **Hero:** "PORTFOLIO" gigante em verde atrás da foto recortada (Felipe de camisa branca, olhando para a câmera; crachá e cordão de evento desfocados para não exibir marcas). A foto do pitch com microfone e notebook foi para a seção Sobre. Nome, cargo, bio e CTAs à esquerda; janela de terminal do Guardião e números (7 projetos, 3º lugar, 17 certificados) à direita. Cursores colaborativos flutuando (C#, SQL Server, AngularJS) e um cursor "você" que segue o mouse.
 - **Profundidade 3D:** grade, brilho, palavra, foto e interface se movem em camadas com o mouse.
-- **Seções:** faixas cruzadas com a stack, Sobre com a segunda foto recortada, Experiência com anos gigantes, Projetos com destaque do Guardião e lista com prévia flutuante de código, Stack em esfera 3D (Three.js) que gira com arraste, Formação em cards, Contato com "Vamos conversar" gigante.
-- **Paleta:** preto `#0A0A0C`, grafite `#131317`, vermelho `#E8392C`, vinho `#8F1D15`, off-white `#F3F0EC`, cinza `#8E8E96`.
+- **Seções:** faixas cruzadas com a stack, Sobre com a foto do pitch recortada, Experiência com anos gigantes, Projetos com destaque do Guardião e lista com prévia flutuante de código, Stack em esfera 3D (Three.js) que gira com arraste, Formação em cards, Contato com "Vamos conversar" gigante.
+- **Paleta (v3.1, verde a pedido do Felipe):** preto `#0A0A0C`, grafite `#131317`, verde `#22D877`, verde escuro `#0C5A33`, off-white `#F3F0EC`, cinza `#8E8E96`; amarelo `#F5B940` só para pendências do protótipo.
 - **Tipografia:** Anton (títulos), Caveat ("Olá, eu sou"), Manrope (texto), JetBrains Mono (rótulos e código).
 - **Fotos:** recortadas localmente com rembg (modelo BiRefNet portrait) e exportadas em WebP com transparência.
 - **Acessibilidade:** "reduzir movimento" pula a intro e desliga animações; foco visível; PT/EN.
@@ -72,7 +72,7 @@ Regra do Felipe: o design não pode remeter a nenhum setor de negócio, apenas a
 ## Pendências
 
 1. Aprovação do protótipo v3 ou lista de ajustes (nenhum código do site será escrito antes disso)
-2. Fotos 3 e 4
+2. Foto 4 (a foto 3, frontal, já está no topo)
 3. Grêmio estudantil: instituição, cargo e período
 4. SAGA foi o TCC da ETEC?
 5. Quais dos 17 certificados destacar
