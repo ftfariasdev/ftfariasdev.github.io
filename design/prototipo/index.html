@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfólio Felipe Farias · Protótipo</title>
+<meta name="description" content="Protótipo v2 do novo portfólio de Felipe Farias, Full Stack Developer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Martian+Mono:wdth,wght@75..112.5,300..800&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a terminal session that decodes a person. A 3D rain of code
+   (made from his own stack) opens the page; every section reads like output. */
+:root {
+  --void: #030806;
+  --panel: #07130D;
+  --phosphor: #3DFF8C;
+  --phosphor-dim: #1F8A50;
+  --ink: #D9F7E6;
+  --ink-dim: #86AD99;
+  --pill: #FF3B5C;
+  --line: rgba(61, 255, 140, .16);
+  --glow: 0 0 18px rgba(61, 255, 140, .35);
+
+  --f-display: "Martian Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --f-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+
+  --arrive: cubic-bezier(.16, 1, .3, 1);
+  --radius: 4px;
+  --wrap: 1160px;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; background: var(--void); }
+body { margin: 0; background: var(--void); color: var(--ink); font: 400 1rem/1.65 var(--f-body); -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+::selection { background: var(--phosphor); color: var(--void); }
+:focus-visible { outline: 2px solid var(--phosphor); outline-offset: 3px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; }
+.wrap { width: min(100% - 32px, var(--wrap)); margin-inline: auto; }
+
+/* faint scanlines over the whole page */
+body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 100;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, .09) 0 1px, transparent 1px 3px); mix-blend-mode: multiply; }
+
+.proto-strip { font: 400 .72rem/1.4 var(--f-display); color: var(--void); background: var(--phosphor); padding: 7px 16px; text-align: center; }
+.proto-strip a { color: var(--void); }
+
+/* ---------- top bar ---------- */
+.bar { position: sticky; top: 0; z-index: 30; background: rgba(3, 8, 6, .82); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.bar__in { display: flex; align-items: center; gap: 20px; height: 58px; }
+.mark { display: flex; align-items: center; gap: 2px; text-decoration: none; font: 700 .95rem/1 var(--f-display); color: var(--phosphor); }
+.mark i { width: .6em; height: 1.1em; background: var(--phosphor); margin-left: 4px; animation: caret 1.25s steps(1) infinite; }
+@keyframes caret { 50% { opacity: 0; } }
+.nav { display: flex; gap: 2px; margin-left: auto; list-style: none; padding: 0; margin-block: 0; }
+.nav a { display: block; padding: 6px 10px; text-decoration: none; font: 400 .76rem/1 var(--f-display); color: var(--ink-dim); }
+.nav a::before { content: "./"; color: var(--phosphor-dim); }
+.nav a:hover, .nav a.is-on { color: var(--phosphor); }
+.tbtn { font: 700 .72rem/1 var(--f-display); color: var(--phosphor); background: transparent; border: 1px solid var(--line); border-radius: var(--radius); height: 32px; min-width: 40px; padding: 0 10px; cursor: pointer; }
+.tbtn:hover { border-color: var(--phosphor); box-shadow: var(--glow); }
+@media (max-width: 900px) { .nav { display: none; } .bar .tbtn { margin-left: auto; } }
+
+/* ---------- hero ---------- */
+.hero { position: relative; overflow: hidden; isolation: isolate; min-height: clamp(580px, 84vh, 780px); background: radial-gradient(80% 70% at 70% 40%, #062014, var(--void) 70%); }
+#rain { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; cursor: crosshair; touch-action: pan-y; }
+.hero__scrim { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: linear-gradient(90deg, rgba(3, 8, 6, .92) 0%, rgba(3, 8, 6, .7) 38%, transparent 64%); }
+@media (max-width: 860px) { .hero__scrim { background: linear-gradient(180deg, rgba(3, 8, 6, .55) 0%, rgba(3, 8, 6, .85) 40%, rgba(3, 8, 6, .85) 100%); } }
+.hero__in { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 32px; padding-block: 72px 56px; pointer-events: none; min-height: inherit; align-content: space-between; }
+.hero__in a, .hero__in button, .hero__in .status { pointer-events: auto; }
+.prompt { font: 400 .8rem/1.5 var(--f-display); color: var(--ink-dim); }
+.prompt b { color: var(--phosphor); font-weight: 400; }
+.name { font: 800 clamp(3rem, 9.5vw, 7.6rem)/.9 var(--f-display); font-stretch: 75%; text-transform: uppercase; letter-spacing: -.02em; margin-top: 18px; color: var(--ink); }
+.name span { display: block; white-space: nowrap; }
+.name .hot { color: var(--phosphor); text-shadow: 0 0 28px rgba(61, 255, 140, .45); }
+.role { font: 500 clamp(1.05rem, 2.2vw, 1.35rem)/1.35 var(--f-body); margin-top: 22px; min-height: 1.4em; }
+.role .typed { font-family: var(--f-display); font-size: .82em; color: var(--phosphor); }
+.role .typed::after { content: "▌"; margin-left: 2px; animation: caret 1.25s steps(1) infinite; }
+.lede { color: var(--ink-dim); max-width: 50ch; margin-top: 12px; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.btn { display: inline-flex; align-items: center; gap: 10px; height: 46px; padding: 0 18px; border-radius: var(--radius); font: 700 .78rem/1 var(--f-display); text-decoration: none; border: 1px solid var(--phosphor); cursor: pointer; transition: box-shadow .2s, background .2s, color .2s; }
+.btn--solid { background: var(--phosphor); color: var(--void); }
+.btn--ghost { background: rgba(3, 8, 6, .6); color: var(--phosphor); }
+.btn:hover { box-shadow: var(--glow); }
+.btn--ghost:hover { background: var(--phosphor); color: var(--void); }
+.hint { font: 400 .7rem/1.6 var(--f-display); color: var(--ink-dim); margin-top: 22px; max-width: 52ch; }
+
+.status { align-self: end; border: 1px solid var(--line); border-radius: var(--radius); background: rgba(3, 12, 8, .78); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); padding: 14px 16px; font: 400 .72rem/1.35 var(--f-display); }
+.status__title { display: flex; justify-content: space-between; align-items: center; color: var(--ink-dim); margin-bottom: 12px; }
+.status__title b { color: var(--phosphor); font-weight: 400; display: inline-flex; align-items: center; gap: 6px; }
+.status__title b::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--phosphor); box-shadow: var(--glow); animation: caret 2.5s steps(1) infinite; }
+.status dl { display: grid; grid-template-columns: auto 1fr; gap: 7px 14px; margin: 0; }
+.status dt { color: var(--phosphor-dim); }
+.status dt::after { content: ":"; }
+.status dd { margin: 0; text-align: right; color: var(--ink); font-variant-numeric: tabular-nums; }
+@media (max-width: 860px) { .hero__in { grid-template-columns: 1fr; padding-top: 40px; } .status { max-width: 380px; } }
+
+/* ---------- sections ---------- */
+section.sec { padding-block: 104px; border-top: 1px solid var(--line); position: relative; }
+.sec__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; margin-bottom: 44px; }
+.sec__head h2 { font: 800 clamp(2rem, 5vw, 3.6rem)/1 var(--f-display); font-stretch: 75%; text-transform: uppercase; color: var(--ink); }
+.sec__head h2::before { content: "> "; color: var(--phosphor); }
+.kicker { font: 400 .74rem/1.4 var(--f-display); color: var(--ink-dim); }
+.kicker b { color: var(--phosphor); font-weight: 400; }
+
+/* about */
+.about { display: grid; grid-template-columns: 5fr 7fr; gap: 56px; align-items: start; }
+.portrait { margin: 0; position: relative; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--void); aspect-ratio: 4 / 5; }
+.portrait canvas, .portrait img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.portrait img { object-fit: cover; opacity: 0; transition: opacity .6s var(--arrive); }
+.portrait.is-photo img { opacity: 1; }
+.portrait figcaption { position: absolute; left: 10px; right: 10px; bottom: 10px; display: flex; justify-content: space-between; gap: 8px; align-items: center; padding: 8px 10px; font: 400 .66rem/1.35 var(--f-display); color: var(--ink); background: rgba(3, 8, 6, .82); border: 1px solid var(--line); border-radius: var(--radius); }
+.portrait figcaption button { font: 700 .64rem/1 var(--f-display); color: var(--void); background: var(--phosphor); border: 0; border-radius: 2px; padding: 7px 9px; cursor: pointer; white-space: nowrap; }
+.thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+.thumbs button { padding: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; aspect-ratio: 1; background: var(--panel); cursor: pointer; filter: grayscale(1) contrast(1.1); transition: filter .3s; }
+.thumbs button:hover, .thumbs button[aria-pressed="true"] { filter: none; }
+.thumbs button[aria-pressed="true"] { outline: 1px solid var(--phosphor); outline-offset: 2px; }
+.thumbs img { width: 100%; height: 100%; object-fit: cover; }
+.slot { display: grid; place-items: center; text-align: center; border: 1px dashed var(--phosphor-dim); border-radius: var(--radius); aspect-ratio: 1; font: 400 .62rem/1.4 var(--f-display); color: var(--ink-dim); padding: 6px; }
+.about__text { display: grid; gap: 18px; max-width: 62ch; }
+.about__text p { font-size: 1.06rem; }
+.about__text strong { color: var(--phosphor); font-weight: 500; }
+.facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; margin: 6px 0 0; }
+.facts div { background: var(--void); padding: 14px 16px; }
+.facts dt { font: 400 .64rem/1.3 var(--f-display); color: var(--phosphor-dim); text-transform: uppercase; }
+.facts dd { margin: 6px 0 0; font: 500 1rem/1.3 var(--f-body); }
+@media (max-width: 860px) { .about { grid-template-columns: 1fr; gap: 36px; } .facts { grid-template-columns: 1fr; } }
+
+/* terminal */
+.term { border-radius: var(--radius); background: var(--panel); font: 400 .78rem/1.6 var(--f-display); overflow: hidden; border: 1px solid var(--line); }
+.term__bar { display: flex; justify-content: space-between; padding: 9px 14px; border-bottom: 1px solid var(--line); color: var(--ink-dim); font-size: .66rem; }
+.term__out { padding: 14px 16px 4px; max-height: 300px; overflow: auto; white-space: pre-wrap; word-break: break-word; }
+.term__out .p { color: var(--phosphor); }
+.term__out .k { color: #8FE3FF; }
+.term__out .s { color: #F2F7A1; }
+.term__out .d { color: var(--ink-dim); }
+.term__out .r { color: var(--pill); }
+.term__in { display: flex; gap: 8px; padding: 6px 16px 14px; align-items: center; }
+.term__in label { color: var(--phosphor); }
+.term__in input { flex: 1; min-width: 0; background: transparent; border: 0; color: var(--ink); font: inherit; caret-color: var(--phosphor); }
+.term__in input:focus { outline: none; }
+.term__chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 14px; }
+.term__chips button { font: 400 .66rem/1 var(--f-display); color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 2px; padding: 7px 8px; cursor: pointer; }
+.term__chips button:hover { border-color: var(--phosphor); color: var(--phosphor); }
+.term__chips button[data-cmd="redpill"] { border-color: rgba(255, 59, 92, .5); color: var(--pill); }
+
+/* experience */
+.xp { display: grid; gap: 16px; }
+.job { display: grid; grid-template-columns: 210px 1fr; gap: 32px; padding: 28px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+.job__when { font: 400 .74rem/1.6 var(--f-display); color: var(--ink-dim); }
+.job__when b { display: block; font-weight: 700; color: var(--ink); font-size: .88rem; }
+.live { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; color: var(--phosphor); }
+.live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; box-shadow: var(--glow); animation: caret 2.5s steps(1) infinite; }
+.job__head { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.job__logo { width: 48px; height: 48px; border-radius: var(--radius); background: var(--void); border: 1px solid var(--line); display: grid; place-items: center; padding: 8px; }
+.job h3 { font: 700 1.25rem/1.25 var(--f-body); }
+.job__co { color: var(--ink-dim); font-size: .92rem; }
+.job ul { margin: 16px 0 0; padding-left: 0; list-style: none; display: grid; gap: 8px; max-width: 70ch; }
+.job ul li { padding-left: 1.4em; position: relative; }
+.job ul li::before { content: "+"; position: absolute; left: 0; color: var(--phosphor); font-family: var(--f-display); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+.tag { font: 400 .66rem/1 var(--f-display); padding: 6px 8px; border-radius: 2px; border: 1px solid var(--line); color: var(--phosphor); }
+.job--todo { background: transparent; border-style: dashed; }
+.job--todo p { color: var(--ink-dim); margin-top: 6px; }
+.todo, .edu .todo, .job--todo .todo { font: 400 .66rem/1.5 var(--f-display); color: var(--pill); }
+@media (max-width: 760px) { .job { grid-template-columns: 1fr; gap: 14px; padding: 22px; } }
+
+/* projects */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+.filters button { font: 400 .72rem/1 var(--f-display); padding: 10px 12px; border-radius: 2px; border: 1px solid var(--line); background: transparent; color: var(--ink-dim); cursor: pointer; }
+.filters button::before { content: "--"; color: var(--phosphor-dim); }
+.filters button[aria-pressed="true"] { background: var(--phosphor); color: var(--void); border-color: var(--phosphor); }
+.filters button[aria-pressed="true"]::before { color: var(--void); }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; perspective: 1200px; }
+.card { --rx: 0deg; --ry: 0deg; --gx: 50%; --gy: 0%; position: relative; display: flex; flex-direction: column; gap: 12px; padding: 22px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--panel); transform: rotateX(var(--rx)) rotateY(var(--ry)); transform-style: preserve-3d; transition: transform .5s var(--arrive), opacity .3s, border-color .2s, box-shadow .2s; }
+.card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: radial-gradient(380px circle at var(--gx) var(--gy), rgba(61, 255, 140, .12), transparent 55%); opacity: 0; transition: opacity .3s; }
+.card:hover { border-color: var(--phosphor-dim); box-shadow: 0 0 0 1px rgba(61, 255, 140, .08), 0 18px 50px -20px rgba(61, 255, 140, .35); }
+.card:hover::after { opacity: 1; }
+.card.is-tilting { transition: transform .08s linear, opacity .3s, border-color .2s, box-shadow .2s; }
+.card[hidden] { display: none; }
+.card__meta { font: 400 .64rem/1.3 var(--f-display); color: var(--ink-dim); display: flex; justify-content: space-between; gap: 8px; }
+.card h3 { font: 800 1.35rem/1.1 var(--f-display); font-stretch: 75%; text-transform: uppercase; color: var(--ink); transform: translateZ(30px); }
+.card p { color: var(--ink-dim); font-size: .94rem; }
+.card .tags { margin-top: auto; padding-top: 6px; }
+.card__links { display: flex; gap: 16px; font: 700 .7rem/1 var(--f-display); }
+.card__links a { text-decoration: none; color: var(--phosphor); }
+.card__links a::after { content: " ↗"; }
+.card__links a:hover { text-decoration: underline; }
+.card--feature { grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.card--feature .card__body { display: flex; flex-direction: column; gap: 12px; }
+.card--feature figure { margin: 0; position: relative; min-height: 300px; border-radius: var(--radius); overflow: hidden; background: var(--void); }
+.card--feature figure img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity .5s var(--arrive); }
+.card--feature figure img + img { opacity: 0; }
+.card--feature figure.is-alt img:first-child { opacity: 0; }
+.card--feature figure.is-alt img + img { opacity: 1; }
+.card--feature figure button { position: absolute; right: 10px; bottom: 10px; font: 700 .62rem/1 var(--f-display); color: var(--void); background: var(--phosphor); border: 0; border-radius: 2px; padding: 8px 10px; cursor: pointer; }
+.card .award { align-self: start; font: 700 .66rem/1.3 var(--f-display); color: var(--void); background: var(--phosphor); padding: 7px 9px; border-radius: 2px; }
+.card.is-dim { opacity: .25; }
+@media (max-width: 980px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 660px) { .grid { grid-template-columns: 1fr; } .card--feature { grid-column: auto; grid-template-columns: 1fr; } }
+
+/* stack: a file tree */
+.stack { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 24px; align-items: start; }
+.tree { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); padding: 18px 20px; font: 400 .8rem/1.9 var(--f-display); overflow-x: auto; }
+.tree__root { color: var(--phosphor); }
+.tree__dir { color: var(--ink); white-space: nowrap; }
+.tree__dir span, .tree__row > span { color: var(--phosphor-dim); white-space: pre; }
+.tree__row { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; }
+.leaf { font: inherit; color: var(--ink-dim); background: transparent; border: 1px solid transparent; border-radius: 2px; padding: 0 6px; cursor: pointer; line-height: 1.7; }
+.leaf.daily { color: var(--ink); }
+.leaf.daily::after { content: "*"; color: var(--phosphor); margin-left: 2px; }
+.leaf:hover, .leaf[aria-pressed="true"] { color: var(--void); background: var(--phosphor); }
+.leaf:hover.daily::after, .leaf[aria-pressed="true"].daily::after { color: var(--void); }
+.inspect { position: sticky; top: 80px; border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; font: 400 .78rem/1.6 var(--f-display); min-height: 180px; }
+.inspect h3 { font: 700 .7rem/1 var(--f-display); color: var(--phosphor-dim); text-transform: uppercase; margin-bottom: 12px; }
+.inspect__name { font-size: 1.3rem; color: var(--phosphor); }
+.inspect ul { margin: 10px 0 0; padding: 0; list-style: none; color: var(--ink); }
+.inspect ul li::before { content: "→ "; color: var(--phosphor-dim); }
+.inspect p { color: var(--ink-dim); }
+@media (max-width: 860px) { .stack { grid-template-columns: 1fr; } .inspect { position: static; } }
+
+/* education */
+.edu { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.edu article { padding: 22px; border-radius: var(--radius); border: 1px solid var(--line); display: grid; gap: 8px; align-content: start; background: var(--panel); }
+.edu .state { font: 400 .64rem/1.3 var(--f-display); color: var(--phosphor); }
+.edu h3 { font: 700 1.1rem/1.3 var(--f-body); }
+.edu p { color: var(--ink-dim); font-size: .92rem; }
+@media (max-width: 860px) { .edu { grid-template-columns: 1fr; } }
+
+/* contact */
+.contact { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items: end; }
+.contact h2 { font: 800 clamp(2.6rem, 7.5vw, 6rem)/.95 var(--f-display); font-stretch: 75%; text-transform: uppercase; }
+.contact h2 em { font-style: normal; color: var(--phosphor); }
+.mail { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 26px; }
+.mail a { font: 700 clamp(.9rem, 2vw, 1.2rem)/1.3 var(--f-display); text-decoration: none; color: var(--phosphor); border-bottom: 1px solid var(--phosphor); word-break: break-all; }
+.links { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); font-family: var(--f-display); font-size: .82rem; }
+.links li { border-bottom: 1px solid var(--line); }
+.links a { display: flex; justify-content: space-between; gap: 12px; padding: 16px 4px; text-decoration: none; }
+.links a span:last-child { color: var(--ink-dim); font-size: .74rem; }
+.links a:hover { color: var(--phosphor); background: rgba(61, 255, 140, .05); }
+.quote { margin-top: 64px; font: 400 clamp(1rem, 2.2vw, 1.4rem)/1.5 var(--f-display); color: var(--ink-dim); max-width: 46ch; }
+.quote::before { content: "// "; color: var(--phosphor-dim); }
+@media (max-width: 860px) { .contact { grid-template-columns: 1fr; } }
+
+/* design spec (prototype only) */
+.spec { background: var(--panel); }
+.spec__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.spec__box { border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; background: var(--void); display: grid; gap: 12px; align-content: start; }
+.spec__box h3 { font: 700 .7rem/1.2 var(--f-display); text-transform: uppercase; color: var(--phosphor-dim); }
+.spec__box ul { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; font-size: .94rem; }
+.swatches { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.sw { border-radius: var(--radius); border: 1px solid var(--line); overflow: hidden; font: 400 .64rem/1.3 var(--f-display); }
+.sw i { display: block; height: 50px; }
+.sw span { display: block; padding: 7px 9px; }
+.type-a { font: 800 2.2rem/1 var(--f-display); font-stretch: 75%; text-transform: uppercase; color: var(--phosphor); }
+.type-b { font: 400 1rem/1.5 var(--f-body); }
+.type-c { font: 400 .8rem/1.5 var(--f-display); color: var(--ink-dim); }
+@media (max-width: 860px) { .spec__grid { grid-template-columns: 1fr; } }
+
+footer { padding: 32px 0 48px; font: 400 .7rem/1.5 var(--f-display); color: var(--ink-dim); border-top: 1px solid var(--line); }
+footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<div class="proto-strip" data-i18n-html="strip">Protótipo v2 · direção Matrix · só design, o código do site não foi alterado · itens em vermelho aguardam confirmação · <a href="#design">ver sistema de design</a></div>
+
+<header class="bar">
+  <div class="wrap bar__in">
+    <a class="mark" href="#inicio" aria-label="Felipe Farias, início">ftfariasdev<i aria-hidden="true"></i></a>
+    <ul class="nav" id="nav">
+      <li><a href="#sobre" data-i18n="nav.about">sobre</a></li>
+      <li><a href="#experiencia" data-i18n="nav.xp">experiencia</a></li>
+      <li><a href="#projetos" data-i18n="nav.projects">projetos</a></li>
+      <li><a href="#stack">stack</a></li>
+      <li><a href="#formacao" data-i18n="nav.edu">formacao</a></li>
+      <li><a href="#contato" data-i18n="nav.contact">contato</a></li>
+    </ul>
+    <button class="tbtn" id="langBtn" type="button" aria-label="Mudar idioma para inglês">EN</button>
+  </div>
+</header>
+
+<main>
+<!-- ================= HERO ================= -->
+<section class="hero" id="inicio" aria-label="Apresentação">
+  <canvas id="rain" aria-label="Chuva de código em 3D formada pela stack do Felipe. Mova o cursor para iluminar e clique para enviar um pulso."></canvas>
+  <div class="hero__scrim" aria-hidden="true"></div>
+  <div class="wrap hero__in">
+    <div>
+      <p class="prompt"><b>visitor@ftfarias.dev:~$</b> ./decode --name</p>
+      <h1 class="name" aria-label="Felipe Farias"><span data-scramble="FELIPE">FELIPE</span><span class="hot" data-scramble="FARIAS">FARIAS</span></h1>
+      <p class="role"><span>Full Stack Developer</span> · <span class="typed" id="typed">C# .NET SQL Server AngularJS</span></p>
+      <p class="lede" data-i18n="hero.lede">Construo sistemas web de ponta a ponta, do banco de dados à interface. No trabalho, C#, .NET, SQL Server e AngularJS; nos projetos pessoais, TypeScript, React e IA.</p>
+      <div class="cta">
+        <a class="btn btn--solid" href="#projetos" data-i18n="hero.cta1">ver projetos</a>
+        <a class="btn btn--ghost" href="#contato" data-i18n="hero.cta2">entrar em contato</a>
+      </div>
+      <p class="hint" data-i18n="hero.hint">A chuva é feita da minha stack: C#, SQL, AngularJS, TypeScript. Mova o cursor para iluminar o código e clique para enviar um pulso.</p>
+    </div>
+    <aside class="status" aria-label="Status">
+      <div class="status__title"><span>system.status</span><b>online</b></div>
+      <dl>
+        <dt data-i18n="st.role">cargo</dt><dd>Full Stack Developer</dd>
+        <dt data-i18n="st.at">empresa</dt><dd>Softwrench · remoto</dd>
+        <dt data-i18n="st.daily">no dia a dia</dt><dd>C# .NET SQL Angular</dd>
+        <dt data-i18n="st.where">local</dt><dd>Hortolândia, BR</dd>
+        <dt data-i18n="st.time">hora local</dt><dd id="clock">--:--:--</dd>
+        <dt data-i18n="st.last">último build</dt><dd data-i18n="st.lastv">Guardião · 3º lugar</dd>
+      </dl>
+    </aside>
+  </div>
+</section>
+
+<!-- ================= SOBRE ================= -->
+<section class="sec" id="sobre">
+  <div class="wrap">
+    <div class="sec__head">
+      <h2 data-i18n="about.h">Sobre</h2>
+      <p class="kicker" data-i18n-html="about.k">cat ./sobre.md <b>·</b> Hortolândia, SP <b>·</b> UTC−3</p>
+    </div>
+    <div class="about">
+      <div>
+        <figure class="portrait" id="portrait">
+          <canvas id="ascii" aria-hidden="true"></canvas>
+          <img id="portraitImg" src="img/p2.jpg" alt="Felipe apresentando o Guardião Antigolpe no palco da UNASP">
+          <figcaption><span id="portraitCap" data-i18n="about.cap">Pitch do Guardião Antigolpe · UNASP</span><button type="button" id="decodeBtn">decodificar</button></figcaption>
+        </figure>
+        <div class="thumbs" role="group" aria-label="Escolher foto">
+          <button type="button" aria-pressed="true" data-src="img/p2.jpg" data-fx="0.52" data-fy="0.27" data-cap="about.cap"><img src="img/p2.jpg" alt="Foto 1: Felipe falando ao microfone" style="object-position: 50% 18%"></button>
+          <button type="button" aria-pressed="false" data-src="img/p1.jpg" data-fx="0.62" data-fy="0.29" data-cap="about.cap2"><img src="img/p1.jpg" alt="Foto 2: Felipe ao lado do laptop no palco" style="object-position: 62% 18%"></button>
+          <div class="slot" data-i18n-html="about.slot">fotos 3 e 4<br>em breve</div>
+        </div>
+      </div>
+      <div class="about__text">
+        <p data-i18n-html="about.p1">Sou <strong>Felipe Teixeira Farias</strong>, desenvolvedor full stack. Trabalho na Softwrench, empresa de Scottsdale, nos EUA, com um time internacional e 100% remoto.</p>
+        <p data-i18n-html="about.p2">Desenvolvo funcionalidades de ponta a ponta em uma plataforma web de gestão de manutenção e ativos (CMMS): serviços em C# e .NET com SQL Server no back-end e AngularJS no front-end.</p>
+        <p data-i18n-html="about.p3">Sou técnico em desenvolvimento web pela ETEC e curso Sistemas de Informação na UNASP. No grêmio estudantil treinei liderança, comunicação e trabalho em equipe. Fora do código, toco guitarra e bateria.</p>
+        <dl class="facts">
+          <div><dt data-i18n="about.f1">empresa</dt><dd>Softwrench</dd></div>
+          <div><dt data-i18n="about.f2">formação</dt><dd data-i18n="about.f2v">Sistemas de Informação</dd></div>
+          <div><dt data-i18n="about.f3">idiomas</dt><dd data-i18n="about.f3v">Português · Inglês intermediário</dd></div>
+        </dl>
+        <div class="term" id="term">
+          <div class="term__bar"><span>bash · ftfariasdev</span><span>80×24</span></div>
+          <div class="term__out" id="termOut" tabindex="0" aria-live="polite"></div>
+          <form class="term__in" id="termForm">
+            <label for="termInput">$</label>
+            <input id="termInput" autocomplete="off" spellcheck="false" placeholder="digite help" aria-label="Comando do terminal">
+          </form>
+          <div class="term__chips" id="termChips">
+            <button type="button" data-cmd="whoami">whoami</button>
+            <button type="button" data-cmd="stack">stack</button>
+            <button type="button" data-cmd="projects">projects</button>
+            <button type="button" data-cmd="contact">contact</button>
+            <button type="button" data-cmd="redpill">redpill</button>
+            <button type="button" data-cmd="clear">clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EXPERIÊNCIA ================= -->
+<section class="sec" id="experiencia">
+  <div class="wrap">
+    <div class="sec__head">
+      <h2 data-i18n="xp.h">Experiência</h2>
+      <p class="kicker" data-i18n-html="xp.k">git log --author=felipe <b>·</b> desde 2025</p>
+    </div>
+    <div class="xp">
+      <article class="job">
+        <div class="job__when"><b data-i18n="xp.when">ago 2025 – hoje</b><span data-i18n="xp.type">tempo integral · remoto</span><br><span class="live" data-i18n="xp.live">em execução</span></div>
+        <div>
+          <div class="job__head">
+            <div class="job__logo"><img src="img/sw.png" alt="Logo Softwrench"></div>
+            <div><h3>Full Stack Developer</h3><p class="job__co">Softwrench · Scottsdale, AZ, EUA</p></div>
+          </div>
+          <ul>
+            <li data-i18n-html="xp.b1">Desenvolvimento full stack de uma plataforma web de gestão de manutenção e ativos (CMMS) usada por clientes nos EUA.</li>
+            <li data-i18n="xp.b2">Funcionalidades de ponta a ponta: serviços de back-end em C# e .NET com SQL Server e entrega no front-end em AngularJS.</li>
+            <li data-i18n="xp.b3">Correção de bugs e melhoria contínua de um sistema em produção, com time internacional.</li>
+          </ul>
+          <div class="tags"><span class="tag">C#</span><span class="tag">.NET Framework</span><span class="tag">SQL Server</span><span class="tag">AngularJS</span></div>
+        </div>
+      </article>
+      <article class="job job--todo">
+        <div class="job__when"><b data-i18n="xp.scWhen">antes de 2025</b></div>
+        <div>
+          <h3 data-i18n="xp.sc">Grêmio estudantil</h3>
+          <p data-i18n="xp.scd">Participação ativa no grêmio: liderança, comunicação, planejamento e trabalho em equipe.</p>
+          <p class="todo" data-i18n="xp.todo">a confirmar: instituição, cargo e período</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJETOS ================= -->
+<section class="sec" id="projetos">
+  <div class="wrap">
+    <div class="sec__head">
+      <h2 data-i18n="pr.h">Projetos</h2>
+      <p class="kicker" data-i18n-html="pr.k">ls ~/repos <b>·</b> 7 repositórios</p>
+    </div>
+    <div class="filters" role="group" aria-label="Filtrar projetos">
+      <button type="button" aria-pressed="true" data-filter="all" data-i18n="pr.all">todos</button>
+      <button type="button" aria-pressed="false" data-filter="ia" data-i18n="pr.ai">ia</button>
+      <button type="button" aria-pressed="false" data-filter="academic" data-i18n="pr.academic">faculdade</button>
+      <button type="button" aria-pressed="false" data-filter="tools" data-i18n="pr.tools">ferramentas</button>
+    </div>
+    <div class="grid" id="grid">
+      <article class="card card--feature" data-cat="ia" data-tech="TypeScript React Vite Fastify Prisma Socket.IO PostgreSQL LLM Docker Three.js">
+        <div class="card__body">
+          <div class="card__meta"><span data-i18n="pr.g.meta">2026 · solo · 9 dias</span><span>TypeScript</span></div>
+          <p class="award" data-i18n="pr.g.award">3º lugar · Semana da Tecnologia UNASP Hortolândia</p>
+          <h3 data-scramble-hover>Guardião Antigolpe</h3>
+          <p data-i18n="pr.g.d">PWA com IA que analisa mensagens suspeitas e avisa a família antes do Pix. Regras fixas e um LLM decidem juntos; o risco final é sempre o maior dos dois. Pensado para pessoas idosas, com WCAG 2.1 AA.</p>
+          <p data-i18n="pr.g.d2">Feito sozinho em 9 dias, no 2º semestre da faculdade: app, API em tempo real e apresentação 3D programada.</p>
+          <div class="tags"><span class="tag">TypeScript</span><span class="tag">React</span><span class="tag">Fastify</span><span class="tag">Prisma</span><span class="tag">Socket.IO</span><span class="tag">LLM</span></div>
+          <div class="card__links"><a href="https://github.com/ftfariasdev/guardiao-antigolpe" data-i18n="pr.code">código</a><a href="https://guardiao-antigolpe.vercel.app">app</a><a href="https://guardiao-pitch.vercel.app">pitch</a></div>
+        </div>
+        <figure id="gFig">
+          <img src="img/p1.jpg" alt="Felipe no palco da UNASP durante o pitch do Guardião Antigolpe" style="object-position: 60% 20%">
+          <img src="img/p2.jpg" alt="Felipe apresentando, com a tela do Guardião Antigolpe ao fundo" style="object-position: 50% 10%">
+          <button type="button" id="gSwap" data-i18n="pr.g.swap">próxima foto</button>
+        </figure>
+      </article>
+
+      <article class="card" data-cat="ia" data-tech="Python FastAPI watsonx SQLite LLM multi-agent">
+        <div class="card__meta"><span data-i18n="pr.p.meta">2026 · hackathon</span><span>Python</span></div>
+        <h3 data-scramble-hover>Pulso</h3>
+        <p data-i18n="pr.p.d">Plataforma multiagente que conecta voluntários a demandas de ONGs e da Defesa Civil, por WhatsApp ou web. Modo PAZ para rotina, modo CRISE para emergências.</p>
+        <div class="tags"><span class="tag">IBM watsonx</span><span class="tag">FastAPI</span><span class="tag" data-i18n="pr.p.t">multiagente</span></div>
+        <div class="card__links"><a href="https://github.com/ftfariasdev/pulso" data-i18n="pr.code">código</a></div>
+      </article>
+
+      <article class="card" data-cat="academic" data-tech="JavaScript Node.js Express Prisma PostgreSQL Docker HTML CSS SQL">
+        <div class="card__meta"><span data-i18n="pr.s.meta">TCC · time de 4</span><span>JavaScript</span></div>
+        <h3 data-scramble-hover>SAGA</h3>
+        <p data-i18n="pr.s.d">Sistema de administração e gestão acadêmica: alunos, turmas, professores e matrículas, com banco em Docker idêntico para todo o time.</p>
+        <div class="tags"><span class="tag">Node.js</span><span class="tag">Express</span><span class="tag">Prisma</span><span class="tag">PostgreSQL</span></div>
+        <div class="card__links"><a href="https://github.com/ftfariasdev/SAGA" data-i18n="pr.code">código</a></div>
+      </article>
+
+      <article class="card" data-cat="academic" data-tech="TypeScript Python FastAPI React Vite">
+        <div class="card__meta"><span data-i18n="pr.l.meta">2026 · faculdade</span><span>TypeScript</span></div>
+        <h3 data-scramble-hover>LinSolve</h3>
+        <p data-i18n="pr.l.d">Calculadora de sistemas lineares: escalona a matriz, classifica em SPD, SPI ou SI e devolve a solução.</p>
+        <div class="tags"><span class="tag">FastAPI</span><span class="tag">React</span><span class="tag">TypeScript</span></div>
+        <div class="card__links"><a href="https://github.com/ftfariasdev/LinSolve" data-i18n="pr.code">código</a></div>
+      </article>
+
+      <article class="card" data-cat="tools" data-tech="JavaScript HTML CSS">
+        <div class="card__meta"><span data-i18n="pr.d.meta">2026 · PWA</span><span>JavaScript</span></div>
+        <h3 data-scramble-hover>DevAgenda</h3>
+        <p data-i18n="pr.d.d">Controle de horas por task para desenvolvedores, sem back-end. Dados no navegador com histórico de 7 dias e app instalável.</p>
+        <div class="tags"><span class="tag">PWA</span><span class="tag">JavaScript</span><span class="tag">LocalStorage</span></div>
+        <div class="card__links"><a href="https://github.com/ftfariasdev/DevAgenda" data-i18n="pr.code">código</a></div>
+      </article>
+
+      <article class="card" data-cat="academic" data-tech="Elixir">
+        <div class="card__meta"><span data-i18n="pr.e.meta">faculdade · time de 5</span><span>Elixir</span></div>
+        <h3 data-scramble-hover>ElixirBot</h3>
+        <p data-i18n="pr.e.d">Bot de Telegram em Elixir que valida CPFs. Fiquei com a estrutura do projeto e a organização do repositório.</p>
+        <div class="tags"><span class="tag">Elixir</span><span class="tag">Telegram API</span></div>
+        <div class="card__links"><a href="https://github.com/ftfariasdev/ElixirBotForTelegram" data-i18n="pr.code">código</a></div>
+      </article>
+
+      <article class="card" data-cat="tools" data-tech="JavaScript Node.js GitHub-Actions">
+        <div class="card__meta"><span data-i18n="pr.f.meta">2026 · perfil GitHub</span><span>Node.js</span></div>
+        <h3 data-scramble-hover>Profile as Code</h3>
+        <p data-i18n="pr.f.d">Meu README do GitHub gerado por código: SVGs animados a partir de design tokens e um gráfico de contribuições renderizado todo dia por uma GitHub Action.</p>
+        <div class="tags"><span class="tag">SVG</span><span class="tag">GitHub Actions</span><span class="tag">Design tokens</span></div>
+        <div class="card__links"><a href="https://github.com/ftfariasdev/ftfariasdev" data-i18n="pr.code">código</a></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STACK ================= -->
+<section class="sec" id="stack">
+  <div class="wrap">
+    <div class="sec__head">
+      <h2>Stack</h2>
+      <p class="kicker" data-i18n-html="st.k">tree ~/stack <b>·</b> 6 diretórios, 29 arquivos</p>
+    </div>
+    <div class="stack">
+      <div class="tree" id="tree"></div>
+      <aside class="inspect" aria-live="polite">
+        <h3 data-i18n="st.inspect">inspecionar</h3>
+        <div id="inspectBody"><p data-i18n="st.empty">Clique em uma tecnologia da árvore para ver onde ela foi usada. O asterisco marca o que uso todo dia no trabalho.</p></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FORMAÇÃO ================= -->
+<section class="sec" id="formacao">
+  <div class="wrap">
+    <div class="sec__head">
+      <h2 data-i18n="ed.h">Formação</h2>
+      <p class="kicker" data-i18n-html="ed.k">UNASP <b>·</b> ETEC <b>·</b> 17 certificados</p>
+    </div>
+    <div class="edu">
+      <article>
+        <span class="state" data-i18n="ed.u.s">em andamento · fev 2026 – dez 2029</span>
+        <h3 data-i18n="ed.u.h">Sistemas de Informação · UNASP</h3>
+        <p data-i18n="ed.u.d">Centro Universitário Adventista de São Paulo, campus Hortolândia. Certificados de Python básico e intermediário.</p>
+      </article>
+      <article>
+        <span class="state" data-i18n="ed.e.s">concluído · fev 2024 – jun 2025</span>
+        <h3 data-i18n="ed.e.h">Técnico em Desenvolvimento Web · ETEC</h3>
+        <p data-i18n="ed.e.d">Lógica de programação, orientação a objetos e desenvolvimento web. TCC: SAGA, em time de quatro.</p>
+        <p class="todo" data-i18n="ed.e.t">a confirmar: o SAGA foi o TCC da ETEC?</p>
+      </article>
+      <article>
+        <span class="state" data-i18n="ed.v.s">conquistas · 17 certificados</span>
+        <h3 data-i18n="ed.v.h">3º lugar na Semana da Tecnologia</h3>
+        <p data-i18n="ed.v.d">Guardião Antigolpe na UNASP Hortolândia (2026) e o Pulso no Hackathon IA Descomplicada 2026.</p>
+        <p class="todo" data-i18n="ed.v.t">a confirmar: quais certificados destacar</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTATO ================= -->
+<section class="sec" id="contato">
+  <div class="wrap">
+    <div class="contact">
+      <div>
+        <h2 data-i18n-html="ct.h">Vamos<br><em>conversar</em></h2>
+        <div class="mail">
+          <a href="mailto:farias_felipe@outlook.com.br">farias_felipe@outlook.com.br</a>
+          <button class="tbtn" type="button" id="copyMail" data-i18n="ct.copy">copiar</button>
+        </div>
+      </div>
+      <ul class="links">
+        <li><a href="https://www.linkedin.com/in/ftfariasdev"><span>linkedin</span><span>/in/ftfariasdev</span></a></li>
+        <li><a href="https://github.com/ftfariasdev"><span>github</span><span>@ftfariasdev</span></a></li>
+        <li><a href="https://www.instagram.com/eu_felipefarias/"><span>instagram</span><span>@eu_felipefarias</span></a></li>
+      </ul>
+    </div>
+    <p class="quote" data-i18n="ct.q">Compare-se com quem você era ontem, não com quem outra pessoa é hoje.</p>
+  </div>
+</section>
+
+<!-- ================= SISTEMA DE DESIGN (protótipo) ================= -->
+<section class="sec spec" id="design">
+  <div class="wrap">
+    <div class="sec__head">
+      <h2 data-i18n="ds.h">Sistema de design</h2>
+      <p class="kicker" data-i18n-html="ds.k">só no protótipo <b>·</b> não vai para o site</p>
+    </div>
+    <div class="spec__grid">
+      <div class="spec__box">
+        <h3 data-i18n="ds.goal">objetivo e público</h3>
+        <ul>
+          <li data-i18n="ds.g1">Em 10 segundos, quem chega entende quem você é, o que faz e como falar com você.</li>
+          <li data-i18n="ds.g2">Público: recrutadores e tech leads no Brasil e no exterior, por isso PT e EN.</li>
+          <li data-i18n="ds.g3">Identidade de tecnologia, sem ligação com um setor: o visual vem do terminal e do código.</li>
+          <li data-i18n="ds.g4">Metas técnicas: Lighthouse ≥ 90 em performance e 100 em acessibilidade, primeira pintura abaixo de 1,5 s.</li>
+        </ul>
+      </div>
+      <div class="spec__box">
+        <h3 data-i18n="ds.pal">paleta · tema escuro único</h3>
+        <div class="swatches">
+          <div class="sw"><i style="background:#030806"></i><span data-i18n="ds.c1">void · fundo</span></div>
+          <div class="sw"><i style="background:#07130D"></i><span data-i18n="ds.c2">panel · superfícies</span></div>
+          <div class="sw"><i style="background:#3DFF8C"></i><span data-i18n="ds.c3">phosphor · destaque</span></div>
+          <div class="sw"><i style="background:#1F8A50"></i><span data-i18n="ds.c4">phosphor dim · apoio</span></div>
+          <div class="sw"><i style="background:#D9F7E6"></i><span data-i18n="ds.c5">ink · texto</span></div>
+          <div class="sw"><i style="background:#FF3B5C"></i><span data-i18n="ds.c6">pill · alertas</span></div>
+        </div>
+      </div>
+      <div class="spec__box">
+        <h3 data-i18n="ds.type">tipografia</h3>
+        <p class="type-a">Martian Mono</p>
+        <p class="type-b" data-i18n="ds.t1">IBM Plex Sans no texto corrido: técnica, mas confortável de ler em parágrafos.</p>
+        <p class="type-c" data-i18n="ds.t2">Martian Mono condensada nos títulos, rótulos, terminal e números 0123456789.</p>
+      </div>
+      <div class="spec__box">
+        <h3 data-i18n="ds.motion">movimento e interação</h3>
+        <ul>
+          <li data-i18n="ds.m1">Hero 3D: colunas de código em profundidade, feitas de tokens da sua stack. O cursor ilumina, o clique envia um pulso e a câmera acompanha o mouse.</li>
+          <li data-i18n="ds.m2">Momento de abertura: o nome é decodificado letra a letra enquanto a chuva começa.</li>
+          <li data-i18n="ds.m3">Retrato em ASCII gerado a partir da sua foto; o botão "decodificar" revela a foto real.</li>
+          <li data-i18n="ds.m4">Terminal, cards com tilt 3D, títulos que embaralham no hover e uma árvore da stack ligada aos projetos.</li>
+          <li data-i18n="ds.m5">Com "reduzir movimento" ativo, a cena fica estática e nada pisca.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap"><span>© 2026 Felipe Teixeira Farias</span><span data-i18n="ft.made">exit 0 · feito à mão em Hortolândia</span></div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const GLYPHS = "01{}[]()<>=+-*/;:.#$&|!?ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz@%";
+
+  /* ---------------- i18n ---------------- */
+  const EN = {
+    "strip": "Prototype v2 · Matrix direction · design only, no site code was changed · red items await confirmation · <a href=\"#design\">see design system</a>",
+    "nav.about": "about", "nav.xp": "experience", "nav.projects": "projects", "nav.edu": "education", "nav.contact": "contact",
+    "hero.lede": "I build web systems end to end, from the database to the interface. At work: C#, .NET, SQL Server and AngularJS. On my own projects: TypeScript, React and AI.",
+    "hero.cta1": "see projects", "hero.cta2": "get in touch",
+    "hero.hint": "The rain is made of my stack: C#, SQL, AngularJS, TypeScript. Move the cursor to light up the code and click to send a pulse.",
+    "st.role": "role", "st.at": "company", "st.daily": "daily", "st.where": "location", "st.time": "local time", "st.last": "last build", "st.lastv": "Guardião · 3rd place",
+    "about.h": "About", "about.k": "cat ./about.md <b>·</b> Hortolândia, Brazil <b>·</b> UTC−3",
+    "about.cap": "Guardião Antigolpe pitch · UNASP", "about.cap2": "On stage at UNASP · Tech Week", "about.slot": "photos 3 and 4<br>coming soon",
+    "about.p1": "I'm <strong>Felipe Teixeira Farias</strong>, a full stack developer. I work at Softwrench, a company based in Scottsdale, USA, with an international, fully remote team.",
+    "about.p2": "I build features end to end on a web platform for maintenance and asset management (CMMS): C# and .NET services with SQL Server on the back end and AngularJS on the front end.",
+    "about.p3": "I hold a technical degree in web development from ETEC and I'm pursuing a bachelor's in Information Systems at UNASP. On the Student Council I built leadership, communication and teamwork skills. Off the clock I play guitar and drums.",
+    "about.f1": "company", "about.f2": "education", "about.f2v": "Information Systems", "about.f3": "languages", "about.f3v": "Portuguese · English (intermediate)",
+    "xp.h": "Experience", "xp.k": "git log --author=felipe <b>·</b> since 2025", "xp.when": "Aug 2025 – now", "xp.type": "full-time · remote", "xp.live": "running",
+    "xp.b1": "Full stack development of a web platform for maintenance and asset management (CMMS) used by customers in the US.",
+    "xp.b2": "Features end to end: back-end services in C# and .NET with SQL Server, front-end delivery in AngularJS.",
+    "xp.b3": "Bug fixing and continuous improvement of a production system, with an international team.",
+    "xp.scWhen": "before 2025", "xp.sc": "Student Council", "xp.scd": "Active member of the Student Council: leadership, communication, planning and teamwork.", "xp.todo": "to confirm: school, role and dates",
+    "pr.h": "Projects", "pr.k": "ls ~/repos <b>·</b> 7 repositories", "pr.all": "all", "pr.ai": "ai", "pr.academic": "college", "pr.tools": "tools", "pr.code": "code",
+    "pr.g.meta": "2026 · solo · 9 days", "pr.g.award": "3rd place · Tech Week, UNASP Hortolândia", "pr.g.swap": "next photo",
+    "pr.g.d": "An AI PWA that checks suspicious messages and alerts the family before a Pix payment. Fixed rules and an LLM decide together; the final risk is always the higher of the two. Built for older adults, WCAG 2.1 AA.",
+    "pr.g.d2": "Built solo in 9 days during my second semester: the app, a real-time API and a coded 3D presentation.",
+    "pr.p.meta": "2026 · hackathon", "pr.p.t": "multi-agent", "pr.p.d": "A multi-agent platform that matches volunteers with NGO and civil defense needs over WhatsApp or web. PEACE mode for routine, CRISIS mode for emergencies.",
+    "pr.s.meta": "capstone · team of 4", "pr.s.d": "Academic administration system: students, classes, teachers and enrollments, with a Docker database identical for the whole team.",
+    "pr.l.meta": "2026 · college", "pr.l.d": "Linear systems calculator: row-reduces the matrix, classifies it as SPD, SPI or SI and returns the solution.",
+    "pr.d.meta": "2026 · PWA", "pr.d.d": "Per-task time tracker for developers with no back end. Data stays in the browser with 7 days of history, installable as an app.",
+    "pr.e.meta": "college · team of 5", "pr.e.d": "A Telegram bot in Elixir that validates Brazilian CPF numbers. I owned the project structure and repository organization.",
+    "pr.f.meta": "2026 · GitHub profile", "pr.f.d": "My GitHub README generated by code: animated SVGs from design tokens and a contribution graph rendered daily by a GitHub Action.",
+    "st.k": "tree ~/stack <b>·</b> 6 directories, 29 files", "st.inspect": "inspect", "st.empty": "Click a technology in the tree to see where it was used. The asterisk marks what I use every day at work.",
+    "ed.h": "Education", "ed.k": "UNASP <b>·</b> ETEC <b>·</b> 17 certificates",
+    "ed.u.s": "in progress · Feb 2026 – Dec 2029", "ed.u.h": "Information Systems · UNASP", "ed.u.d": "Centro Universitário Adventista de São Paulo, Hortolândia campus. Basic and intermediate Python certificates.",
+    "ed.e.s": "completed · Feb 2024 – Jun 2025", "ed.e.h": "Web Development Technician · ETEC", "ed.e.d": "Programming logic, object-oriented programming and web development. Capstone: SAGA, team of four.", "ed.e.t": "to confirm: was SAGA the ETEC capstone?",
+    "ed.v.s": "achievements · 17 certificates", "ed.v.h": "3rd place at Tech Week", "ed.v.d": "Guardião Antigolpe at UNASP Hortolândia (2026) and Pulso at the IA Descomplicada 2026 hackathon.", "ed.v.t": "to confirm: which certificates to feature",
+    "ct.h": "Let's<br><em>talk</em>", "ct.copy": "copy", "ct.q": "Compare yourself to who you were yesterday, not to who someone else is today.",
+    "ds.h": "Design system", "ds.k": "prototype only <b>·</b> not shipped to the site",
+    "ds.goal": "goal and audience",
+    "ds.g1": "In 10 seconds a visitor knows who you are, what you do and how to reach you.",
+    "ds.g2": "Audience: recruiters and tech leads in Brazil and abroad, hence PT and EN.",
+    "ds.g3": "A technology identity tied to no industry: the look comes from the terminal and from code.",
+    "ds.g4": "Technical targets: Lighthouse ≥ 90 performance and 100 accessibility, first paint under 1.5 s.",
+    "ds.pal": "palette · single dark theme", "ds.c1": "void · background", "ds.c2": "panel · surfaces", "ds.c3": "phosphor · accent", "ds.c4": "phosphor dim · support", "ds.c5": "ink · text", "ds.c6": "pill · alerts",
+    "ds.type": "typography", "ds.t1": "IBM Plex Sans for running text: technical, yet comfortable in paragraphs.", "ds.t2": "Condensed Martian Mono for titles, labels, the terminal and numbers 0123456789.",
+    "ds.motion": "motion and interaction",
+    "ds.m1": "3D hero: columns of code in depth, made of tokens from your stack. The cursor lights them up, a click sends a pulse and the camera follows the mouse.",
+    "ds.m2": "Opening moment: the name decodes letter by letter as the rain starts.",
+    "ds.m3": "ASCII portrait generated from your photo; the \"decode\" button reveals the real photo.",
+    "ds.m4": "Terminal, 3D tilt cards, titles that scramble on hover and a stack tree linked to the projects.",
+    "ds.m5": "With reduced motion on, the scene is static and nothing blinks.",
+    "ft.made": "exit 0 · handmade in Hortolândia",
+    "_term": "type help", "_lang": "Mudar idioma para português", "_copied": "copied", "_usedIn": "used in", "_daily": "used daily at Softwrench", "_side": "side projects and college", "_decode": "decode", "_encode": "encode"
+  };
+  const PT = { "about.cap2": "No palco da UNASP · Semana da Tecnologia", "_term": "digite help", "_lang": "Switch language to English", "_copied": "copiado", "_usedIn": "usado em", "_daily": "uso diário na Softwrench", "_side": "projetos pessoais e faculdade", "_decode": "decodificar", "_encode": "codificar" };
+  document.querySelectorAll("[data-i18n]").forEach(el => { PT[el.dataset.i18n] = el.textContent; });
+  document.querySelectorAll("[data-i18n-html]").forEach(el => { PT[el.dataset.i18nHtml] = el.innerHTML; });
+  let lang = "pt";
+  const t = k => (lang === "en" ? EN : PT)[k] ?? PT[k] ?? k;
+  const langBtn = document.getElementById("langBtn");
+  const termInput = document.getElementById("termInput");
+  const portraitCap = document.getElementById("portraitCap");
+  const relabelers = [];
+  function applyLang() {
+    document.documentElement.lang = lang === "en" ? "en" : "pt-BR";
+    document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
+    document.querySelectorAll("[data-i18n-html]").forEach(el => { el.innerHTML = t(el.dataset.i18nHtml); });
+    langBtn.textContent = lang === "en" ? "PT" : "EN";
+    langBtn.setAttribute("aria-label", t("_lang"));
+    termInput.placeholder = t("_term");
+    const active = document.querySelector(".thumbs button[aria-pressed=true]");
+    if (active) portraitCap.textContent = t(active.dataset.cap);
+    relabelers.forEach(f => f());
+  }
+  langBtn.addEventListener("click", () => { lang = lang === "pt" ? "en" : "pt"; applyLang(); try { localStorage.setItem("ff-lang", lang); } catch (e) {} });
+  try { if (localStorage.getItem("ff-lang") === "en") lang = "en"; } catch (e) {}
+
+  /* ---------------- scramble text ---------------- */
+  function scramble(el, finalText, duration) {
+    if (reduce) { el.textContent = finalText; return; }
+    const start = performance.now(), n = finalText.length;
+    const order = [...finalText].map((_, i) => i / n * 0.7 + Math.random() * 0.3);
+    (function step(now) {
+      const p = Math.min(1, (now - start) / duration);
+      let s = "";
+      for (let i = 0; i < n; i++) s += (finalText[i] === " " || p >= order[i]) ? finalText[i] : GLYPHS[(Math.random() * GLYPHS.length) | 0];
+      el.textContent = s;
+      if (p < 1) requestAnimationFrame(step);
+    })(start);
+  }
+  document.querySelectorAll("[data-scramble]").forEach((el, i) => setTimeout(() => scramble(el, el.dataset.scramble, 1300), 200 + i * 350));
+  document.querySelectorAll("[data-scramble-hover]").forEach(el => {
+    const txt = el.textContent; let busy = false;
+    el.closest(".card").addEventListener("mouseenter", () => { if (busy) return; busy = true; scramble(el, txt, 500); setTimeout(() => busy = false, 520); });
+  });
+
+  /* ---------------- typed stack line ---------------- */
+  const typedEl = document.getElementById("typed");
+  const lines = ["C# .NET SQL Server AngularJS", "TypeScript React Node.js", "Python FastAPI LLM", "git commit -m \"ship it\""];
+  if (!reduce) {
+    let li = 0, ci = lines[0].length, dir = 0, hold = 30;
+    setInterval(() => {
+      if (dir === 0) { if (--hold <= 0) dir = -1; return; }
+      ci += dir;
+      if (dir < 0 && ci <= 0) { dir = 1; li = (li + 1) % lines.length; ci = 0; }
+      else if (dir > 0 && ci >= lines[li].length) { dir = 0; hold = 32; }
+      typedEl.textContent = lines[li].slice(0, Math.max(0, ci));
+    }, 55);
+  }
+
+  /* ---------------- clock ---------------- */
+  const clock = document.getElementById("clock");
+  const fmt = new Intl.DateTimeFormat("pt-BR", { timeZone: "America/Sao_Paulo", hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  const tick = () => { clock.textContent = fmt.format(new Date()) + " BRT"; };
+  tick(); setInterval(tick, 1000);
+
+  /* ---------------- nav highlight ---------------- */
+  const navLinks = [...document.querySelectorAll("#nav a")];
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) navLinks.forEach(a => a.classList.toggle("is-on", a.getAttribute("href") === "#" + e.target.id));
+  }), { rootMargin: "-45% 0px -50% 0px" });
+  document.querySelectorAll("main section[id]").forEach(s => io.observe(s));
+
+  /* ---------------- ASCII portrait ---------------- */
+  const portrait = document.getElementById("portrait");
+  const asciiCanvas = document.getElementById("ascii");
+  const portraitImg = document.getElementById("portraitImg");
+  const decodeBtn = document.getElementById("decodeBtn");
+  const ascii = { img: null, fx: 0.5, fy: 0.3, cells: null, delay: null, cols: 0, rows: 0, born: 0, mouse: null, raf: 0 };
+  const RAMP = " .:-=+*#%@";
+  function loadPortrait(src, fx, fy) {
+    const img = new Image();
+    img.onload = () => { ascii.img = img; ascii.fx = fx; ascii.fy = fy; sampleAscii(); };
+    img.src = src;
+    portraitImg.src = src;
+    portraitImg.style.objectPosition = (fx * 100) + "% " + Math.max(0, fy * 100 - 12) + "%";
+  }
+  function coverRect(iw, ih, w, h, fx, fy, zoom) {
+    const s = Math.max(w / iw, h / ih) * zoom, dw = iw * s, dh = ih * s;
+    return [Math.min(0, Math.max(w - dw, w / 2 - fx * dw)), Math.min(0, Math.max(h - dh, h / 2 - fy * dh)), dw, dh];
+  }
+  function sampleAscii() {
+    const r = asciiCanvas.getBoundingClientRect(); if (!r.width || !ascii.img) return;
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    asciiCanvas.width = Math.round(r.width * dpr); asciiCanvas.height = Math.round(r.height * dpr);
+    ascii.cols = Math.floor(r.width / 7.5); ascii.rows = Math.floor(r.height / 10);
+    const off = document.createElement("canvas"); off.width = ascii.cols; off.height = ascii.rows;
+    const o = off.getContext("2d");
+    // cover-fit at display size, then squeeze into the (non-square) character grid
+    const [x, y, w, h] = coverRect(ascii.img.width, ascii.img.height, r.width, r.height, ascii.fx, ascii.fy, 2.2);
+    const sx = ascii.cols / r.width, sy = ascii.rows / r.height;
+    o.imageSmoothingQuality = "high";
+    o.drawImage(ascii.img, x * sx, y * sy, w * sx, h * sy);
+    try {
+      const d = o.getImageData(0, 0, ascii.cols, ascii.rows).data;
+      const C = ascii.cols, Rw = ascii.rows, N = C * Rw;
+      const lum = new Float32Array(N);
+      for (let i = 0; i < N; i++) lum[i] = (0.299 * d[i * 4] + 0.587 * d[i * 4 + 1] + 0.114 * d[i * 4 + 2]) / 255;
+      // histogram equalization
+      const hist = new Float32Array(256);
+      for (let i = 0; i < N; i++) hist[Math.min(255, (lum[i] * 255) | 0)]++;
+      for (let i = 1; i < 256; i++) hist[i] += hist[i - 1];
+      const eq = lum.map(L => hist[Math.min(255, (L * 255) | 0)] / N);
+      // edges (Sobel) so the outline reads even where tones are close
+      const at = (i, j) => eq[Math.min(Rw - 1, Math.max(0, j)) * C + Math.min(C - 1, Math.max(0, i))];
+      ascii.cells = new Float32Array(N);
+      for (let j = 0; j < Rw; j++) for (let i = 0; i < C; i++) {
+        const gx = at(i + 1, j - 1) + 2 * at(i + 1, j) + at(i + 1, j + 1) - at(i - 1, j - 1) - 2 * at(i - 1, j) - at(i - 1, j + 1);
+        const gy = at(i - 1, j + 1) + 2 * at(i, j + 1) + at(i + 1, j + 1) - at(i - 1, j - 1) - 2 * at(i, j - 1) - at(i + 1, j - 1);
+        const edge = Math.min(1, Math.hypot(gx, gy) * 0.9);
+        const dx = (i / C - 0.5) * 1.5, dy = (j / Rw - 0.45);
+        const m = 1 - Math.min(1, Math.max(0, (Math.hypot(dx, dy) - 0.3) / 0.38));
+        ascii.cells[j * C + i] = Math.min(1, Math.pow(at(i, j), 1.3) * 0.6 + edge * 0.7) * (0.2 + 0.8 * m);
+      }
+      ascii.delay = new Float32Array(ascii.cells.length).map(() => Math.random());
+      ascii.born = performance.now();
+      if (!ascii.raf) ascii.raf = requestAnimationFrame(drawAscii);
+    } catch (e) { portrait.classList.add("is-photo"); decodeBtn.hidden = true; }
+  }
+  function drawAscii(now) {
+    ascii.raf = 0;
+    if (!ascii.cells) return;
+    const c = asciiCanvas.getContext("2d"), W = asciiCanvas.width, H = asciiCanvas.height;
+    const cw = W / ascii.cols, ch = H / ascii.rows;
+    c.fillStyle = "#030806"; c.fillRect(0, 0, W, H);
+    c.font = "600 " + Math.round(ch * 0.92) + "px 'Martian Mono', ui-monospace, monospace";
+    c.textBaseline = "top";
+    const age = reduce ? 99 : (now - ascii.born) / 1000;
+    let animating = false;
+    for (let j = 0; j < ascii.rows; j++) for (let i = 0; i < ascii.cols; i++) {
+      const k = j * ascii.cols + i, L = ascii.cells[k];
+      const reveal = Math.min(1, Math.max(0, age * 1.2 - ascii.delay[k] * 0.7 - (j / ascii.rows) * 0.8));
+      if (reveal < 1) animating = true;
+      let glyph;
+      if (reveal <= 0) continue;
+      if (reveal < 1) glyph = GLYPHS[(Math.random() * GLYPHS.length) | 0];
+      else glyph = RAMP[Math.min(RAMP.length - 1, (L * RAMP.length) | 0)];
+      if (glyph === " ") continue;
+      let lit = 0;
+      if (ascii.mouse) { const dx = (i + .5) * cw - ascii.mouse.x, dy = (j + .5) * ch - ascii.mouse.y; lit = Math.max(0, 1 - Math.hypot(dx, dy) / (W * 0.2)); }
+      const a = reveal < 1 ? 0.85 : 0.22 + L * 0.78;
+      if (lit > 0.5 && L > 0.55) c.fillStyle = "rgba(230,255,240," + a + ")";
+      else c.fillStyle = "rgba(61," + Math.round(150 + 105 * Math.min(1, L + lit)) + ",140," + Math.min(1, a + lit * 0.4) + ")";
+      c.fillText(glyph, i * cw, j * ch);
+    }
+    if (animating || ascii.mouse) ascii.raf = requestAnimationFrame(drawAscii);
+  }
+  portrait.addEventListener("pointermove", e => {
+    if (reduce || portrait.classList.contains("is-photo") || e.pointerType !== "mouse") return;
+    const r = asciiCanvas.getBoundingClientRect(), s = asciiCanvas.width / r.width;
+    ascii.mouse = { x: (e.clientX - r.left) * s, y: (e.clientY - r.top) * s };
+    if (!ascii.raf) ascii.raf = requestAnimationFrame(drawAscii);
+  });
+  portrait.addEventListener("pointerleave", () => { ascii.mouse = null; if (!ascii.raf) ascii.raf = requestAnimationFrame(drawAscii); });
+  const setDecodeLabel = () => { decodeBtn.textContent = t(portrait.classList.contains("is-photo") ? "_encode" : "_decode"); };
+  decodeBtn.addEventListener("click", () => {
+    const on = portrait.classList.toggle("is-photo");
+    setDecodeLabel();
+    if (!on) { ascii.born = performance.now(); if (!ascii.raf) ascii.raf = requestAnimationFrame(drawAscii); }
+  });
+  document.querySelectorAll(".thumbs button").forEach(b => b.addEventListener("click", () => {
+    document.querySelectorAll(".thumbs button").forEach(x => x.setAttribute("aria-pressed", x === b));
+    portraitCap.textContent = t(b.dataset.cap);
+    loadPortrait(b.dataset.src, +b.dataset.fx, +b.dataset.fy);
+  }));
+  (document.fonts ? Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1500))]) : Promise.resolve()).then(() => loadPortrait("img/p2.jpg", 0.52, 0.27));
+  let rsT; new ResizeObserver(() => { clearTimeout(rsT); rsT = setTimeout(sampleAscii, 120); }).observe(portrait);
+
+  /* ---------------- Guardião photos ---------------- */
+  document.getElementById("gSwap").addEventListener("click", () => document.getElementById("gFig").classList.toggle("is-alt"));
+
+  /* ---------------- terminal ---------------- */
+  const out = document.getElementById("termOut");
+  const esc = s => String(s).replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+  const json = o => esc(JSON.stringify(o, null, 2)).replace(/"([^"]+)":/g, '<span class="k">"$1"</span>:').replace(/: "([^"]*)"/g, ': <span class="s">"$1"</span>');
+  const about = { name: "Felipe Teixeira Farias", role: "Full Stack Developer", company: "Softwrench (remote)", stack: ["C#", ".NET", "SQL Server", "AngularJS"], studying: "Information Systems @ UNASP", languages: ["pt-BR", "en"], off_the_clock: ["guitar", "drums"] };
+  const cmds = {
+    help: () => '<span class="d">' + (lang === "en" ? "commands" : "comandos") + ':</span> whoami · about · stack · projects · contact · redpill · bluepill · clear',
+    whoami: () => "ftfariasdev",
+    about: () => json(about),
+    stack: () => "C#  .NET  SQL Server  AngularJS  <span class=\"d\">// " + t("_daily") + "</span>\nTypeScript  React  Node.js  Fastify  FastAPI  Prisma  PostgreSQL  Python  Elixir  Docker  <span class=\"d\">// " + t("_side") + "</span>",
+    projects: () => ["guardiao-antigolpe", "pulso", "SAGA", "LinSolve", "DevAgenda", "ElixirBotForTelegram", "ftfariasdev"].map(p => '<span class="s">' + p + "/</span>").join("  "),
+    contact: () => "email     farias_felipe@outlook.com.br\nlinkedin  /in/ftfariasdev\ngithub    @ftfariasdev",
+    redpill: () => { setTimeout(() => document.getElementById("projetos").scrollIntoView({ behavior: reduce ? "auto" : "smooth" }), 900); return '<span class="r">' + (lang === "en" ? "you stay in wonderland. showing how deep the repo goes…" : "você fica no país das maravilhas. mostrando até onde vai o repositório…") + "</span>"; },
+    bluepill: () => lang === "en" ? "the story ends. you wake up and read a PDF résumé." : "a história acaba. você acorda e lê um currículo em PDF.",
+    sudo: () => lang === "en" ? "nice try. permission denied." : "boa tentativa. permissão negada.",
+  };
+  cmds.cat = cmds.about; cmds.ls = cmds.projects;
+  function run(raw) {
+    const c = raw.trim(); if (!c) return;
+    const name = c.split(/\s+/)[0].toLowerCase();
+    if (name === "clear") { out.innerHTML = ""; return; }
+    const f = cmds[name];
+    out.innerHTML += '<span class="p">$</span> ' + esc(c) + "\n" + (f ? f() : '<span class="d">' + (lang === "en" ? "command not found. try help" : "comando não encontrado. tente help") + "</span>") + "\n\n";
+    out.scrollTop = out.scrollHeight;
+  }
+  out.innerHTML = '<span class="p">$</span> cat about.json\n' + json(about) + "\n\n";
+  document.getElementById("termForm").addEventListener("submit", e => { e.preventDefault(); run(termInput.value); termInput.value = ""; });
+  document.querySelectorAll("#termChips button").forEach(b => b.addEventListener("click", () => run(b.dataset.cmd)));
+
+  /* ---------------- project filters + tilt ---------------- */
+  const cards = [...document.querySelectorAll(".card")];
+  document.querySelectorAll(".filters button").forEach(b => b.addEventListener("click", () => {
+    document.querySelectorAll(".filters button").forEach(x => x.setAttribute("aria-pressed", x === b));
+    cards.forEach(c => { c.hidden = !(b.dataset.filter === "all" || c.dataset.cat === b.dataset.filter); });
+  }));
+  if (!reduce) cards.forEach(c => {
+    c.addEventListener("pointermove", e => {
+      if (e.pointerType !== "mouse") return;
+      const r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      c.classList.add("is-tilting");
+      c.style.setProperty("--ry", ((x - .5) * 7).toFixed(2) + "deg");
+      c.style.setProperty("--rx", ((.5 - y) * 7).toFixed(2) + "deg");
+      c.style.setProperty("--gx", (x * 100).toFixed(1) + "%");
+      c.style.setProperty("--gy", (y * 100).toFixed(1) + "%");
+    });
+    c.addEventListener("pointerleave", () => { c.classList.remove("is-tilting"); c.style.setProperty("--rx", "0deg"); c.style.setProperty("--ry", "0deg"); });
+  });
+
+  /* ---------------- stack tree ---------------- */
+  const TREE = [
+    ["languages|linguagens", ["C#*", "JavaScript", "TypeScript", "SQL*", "Python", "Elixir"]],
+    ["frontend", ["AngularJS*", "React", "HTML", "CSS", "Bootstrap", "Vite"]],
+    ["backend", [".NET*", "Node.js", "Express", "Fastify", "FastAPI", "Prisma", "Socket.IO"]],
+    ["data|dados", ["SQL Server*", "PostgreSQL", "SQLite"]],
+    ["ai|ia", ["LLM", "watsonx", "multi-agent|multiagente"]],
+    ["tools|ferramentas", ["Git", "Docker", "GitHub-Actions", "Three.js"]],
+  ];
+  const USES = { "C#": ["Softwrench"], ".NET": ["Softwrench"], "SQL Server": ["Softwrench"], "AngularJS": ["Softwrench"], "SQL": ["Softwrench"], "Bootstrap": ["portfolio v1|portfólio v1"], "HTML": ["portfolio v1|portfólio v1"], "CSS": ["portfolio v1|portfólio v1"], "Git": ["every project|todos os projetos"] };
+  const pick = s => { const [a, b] = s.split("|"); return lang === "en" ? a : (b || a); };
+  const tree = document.getElementById("tree");
+  function buildTree() {
+    tree.innerHTML = '<div class="tree__root">~/stack</div>';
+    TREE.forEach(([dir, files], di) => {
+      const last = di === TREE.length - 1;
+      const d = document.createElement("div"); d.className = "tree__dir";
+      d.innerHTML = "<span>" + (last ? "└── " : "├── ") + "</span>" + pick(dir) + "/";
+      tree.appendChild(d);
+      const row = document.createElement("div"); row.className = "tree__row";
+      row.innerHTML = "<span>" + (last ? "    " : "│   ") + "└── </span>";
+      files.forEach(raw => {
+        const daily = raw.endsWith("*"), name = raw.replace("*", "");
+        const b = document.createElement("button"); b.type = "button"; b.className = "leaf" + (daily ? " daily" : "");
+        b.dataset.tech = name.split("|")[0]; b.dataset.daily = daily ? "1" : ""; b.textContent = pick(name).replace("-", " ");
+        b.setAttribute("aria-pressed", "false");
+        row.appendChild(b);
+      });
+      tree.appendChild(row);
+    });
+  }
+  buildTree();
+  const inspect = document.getElementById("inspectBody");
+  let selected = null;
+  function showTech(tech, label, daily) {
+    const hits = cards.filter(c => c.dataset.tech.split(" ").includes(tech)).map(c => c.querySelector("h3").textContent);
+    const all = [...new Set([...(USES[tech] || []).map(pick), ...hits])];
+    inspect.innerHTML = '<div class="inspect__name">' + esc(label) + "</div><p>" + (daily ? t("_daily") : t("_side")) + '</p><p style="margin-top:10px">' + t("_usedIn") + ":</p><ul>" + (all.length ? all.map(x => "<li>" + esc(x) + "</li>").join("") : "<li>—</li>") + "</ul>";
+    cards.forEach(c => c.classList.toggle("is-dim", !c.dataset.tech.split(" ").includes(tech)));
+  }
+  tree.addEventListener("click", e => {
+    const b = e.target.closest(".leaf"); if (!b) return;
+    const on = b.getAttribute("aria-pressed") !== "true";
+    tree.querySelectorAll(".leaf").forEach(x => x.setAttribute("aria-pressed", "false"));
+    if (!on) { selected = null; inspect.innerHTML = "<p>" + esc(t("st.empty")) + "</p>"; cards.forEach(c => c.classList.remove("is-dim")); return; }
+    b.setAttribute("aria-pressed", "true"); selected = b.dataset.tech;
+    showTech(b.dataset.tech, b.textContent, !!b.dataset.daily);
+  });
+  relabelers.push(() => {
+    buildTree();
+    if (selected) { const b = [...tree.querySelectorAll(".leaf")].find(x => x.dataset.tech === selected); if (b) { b.setAttribute("aria-pressed", "true"); showTech(selected, b.textContent, !!b.dataset.daily); } }
+    else inspect.innerHTML = "<p>" + esc(t("st.empty")) + "</p>";
+    setDecodeLabel();
+  });
+
+  /* ---------------- copy email ---------------- */
+  document.getElementById("copyMail").addEventListener("click", async e => {
+    const b = e.currentTarget;
+    try { await navigator.clipboard.writeText("farias_felipe@outlook.com.br"); b.textContent = t("_copied"); setTimeout(() => b.textContent = t("ct.copy"), 1600); }
+    catch (err) { b.textContent = "farias_felipe@outlook.com.br"; }
+  });
+
+  /* ---------------- 3D code rain ---------------- */
+  function initRain() {
+    const canvas = document.getElementById("rain"), hero = document.getElementById("inicio");
+    if (!window.THREE || !canvas) return;
+    let renderer;
+    try { renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, powerPreference: "high-performance" }); } catch (e) { return; }
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 200);
+
+    // glyph atlas: 8x8 cells, characters taken from his stack
+    const ATLAS = "C#.NETSQLselctfromwhe{}()=>;asyn01AgulrJ<>[]/*+-vabkdpq$@&|!?%:Fx".split("").slice(0, 64);
+    const ac = document.createElement("canvas"); ac.width = ac.height = 512;
+    const ag = ac.getContext("2d"); ag.fillStyle = "#000"; ag.fillRect(0, 0, 512, 512);
+    ag.fillStyle = "#fff"; ag.textAlign = "center"; ag.textBaseline = "middle";
+    ag.font = "700 44px 'Martian Mono', ui-monospace, monospace";
+    ATLAS.forEach((ch, i) => ag.fillText(ch, (i % 8) * 64 + 32, Math.floor(i / 8) * 64 + 34));
+    const atlas = new THREE.CanvasTexture(ac); atlas.minFilter = THREE.LinearFilter; atlas.generateMipmaps = false;
+
+    const small = innerWidth < 700;
+    const COLS = small ? 150 : 320, R = 46, SP = 1.05;
+    let n = 0; const lens = [];
+    for (let c = 0; c < COLS; c++) { const L = 8 + Math.floor(Math.random() * 22); lens.push(L); n += L; }
+    const aCol = new Float32Array(n * 4), aG = new Float32Array(n * 3), posArr = new Float32Array(n * 3);
+    let k = 0;
+    for (let c = 0; c < COLS; c++) {
+      const x = (Math.random() - 0.5) * 90, z = -Math.random() * 70 + 6, speed = 4 + Math.random() * 9, off = Math.random() * 200;
+      for (let i = 0; i < lens[c]; i++, k++) { aCol.set([x, z, speed, off], k * 4); aG.set([i, Math.random(), lens[c]], k * 3); }
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute("position", new THREE.BufferAttribute(posArr, 3));
+    geo.setAttribute("aCol", new THREE.BufferAttribute(aCol, 4));
+    geo.setAttribute("aG", new THREE.BufferAttribute(aG, 3));
+    geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, 0, -30), 200);
+    const uniforms = {
+      uTime: { value: 0 }, uR: { value: R }, uSp: { value: SP }, uSize: { value: (small ? 620 : 820) * renderer.getPixelRatio() },
+      uMouse: { value: new THREE.Vector2(9, 9) }, uAspect: { value: 1 }, uPulse: { value: 9 }, uPulseAt: { value: new THREE.Vector2() },
+      uAtlas: { value: atlas }, uColor: { value: new THREE.Color("#3DFF8C") }, uLead: { value: new THREE.Color("#E6FFF0") },
+    };
+    const mat = new THREE.ShaderMaterial({
+      uniforms, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+      vertexShader: `
+        attribute vec4 aCol; attribute vec3 aG;
+        uniform float uTime, uR, uSp, uSize, uAspect, uPulse; uniform vec2 uMouse, uPulseAt;
+        varying float vBright; varying float vGlyph; varying float vLead;
+        float h(float n){ return fract(sin(n) * 43758.5453); }
+        void main(){
+          float span = uR + aG.z * uSp;
+          float travel = mod(aCol.w + uTime * aCol.z, span);
+          float y = uR * 0.5 - travel + aG.x * uSp + 4.0;
+          vec4 mv = modelViewMatrix * vec4(aCol.x, y, aCol.y, 1.0);
+          gl_Position = projectionMatrix * mv;
+          gl_PointSize = uSize / -mv.z;
+          float tail = 1.0 - aG.x / aG.z;
+          float lead = aG.x < 0.5 ? 1.0 : 0.0;
+          float rate = 1.0 + aG.y * 7.0 + lead * 10.0;
+          vGlyph = floor(h(aG.y * 91.7 + floor(uTime * rate) * 1.37 + aCol.w) * 64.0);
+          vLead = lead;
+          vec2 ndc = gl_Position.xy / gl_Position.w;
+          float d = length((ndc - uMouse) * vec2(uAspect, 1.0));
+          float lens = smoothstep(0.45, 0.0, d);
+          float ring = exp(-pow(length((ndc - uPulseAt) * vec2(uAspect, 1.0)) - uPulse, 2.0) / 0.012) * max(0.0, 1.0 - uPulse / 2.6);
+          float depth = smoothstep(78.0, 8.0, -mv.z);
+          vBright = (pow(tail, 1.4) * 0.85 + lead * 0.6 + lens * 1.1 + ring * 1.5) * depth;
+        }`,
+      fragmentShader: `
+        uniform sampler2D uAtlas; uniform vec3 uColor, uLead;
+        varying float vBright; varying float vGlyph; varying float vLead;
+        void main(){
+          vec2 uv = vec2(gl_PointCoord.x, 1.0 - gl_PointCoord.y);
+          float gx = mod(vGlyph, 8.0), gy = floor(vGlyph / 8.0);
+          float a = texture2D(uAtlas, (vec2(gx, 7.0 - gy) + uv) / 8.0).r;
+          vec3 c = mix(uColor, uLead, clamp(vLead + max(0.0, vBright - 1.0), 0.0, 1.0));
+          gl_FragColor = vec4(c * a * vBright, a * vBright);
+        }`,
+    });
+    scene.add(new THREE.Points(geo, mat));
+
+    const tgt = new THREE.Vector2(), cur = new THREE.Vector2();
+    function layout() {
+      const w = hero.clientWidth, h = hero.clientHeight;
+      renderer.setSize(w, h, false); camera.aspect = w / h; uniforms.uAspect.value = w / h;
+      camera.filmOffset = w > 860 ? -6 : 0;
+      camera.updateProjectionMatrix();
+    }
+    layout(); new ResizeObserver(layout).observe(hero);
+    hero.addEventListener("pointermove", e => {
+      const r = canvas.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width) * 2 - 1, y = -(((e.clientY - r.top) / r.height) * 2 - 1);
+      uniforms.uMouse.value.set(x, y); tgt.set(x, y);
+    });
+    hero.addEventListener("pointerleave", () => { uniforms.uMouse.value.set(9, 9); tgt.set(0, 0); });
+    let pulseT0 = -10;
+    canvas.addEventListener("click", e => {
+      const r = canvas.getBoundingClientRect();
+      uniforms.uPulseAt.value.set(((e.clientX - r.left) / r.width) * 2 - 1, -(((e.clientY - r.top) / r.height) * 2 - 1));
+      pulseT0 = performance.now() / 1000;
+    });
+    let running = true;
+    new IntersectionObserver(es => { running = es[0].isIntersecting; if (running && !reduce) requestAnimationFrame(frame); }).observe(hero);
+    function draw(ms) {
+      const s = ms / 1000;
+      uniforms.uTime.value = reduce ? 12.0 : s;
+      uniforms.uPulse.value = s - pulseT0 < 2.6 ? (s - pulseT0) * 1.3 : 9;
+      cur.lerp(tgt, reduce ? 1 : 0.05);
+      camera.position.set(cur.x * 3.5, cur.y * 2.0 + 1, 20);
+      camera.lookAt(cur.x * 1.2, cur.y * 0.6, -20);
+      renderer.render(scene, camera);
+    }
+    function frame(ms) { if (!running) return; draw(ms); requestAnimationFrame(frame); }
+    if (reduce) { draw(0); new ResizeObserver(() => draw(0)).observe(hero); } else requestAnimationFrame(frame);
+  }
+
+  if (lang === "en") applyLang();
+  (document.fonts ? Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1500))]) : Promise.resolve()).then(initRain);
+})();
+</script>
+</body>
+</html>
