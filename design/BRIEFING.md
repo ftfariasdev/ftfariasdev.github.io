@@ -56,23 +56,22 @@ O protótipo navegável está em `design/prototipo/index.html`.
 - GitHub: @ftfariasdev
 - Instagram: @eu_felipefarias
 
-## Direção de design (protótipo v2, "Matrix")
+## Direção de design (protótipo v3, estilo pôster)
 
-Regra do Felipe: o design não pode remeter a nenhum setor de negócio, apenas a TI.
+Regra do Felipe: o design não pode remeter a nenhum setor de negócio, apenas a TI. A v2 (Matrix) foi reprovada; a v3 segue a referência enviada por ele (pôster escuro com vermelho, palavra gigante atrás da foto recortada).
 
-- **Conceito:** uma sessão de terminal que "decodifica" o Felipe. Sem referência a setor, só a código.
-- **Hero 3D (Three.js):** chuva de código em profundidade feita de tokens da stack dele (C#, SQL, AngularJS, `=>`, `{}`). O cursor ilumina as colunas, o clique envia um pulso e a câmera acompanha o mouse. O nome é decodificado letra a letra na abertura.
-- **Painel `system.status`:** cargo, empresa, stack do dia a dia, local, hora local ao vivo e último build (Guardião, 3º lugar).
-- **Retrato em ASCII** gerado da foto do pitch do Guardião; o botão "decodificar" revela a foto real. As fotos do Guardião também aparecem no card do projeto.
-- **Paleta (tema escuro único):** void `#030806`, panel `#07130D`, phosphor `#3DFF8C`, phosphor dim `#1F8A50`, ink `#D9F7E6`, pill `#FF3B5C` (só para alertas e o easter egg).
-- **Tipografia:** Martian Mono condensada (títulos, rótulos, terminal) e IBM Plex Sans (texto corrido).
-- **Interações:** terminal com comandos (incluindo `redpill`/`bluepill`), títulos que embaralham no hover, cards com tilt 3D, filtros, árvore `~/stack` ligada aos projetos, troca PT/EN.
-- **Texto da experiência:** descreve a Softwrench como "plataforma web de gestão de manutenção e ativos (CMMS)".
-- **Acessibilidade:** respeita "reduzir movimento", foco visível, contraste alto.
+- **Abertura:** log de boot, contador 000→100%, barra de progresso e a tela abrindo ao meio com um traço vermelho. Botão para pular (Enter/Esc) e para rever.
+- **Hero:** "PORTFOLIO" gigante em vermelho atrás da foto recortada (Felipe com microfone e notebook). Nome, cargo, bio e CTAs à esquerda; janela de terminal do Guardião e números (7 projetos, 3º lugar, 17 certificados) à direita. Cursores colaborativos flutuando (C#, SQL Server, AngularJS) e um cursor "você" que segue o mouse.
+- **Profundidade 3D:** grade, brilho, palavra, foto e interface se movem em camadas com o mouse.
+- **Seções:** faixas cruzadas com a stack, Sobre com a segunda foto recortada, Experiência com anos gigantes, Projetos com destaque do Guardião e lista com prévia flutuante de código, Stack em esfera 3D (Three.js) que gira com arraste, Formação em cards, Contato com "Vamos conversar" gigante.
+- **Paleta:** preto `#0A0A0C`, grafite `#131317`, vermelho `#E8392C`, vinho `#8F1D15`, off-white `#F3F0EC`, cinza `#8E8E96`.
+- **Tipografia:** Anton (títulos), Caveat ("Olá, eu sou"), Manrope (texto), JetBrains Mono (rótulos e código).
+- **Fotos:** recortadas localmente com rembg (modelo BiRefNet portrait) e exportadas em WebP com transparência.
+- **Acessibilidade:** "reduzir movimento" pula a intro e desliga animações; foco visível; PT/EN.
 
 ## Pendências
 
-1. Aprovação do protótipo v2 ou lista de ajustes (nenhum código do site será escrito antes disso)
+1. Aprovação do protótipo v3 ou lista de ajustes (nenhum código do site será escrito antes disso)
 2. Fotos 3 e 4
 3. Grêmio estudantil: instituição, cargo e período
 4. SAGA foi o TCC da ETEC?
