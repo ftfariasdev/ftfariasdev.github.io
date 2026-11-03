@@ -28,7 +28,7 @@ O protótipo navegável está em `design/prototipo/index.html`.
 - Funcionalidades de ponta a ponta: back-end em C#/.NET com SQL Server, front-end em AngularJS.
 - Correção de bugs e melhoria contínua de um sistema existente.
 
-**Grêmio estudantil:** liderança, comunicação, planejamento e trabalho em equipe. *Falta: instituição, cargo e período.*
+**Grêmio estudantil · Escola Estadual Prof. Hedy Madalena Bocchi:** liderança, comunicação, planejamento e trabalho em equipe. *Falta: cargo e período.*
 
 ## Formação
 
@@ -43,7 +43,7 @@ O protótipo navegável está em `design/prototipo/index.html`.
 |---|---|---|---|
 | Guardião Antigolpe | PWA com IA que analisa mensagens suspeitas e avisa a família antes do Pix | TypeScript, React, Vite, Fastify, Prisma, Socket.IO, PostgreSQL, LLM, React Three Fiber | solo, 9 dias, 3º lugar |
 | Pulso | Plataforma multiagente que conecta voluntários a demandas (modos PAZ e CRISE) | Python, FastAPI, IBM watsonx Orchestrate | Hackathon IA Descomplicada 2026 |
-| SAGA | Sistema de gestão acadêmica | Node.js, Express, Prisma, PostgreSQL, Docker | TCC, time de 4 |
+| SAGA | Sistema de gestão acadêmica | Node.js, Express, Prisma, PostgreSQL, Docker | TCC da ETEC (confirmado), time de 4 |
 | LinSolve | Calculadora de sistemas lineares (SPD/SPI/SI) | FastAPI, React, TypeScript | faculdade |
 | DevAgenda | Controle de horas por task, sem back-end, PWA | JavaScript | ferramenta pessoal |
 | ElixirBotForTelegram | Bot que valida CPF | Elixir | faculdade, time de 5 |
@@ -77,3 +77,16 @@ Regra do Felipe: o design não pode remeter a nenhum setor de negócio, apenas a
 4. SAGA foi o TCC da ETEC?
 5. Quais dos 17 certificados destacar
 6. Idioma padrão do site (PT ou EN)
+
+## Decisões de conteúdo (03/11/2026)
+
+- **Idiomas:** inglês é o padrão; o site também precisa estar em português e espanhol (seletor EN · PT · ES no topo).
+- **SAGA:** confirmado como TCC da ETEC.
+- **Certificados em destaque:** Profissional 5.0 (certificado a enviar) e Python Intermediário (UNASP, nov 2025; imagem a enviar). Os cursos da Alura entram empilhados em um baralho que se folheia com clique.
+- **Foto do topo:** crachá e cordão do evento sem desfoque, a pedido do Felipe.
+
+### Ainda falta
+- Grêmio: cargo e período
+- Profissional 5.0: emissor, data e carga horária
+- Imagens dos dois certificados em destaque
+- Lista dos cursos da Alura

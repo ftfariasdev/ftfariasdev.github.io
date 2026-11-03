@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="booting pre-hero">
+<html lang="en" class="booting pre-hero">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -92,8 +92,12 @@ html.booting .boot { display: block; }
 .pill:hover { border-color: var(--accent); }
 .pill--accent { background: var(--accent); border-color: var(--accent); color: var(--bg); }
 .pill--accent:hover { background: #4BEA92; }
+.langs { display: inline-flex; gap: 2px; height: 38px; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: rgba(10, 10, 12, .5); }
+.langs button { font: 700 .7rem/1 var(--f-mono); color: var(--muted); background: transparent; border: 0; border-radius: 999px; padding: 0 10px; cursor: pointer; transition: background .2s, color .2s; }
+.langs button:hover { color: var(--white); }
+.langs button[aria-pressed="true"] { background: var(--white); color: var(--bg); }
 @media (max-width: 980px) { .nav { display: none; } }
-@media (max-width: 520px) { .brand span { display: none; } }
+@media (max-width: 520px) { .brand span { display: none; } .top__actions .pill--accent { display: none; } }
 
 /* ================= HERO ================= */
 .hero { --mx: 0; --my: 0; position: relative; overflow: hidden; isolation: isolate; min-height: clamp(660px, 100svh, 980px); background: var(--bg); }
@@ -310,7 +314,7 @@ html.pre-hero .spark { opacity: 0; animation: none; }
 @media (max-width: 900px) { .stack { grid-template-columns: 1fr; } .sphere { margin-inline: auto; } }
 
 /* education */
-.edu { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.edu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
 .card { position: relative; border: 1px solid var(--line); border-radius: 14px; padding: 28px; background: var(--bg-2); display: grid; gap: 10px; align-content: start; overflow: hidden; transition: border-color .3s, transform .5s var(--ease), opacity 1s var(--ease); }
 .card:hover { border-color: rgba(34, 216, 119, .5); transform: translateY(-6px); }
 .card__n { font: 400 4rem/.8 var(--f-display); color: transparent; -webkit-text-stroke: 1px var(--accent); }
@@ -318,7 +322,33 @@ html.pre-hero .spark { opacity: 0; animation: none; }
 .card h3 { font: 400 1.6rem/1.05 var(--f-display); text-transform: uppercase; }
 .card p { color: var(--muted); font-size: .92rem; }
 .card p.todo { color: var(--pending); font-size: .7rem; }
-@media (max-width: 900px) { .edu { grid-template-columns: 1fr; } }
+.certs { margin-top: 64px; }
+.certs__head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
+.certs__title { font: 400 clamp(1.8rem, 3vw, 2.4rem)/1 var(--f-display); text-transform: uppercase; }
+.certs__count { font: 400 .74rem/1 var(--f-mono); color: var(--muted); }
+.certs__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; align-items: start; }
+.cert { border: 1px solid var(--line); border-radius: 14px; background: var(--bg-2); overflow: hidden; transition: border-color .3s, transform .5s var(--ease), opacity 1s var(--ease); }
+.cert:hover { border-color: rgba(34, 216, 119, .5); transform: translateY(-6px); }
+.cert__img { aspect-ratio: 4 / 3; display: grid; place-items: center; background: #0E0E11; border-bottom: 1px solid var(--line); }
+.cert__img--empty { background: repeating-linear-gradient(135deg, rgba(243, 240, 236, .035) 0 10px, transparent 10px 20px), #0E0E11; }
+.cert__img--empty span { font: 400 .7rem/1.4 var(--f-mono); color: var(--muted); border: 1px dashed rgba(243, 240, 236, .2); border-radius: 8px; padding: 8px 12px; }
+.cert__body { padding: 20px 22px 24px; display: grid; gap: 8px; }
+.cert h4, .deck-wrap h4 { margin: 0; font: 400 1.5rem/1.05 var(--f-display); text-transform: uppercase; }
+.cert p, .deck-wrap p { color: var(--muted); font-size: .9rem; }
+.cert p.todo, .deck-wrap p.todo { color: var(--pending); font-size: .7rem; }
+.deck-wrap { display: grid; gap: 8px; }
+.deck { position: relative; display: block; width: 100%; aspect-ratio: 4 / 3; margin-bottom: 14px; padding: 0; border: 0; background: none; cursor: pointer; text-align: left; color: inherit; font: inherit; border-radius: 14px; }
+.deck__card { --i: 0; position: absolute; inset: 16% 16% 0 0; border-radius: 12px; border: 1px solid var(--line); background: var(--bg-2); padding: 18px; display: flex; flex-direction: column; justify-content: space-between; transform: translate(calc(var(--i) * 9px), calc(var(--i) * -9px)) rotate(calc(var(--i) * 2deg)); transform-origin: bottom left; z-index: calc(10 - var(--i)); transition: transform .6s var(--ease), border-color .3s, opacity .3s; box-shadow: 0 18px 40px -18px rgba(0, 0, 0, .9); }
+.deck:hover .deck__card, .deck:focus-visible .deck__card { transform: translate(calc(var(--i) * 22px), calc(var(--i) * -12px)) rotate(calc(var(--i) * 4deg)); }
+.deck__card:not(.is-top) { opacity: .92; }
+.deck__card.is-top { border-color: rgba(34, 216, 119, .6); }
+.deck__top { display: flex; justify-content: space-between; align-items: center; font: 400 .68rem/1 var(--f-mono); color: var(--muted); }
+.deck__top b { font: 400 1.3rem/1 var(--f-display); color: var(--white); letter-spacing: .02em; font-weight: 400; }
+.deck__card.is-top .deck__top b { color: var(--accent); }
+.deck__name { font: 400 1.3rem/1.1 var(--f-display); text-transform: uppercase; color: var(--pending); }
+.deck__foot { font: 400 .64rem/1 var(--f-mono); color: var(--muted); }
+@media (max-width: 900px) { .certs__grid { grid-template-columns: 1fr; } }
+@media (max-width: 700px) { .edu { grid-template-columns: 1fr; } }
 
 /* contact */
 .contact { text-align: center; padding-block: clamp(110px, 14vw, 180px) 70px; position: relative; overflow: hidden; }
@@ -370,7 +400,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   <div class="boot__bar"><i id="bootBar"></i></div>
 </div>
 
-<div class="proto-strip"><span data-i18n="strip">Protótipo v3.1 · estilo pôster em verde · só design, o código do site não foi alterado · itens em amarelo aguardam confirmação</span> <button type="button" id="replay" data-i18n="strip.replay">rever intro</button> <a href="#design" data-i18n="strip.ds">sistema de design</a></div>
+<div class="proto-strip"><span data-i18n="strip">Protótipo v3.2 · estilo pôster em verde · EN · PT · ES · só design, o código do site não foi alterado · itens em amarelo aguardam confirmação</span> <button type="button" id="replay" data-i18n="strip.replay">rever intro</button> <a href="#design" data-i18n="strip.ds">sistema de design</a></div>
 
 <main>
 <!-- ================= HERO ================= -->
@@ -386,7 +416,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
         <li><a href="#formacao" data-i18n="nav.edu">Formação</a></li>
       </ul>
       <div class="top__actions">
-        <button class="pill" id="langBtn" type="button" aria-label="Mudar idioma para inglês">EN</button>
+        <div class="langs" role="group" aria-label="Language / Idioma"><button type="button" data-lang="en" aria-pressed="true" lang="en">EN</button><button type="button" data-lang="pt" aria-pressed="false" lang="pt-BR">PT</button><button type="button" data-lang="es" aria-pressed="false" lang="es">ES</button></div>
         <a class="pill pill--accent" href="#contato" data-i18n="nav.talk">Vamos conversar ↗</a>
       </div>
     </div>
@@ -494,8 +524,8 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
       <div class="job__year" style="color:var(--muted)">—</div>
       <div>
         <h3 data-i18n="xp.sc">Grêmio estudantil</h3>
-        <p class="job__co" data-i18n="xp.scd">Liderança, comunicação, planejamento e trabalho em equipe.</p>
-        <p class="todo" data-i18n="xp.todo">// a confirmar: instituição, cargo e período</p>
+        <p class="job__co" data-i18n="xp.scd">Escola Estadual Prof. Hedy Madalena Bocchi · liderança, comunicação, planejamento e trabalho em equipe.</p>
+        <p class="todo" data-i18n="xp.todo">// a confirmar: cargo e período</p>
       </div>
     </article>
   </div>
@@ -529,7 +559,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
 
     <ul class="plist">
       <li><a class="prow" href="https://github.com/ftfariasdev/pulso" data-prev="pulso"><span class="prow__i">02</span><span class="prow__n">Pulso</span><span class="prow__d" data-i18n="pr.p">Plataforma multiagente que conecta voluntários a ONGs e à Defesa Civil · IBM watsonx · FastAPI</span><span class="prow__y">2026</span><svg class="prow__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></a></li>
-      <li><a class="prow" href="https://github.com/ftfariasdev/SAGA" data-prev="saga"><span class="prow__i">03</span><span class="prow__n">SAGA</span><span class="prow__d" data-i18n="pr.s">Sistema de gestão acadêmica, TCC em time de 4 · Node.js · Prisma · PostgreSQL</span><span class="prow__y">TCC</span><svg class="prow__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></a></li>
+      <li><a class="prow" href="https://github.com/ftfariasdev/SAGA" data-prev="saga"><span class="prow__i">03</span><span class="prow__n">SAGA</span><span class="prow__d" data-i18n="pr.s">Sistema de gestão acadêmica, TCC da ETEC em time de 4 · Node.js · Prisma · PostgreSQL</span><span class="prow__y">2025</span><svg class="prow__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></a></li>
       <li><a class="prow" href="https://github.com/ftfariasdev/LinSolve" data-prev="linsolve"><span class="prow__i">04</span><span class="prow__n">LinSolve</span><span class="prow__d" data-i18n="pr.l">Calculadora de sistemas lineares · FastAPI · React · TypeScript</span><span class="prow__y">2026</span><svg class="prow__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></a></li>
       <li><a class="prow" href="https://github.com/ftfariasdev/DevAgenda" data-prev="devagenda"><span class="prow__i">05</span><span class="prow__n">DevAgenda</span><span class="prow__d" data-i18n="pr.d">Controle de horas por task, sem back-end · PWA · JavaScript</span><span class="prow__y">2026</span><svg class="prow__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></a></li>
       <li><a class="prow" href="https://github.com/ftfariasdev/ElixirBotForTelegram" data-prev="elixir"><span class="prow__i">06</span><span class="prow__n">ElixirBot</span><span class="prow__d" data-i18n="pr.e">Bot de Telegram que valida CPFs, time de 5 · Elixir</span><span class="prow__y">Elixir</span><svg class="prow__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></a></li>
@@ -572,8 +602,33 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     </div>
     <div class="edu">
       <article class="card rv"><span class="card__n">01</span><span class="card__s" data-i18n="ed.u.s">em andamento · fev 2026 – dez 2029</span><h3 data-i18n="ed.u.h">Sistemas de Informação</h3><p data-i18n="ed.u.d">UNASP, Centro Universitário Adventista de São Paulo, campus Hortolândia.</p></article>
-      <article class="card rv"><span class="card__n">02</span><span class="card__s" data-i18n="ed.e.s">concluído · fev 2024 – jun 2025</span><h3 data-i18n="ed.e.h">Técnico em Desenvolvimento Web</h3><p data-i18n="ed.e.d">ETEC. Lógica de programação, orientação a objetos e desenvolvimento web.</p><p class="todo" data-i18n="ed.e.t">// a confirmar: o SAGA foi o TCC da ETEC?</p></article>
-      <article class="card rv"><span class="card__n">03</span><span class="card__s" data-i18n="ed.c.s">certificados · 2025</span><h3 data-i18n="ed.c.h">Python básico e intermediário</h3><p data-i18n="ed.c.d">UNASP, mai e nov de 2025. Mais 15 certificados no LinkedIn.</p><p class="todo" data-i18n="ed.c.t">// a confirmar: quais certificados destacar</p></article>
+      <article class="card rv"><span class="card__n">02</span><span class="card__s" data-i18n="ed.e.s">concluído · fev 2024 – jun 2025</span><h3 data-i18n="ed.e.h">Técnico em Desenvolvimento Web</h3><p data-i18n="ed.e.d">ETEC. Lógica de programação, orientação a objetos e desenvolvimento web. TCC: SAGA, sistema de gestão acadêmica feito em time de quatro.</p></article>
+    </div>
+
+    <div class="certs">
+      <div class="certs__head"><h3 class="certs__title" data-i18n="ce.h">Certificados em destaque</h3><span class="certs__count" data-i18n="ce.count">17 no total</span></div>
+      <div class="certs__grid">
+        <article class="cert rv">
+          <div class="cert__img cert__img--empty"><span data-i18n="ce.wait">imagem do certificado em breve</span></div>
+          <div class="cert__body"><span class="card__s" data-i18n="ce.p5.s">certificado · emissor a confirmar</span><h4>Profissional 5.0</h4><p class="todo" data-i18n="ce.p5.t">// a confirmar: emissor, data e carga horária</p></div>
+        </article>
+        <article class="cert rv">
+          <div class="cert__img cert__img--empty"><span data-i18n="ce.wait">imagem do certificado em breve</span></div>
+          <div class="cert__body"><span class="card__s" data-i18n="ce.py.s">UNASP · nov 2025</span><h4 data-i18n="ce.py.h">Python Intermediário</h4><p data-i18n="ce.py.d">Continuação do Python Básico (mai 2025).</p></div>
+        </article>
+        <div class="deck-wrap rv">
+          <button class="deck" id="deck" type="button">
+          <span class="deck__card"><span class="deck__top"><b>Alura</b><span>01 / 05</span></span><span class="deck__name" data-i18n="ce.alura.card">nome do curso</span><span class="deck__foot">alura.com.br</span></span>
+          <span class="deck__card"><span class="deck__top"><b>Alura</b><span>02 / 05</span></span><span class="deck__name" data-i18n="ce.alura.card">nome do curso</span><span class="deck__foot">alura.com.br</span></span>
+          <span class="deck__card"><span class="deck__top"><b>Alura</b><span>03 / 05</span></span><span class="deck__name" data-i18n="ce.alura.card">nome do curso</span><span class="deck__foot">alura.com.br</span></span>
+          <span class="deck__card"><span class="deck__top"><b>Alura</b><span>04 / 05</span></span><span class="deck__name" data-i18n="ce.alura.card">nome do curso</span><span class="deck__foot">alura.com.br</span></span>
+          <span class="deck__card"><span class="deck__top"><b>Alura</b><span>05 / 05</span></span><span class="deck__name" data-i18n="ce.alura.card">nome do curso</span><span class="deck__foot">alura.com.br</span></span>
+          </button>
+          <h4 data-i18n="ce.alura">Cursos da Alura</h4>
+          <p data-i18n="ce.alura.d">Clique na pilha para folhear os certificados.</p>
+          <p class="todo" data-i18n="ce.alura.t">// envie a lista de cursos da Alura</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -605,6 +660,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
           <li data-i18n="ds.g2">Tema 100% de tecnologia, sem referência a nenhum setor de negócio.</li>
           <li data-i18n="ds.g3">Em 10 segundos, quem chega entende quem você é, o que faz e como falar com você.</li>
           <li data-i18n="ds.g4">Metas técnicas: Lighthouse ≥ 90 em performance e 100 em acessibilidade.</li>
+          <li data-i18n="ds.g5">Idiomas: inglês por padrão, com português e espanhol no seletor do topo.</li>
         </ul>
       </div>
       <div class="spec__box">
@@ -652,50 +708,116 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
 
   /* ---------------- i18n ---------------- */
   const EN = {
-    "strip": "Prototype v3.1 · green poster style · design only, no site code was changed · yellow items await confirmation", "strip.replay": "replay intro", "strip.ds": "design system",
+    "strip": "Prototype v3.2 · green poster style · EN · PT · ES · design only, no site code was changed · yellow items await confirmation",
+    "strip.replay": "replay intro",
+    "strip.ds": "design system",
     "boot.skip": "skip intro ⏎",
-    "nav.about": "About", "nav.xp": "Experience", "nav.projects": "Projects", "nav.edu": "Education", "nav.talk": "Let's talk ↗",
-    "hero.you": "you", "hero.hello": "Hello, I'm", "hero.role": "Full Stack Developer<br>@ Softwrench",
+    "nav.about": "About",
+    "nav.xp": "Experience",
+    "nav.projects": "Projects",
+    "nav.edu": "Education",
+    "nav.talk": "Let's talk ↗",
+    "hero.you": "you",
+    "hero.hello": "Hello, I'm",
+    "hero.role": "Full Stack Developer<br>@ Softwrench",
     "hero.bio": "I build web systems end to end, from the database to the interface. Clean code, shipped with care from the first commit to deploy.",
-    "hero.cta1": "See my projects", "hero.days": "days", "hero.place": "3rd place · Tech Week", "hero.s1": "projects on GitHub", "hero.s2": "place · Tech Week<br>UNASP", "hero.s3": "certificates",
-    "hero.scroll": "scroll to explore", "hero.avail": "open to new projects",
-    "about.cap": "Guardião Antigolpe pitch · UNASP Hortolândia", "about.eyebrow": "About me",
+    "hero.cta1": "See my projects",
+    "hero.days": "days",
+    "hero.place": "3rd place · Tech Week",
+    "hero.s1": "projects on GitHub",
+    "hero.s2": "place · Tech Week<br>UNASP",
+    "hero.s3": "certificates",
+    "hero.scroll": "scroll to explore",
+    "hero.avail": "open to new projects",
+    "about.cap": "Guardião Antigolpe pitch · UNASP Hortolândia",
+    "about.eyebrow": "About me",
     "about.lead": "From the database to the interface, <em>end to end.</em>",
     "about.p1": "I'm <strong>Felipe Teixeira Farias</strong>, a full stack developer at Softwrench, a company based in Scottsdale, USA. I work fully remote with an international team.",
     "about.p2": "Day to day I build complete features on a web platform for maintenance and asset management (CMMS): <strong>C# and .NET</strong> services with <strong>SQL Server</strong> on the back end and <strong>AngularJS</strong> on the front end.",
     "about.p3": "I hold a technical degree in web development from ETEC and I'm studying Information Systems at UNASP. On the Student Council I built leadership and teamwork skills. Off the clock I play guitar and drums.",
-    "about.f1": "current company", "about.f2": "remote · international team", "about.f3": "languages", "about.f4": "started at ETEC",
-    "xp.eyebrow": "Experience", "xp.h": "Where I <em>work</em>", "xp.note": "Professional experience and student leadership.",
-    "xp.when": "Aug 2025 – now · full-time", "xp.live": "current", "xp.remote": "remote",
+    "about.f1": "current company",
+    "about.f2": "remote · international team",
+    "about.f3": "languages",
+    "about.f4": "started at ETEC",
+    "xp.eyebrow": "Experience",
+    "xp.h": "Where I <em>work</em>",
+    "xp.note": "Professional experience and student leadership.",
+    "xp.when": "Aug 2025 – now · full-time",
+    "xp.live": "current",
+    "xp.remote": "remote",
     "xp.b1": "Full stack development of a web platform for maintenance and asset management (CMMS) used by customers in the US.",
     "xp.b2": "Features end to end: back-end services in C# and .NET with SQL Server, front-end delivery in AngularJS.",
     "xp.b3": "Bug fixing and continuous improvement of a production system, with an international team.",
-    "xp.sc": "Student Council", "xp.scd": "Leadership, communication, planning and teamwork.", "xp.todo": "// to confirm: school, role and dates",
-    "pr.eyebrow": "Selected projects (07)", "pr.h": "What I <em>built</em>", "pr.note": "Hover each row to see a preview.",
-    "pr.g.medal": "place · Tech Week<br>UNASP", "pr.g.swap": "next photo", "pr.g.meta": "01 · Featured · 2026 · solo · 9 days",
+    "xp.sc": "Student Council",
+    "xp.scd": "Escola Estadual Prof. Hedy Madalena Bocchi · leadership, communication, planning and teamwork.",
+    "xp.todo": "// to confirm: role and dates",
+    "pr.eyebrow": "Selected projects (07)",
+    "pr.h": "What I <em>built</em>",
+    "pr.note": "Hover each row to see a preview.",
+    "pr.g.medal": "place · Tech Week<br>UNASP",
+    "pr.g.swap": "next photo",
+    "pr.g.meta": "01 · Featured · 2026 · solo · 9 days",
     "pr.g.d": "An AI PWA that checks suspicious messages and alerts the family before a Pix payment. Fixed rules and an LLM decide together, and the final risk is always the higher of the two. Built for older adults, WCAG 2.1 AA.",
     "pr.g.d2": "I built it solo in 9 days during my second semester: the app, a real-time API and a coded 3D presentation.",
-    "pr.g.app": "Open app ↗", "pr.code": "Code ↗",
+    "pr.g.app": "Open app ↗",
+    "pr.code": "Code ↗",
     "pr.p": "Multi-agent platform matching volunteers with NGOs and civil defense · IBM watsonx · FastAPI",
-    "pr.s": "Academic management system, capstone with a team of 4 · Node.js · Prisma · PostgreSQL",
+    "pr.s": "Academic management system, ETEC capstone with a team of 4 · Node.js · Prisma · PostgreSQL",
     "pr.l": "Linear systems calculator · FastAPI · React · TypeScript",
     "pr.d": "Per-task time tracker with no back end · PWA · JavaScript",
     "pr.e": "Telegram bot that validates CPF numbers, team of 5 · Elixir",
     "pr.f": "GitHub README generated by code · SVG · GitHub Actions",
-    "st.eyebrow": "Technologies", "st.h": "My <em>stack</em>", "st.note": "Drag the sphere to spin it. Hover or tap a technology.", "st.hint": "drag to spin",
-    "st.k": "inspect", "st.lg1": "daily at work", "st.lg2": "projects and college",
-    "ed.eyebrow": "Education", "ed.h": "Always <em>learning</em>", "ed.note": "17 certificates on LinkedIn.",
-    "ed.u.s": "in progress · Feb 2026 – Dec 2029", "ed.u.h": "Information Systems", "ed.u.d": "UNASP, Centro Universitário Adventista de São Paulo, Hortolândia campus.",
-    "ed.e.s": "completed · Feb 2024 – Jun 2025", "ed.e.h": "Web Development Technician", "ed.e.d": "ETEC. Programming logic, object-oriented programming and web development.", "ed.e.t": "// to confirm: was SAGA the ETEC capstone?",
-    "ed.c.s": "certificates · 2025", "ed.c.h": "Basic and intermediate Python", "ed.c.d": "UNASP, May and Nov 2025. 15 more certificates on LinkedIn.", "ed.c.t": "// to confirm: which certificates to feature",
-    "ct.eyebrow": "Contact", "ct.l1": "Let's", "ct.l2": "talk", "ct.copy": "Copy", "ct.q": "“Compare yourself to who you were yesterday, not to who someone else is today.”",
-    "ds.eyebrow": "Prototype only", "ds.h": "Design <em>system</em>", "ds.goal": "Goal and reference",
+    "st.eyebrow": "Technologies",
+    "st.h": "My <em>stack</em>",
+    "st.note": "Drag the sphere to spin it. Hover or tap a technology.",
+    "st.hint": "drag to spin",
+    "st.k": "inspect",
+    "st.lg1": "daily at work",
+    "st.lg2": "projects and college",
+    "ed.eyebrow": "Education",
+    "ed.h": "Always <em>learning</em>",
+    "ed.note": "17 certificates on LinkedIn.",
+    "ed.u.s": "in progress · Feb 2026 – Dec 2029",
+    "ed.u.h": "Information Systems",
+    "ed.u.d": "UNASP, Centro Universitário Adventista de São Paulo, Hortolândia campus.",
+    "ed.e.s": "completed · Feb 2024 – Jun 2025",
+    "ed.e.h": "Web Development Technician",
+    "ed.e.d": "ETEC. Programming logic, object-oriented programming and web development. Capstone: SAGA, an academic management system built by a team of four.",
+    "ce.h": "Featured certificates",
+    "ce.count": "17 in total",
+    "ce.wait": "certificate image coming soon",
+    "ce.p5.s": "certificate · issuer to confirm",
+    "ce.p5.t": "// to confirm: issuer, date and hours",
+    "ce.py.s": "UNASP · Nov 2025",
+    "ce.py.h": "Intermediate Python",
+    "ce.py.d": "Follow-up to Basic Python (May 2025).",
+    "ce.alura": "Alura courses",
+    "ce.alura.d": "Click the stack to flip through the certificates.",
+    "ce.alura.card": "course name",
+    "ce.alura.t": "// send the list of Alura courses",
+    "ct.eyebrow": "Contact",
+    "ct.l1": "Let's",
+    "ct.l2": "talk",
+    "ct.copy": "Copy",
+    "ct.q": "“Compare yourself to who you were yesterday, not to who someone else is today.”",
+    "ds.eyebrow": "Prototype only",
+    "ds.h": "Design <em>system</em>",
+    "ds.goal": "Goal and reference",
     "ds.g1": "Direction based on the reference you sent: dark poster, a giant word behind the cut-out photo and floating interface elements. The accent moved from red to green, as you asked.",
     "ds.g2": "A 100% technology theme, with no reference to any business sector.",
     "ds.g3": "In 10 seconds a visitor knows who you are, what you do and how to reach you.",
     "ds.g4": "Technical targets: Lighthouse ≥ 90 performance and 100 accessibility.",
-    "ds.pal": "Palette", "ds.c1": "black · background", "ds.c2": "graphite · cards", "ds.c3": "green · accent", "ds.c4": "dark green · support", "ds.c5": "off-white · text", "ds.c6": "grey · secondary",
-    "ds.type": "Typography", "ds.t1": "Caveat · Hello, I'm", "ds.t2": "Manrope for running text, readable at any size.",
+    "ds.g5": "Languages: English by default, with Portuguese and Spanish in the top switcher.",
+    "ds.pal": "Palette",
+    "ds.c1": "black · background",
+    "ds.c2": "graphite · cards",
+    "ds.c3": "green · accent",
+    "ds.c4": "dark green · support",
+    "ds.c5": "off-white · text",
+    "ds.c6": "grey · secondary",
+    "ds.type": "Typography",
+    "ds.t1": "Caveat · Hello, I'm",
+    "ds.t2": "Manrope for running text, readable at any size.",
     "ds.motion": "Effects and interactions",
     "ds.m1": "Boot: a startup log, a 000→100% counter, a progress bar and the screen splitting open with a green line.",
     "ds.m2": "Hero entrance: PORTFOLIO letters rise one by one, the photo slides up, then the name, numbers and window appear in sequence.",
@@ -703,24 +825,150 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "ds.m4": "Crossing stack bands, floating project previews, a 3D stack sphere you can drag and reveal on scroll.",
     "ds.m5": "With reduced motion on, the intro is skipped and nothing animates.",
     "ft": "Handmade in Hortolândia, Brazil",
-    "_lang": "Mudar idioma para português", "_copied": "Copied", "_daily": "used daily at Softwrench", "_side": "projects and college"
+    "_copied": "Copied",
+    "_daily": "used daily at Softwrench",
+    "_side": "projects and college",
+    "_deck": "Show the next Alura certificate"
   };
-  const PT = { "_lang": "Switch language to English", "_copied": "Copiado", "_daily": "uso diário na Softwrench", "_side": "projetos e faculdade" };
+  const ES = {
+    "strip": "Prototipo v3.2 · estilo póster en verde · EN · PT · ES · solo diseño, el código del sitio no se modificó · los elementos en amarillo esperan confirmación",
+    "strip.replay": "ver la intro otra vez",
+    "strip.ds": "sistema de diseño",
+    "boot.skip": "saltar intro ⏎",
+    "nav.about": "Sobre mí",
+    "nav.xp": "Experiencia",
+    "nav.projects": "Proyectos",
+    "nav.edu": "Formación",
+    "nav.talk": "Hablemos ↗",
+    "hero.you": "tú",
+    "hero.hello": "Hola, soy",
+    "hero.role": "Full Stack Developer<br>@ Softwrench",
+    "hero.bio": "Construyo sistemas web de punta a punta, de la base de datos a la interfaz. Código limpio, entregado con cuidado desde el primer commit hasta el deploy.",
+    "hero.cta1": "Ver mis proyectos",
+    "hero.days": "días",
+    "hero.place": "3.er lugar · Semana de la Tecnología",
+    "hero.s1": "proyectos en GitHub",
+    "hero.s2": "lugar · Semana de la<br>Tecnología UNASP",
+    "hero.s3": "certificados",
+    "hero.scroll": "desliza para explorar",
+    "hero.avail": "disponible para nuevos proyectos",
+    "about.cap": "Pitch de Guardião Antigolpe · UNASP Hortolândia",
+    "about.eyebrow": "Sobre mí",
+    "about.lead": "De la base de datos a la interfaz, <em>de punta a punta.</em>",
+    "about.p1": "Soy <strong>Felipe Teixeira Farias</strong>, desarrollador full stack en Softwrench, una empresa de Scottsdale, en EE. UU. Trabajo 100 % en remoto con un equipo internacional.",
+    "about.p2": "En el día a día desarrollo funcionalidades completas en una plataforma web de gestión de mantenimiento y activos (CMMS): servicios en <strong>C# y .NET</strong> con <strong>SQL Server</strong> en el back-end y <strong>AngularJS</strong> en el front-end.",
+    "about.p3": "Soy técnico en desarrollo web por la ETEC y estudio Sistemas de Información en la UNASP. En el centro de estudiantes desarrollé liderazgo y trabajo en equipo. Fuera del código, toco guitarra y batería.",
+    "about.f1": "empresa actual",
+    "about.f2": "remoto · equipo internacional",
+    "about.f3": "idiomas",
+    "about.f4": "inicio en la ETEC",
+    "xp.eyebrow": "Experiencia",
+    "xp.h": "Dónde <em>trabajo</em>",
+    "xp.note": "Experiencia profesional y liderazgo estudiantil.",
+    "xp.when": "ago 2025 – hoy · tiempo completo",
+    "xp.live": "actual",
+    "xp.remote": "remoto",
+    "xp.b1": "Desarrollo full stack de una plataforma web de gestión de mantenimiento y activos (CMMS) usada por clientes en EE. UU.",
+    "xp.b2": "Funcionalidades de punta a punta: servicios de back-end en C# y .NET con SQL Server y entrega en el front-end con AngularJS.",
+    "xp.b3": "Corrección de errores y mejora continua de un sistema en producción, con un equipo internacional.",
+    "xp.sc": "Centro de estudiantes",
+    "xp.scd": "Escola Estadual Prof. Hedy Madalena Bocchi · liderazgo, comunicación, planificación y trabajo en equipo.",
+    "xp.todo": "// por confirmar: cargo y período",
+    "pr.eyebrow": "Proyectos seleccionados (07)",
+    "pr.h": "Lo que <em>construí</em>",
+    "pr.note": "Pasa el cursor por cada fila para ver una vista previa.",
+    "pr.g.medal": "lugar · Semana de la<br>Tecnología UNASP",
+    "pr.g.swap": "siguiente foto",
+    "pr.g.meta": "01 · Destacado · 2026 · solo · 9 días",
+    "pr.g.d": "PWA con IA que analiza mensajes sospechosos y avisa a la familia antes del Pix. Reglas fijas y un LLM deciden juntos, y el riesgo final siempre es el mayor de los dos. Pensado para personas mayores, con accesibilidad WCAG 2.1 AA.",
+    "pr.g.d2": "Lo construí solo en 9 días, en el 2.º semestre de la facultad: la app, una API en tiempo real y una presentación 3D programada.",
+    "pr.g.app": "Abrir app ↗",
+    "pr.code": "Código ↗",
+    "pr.p": "Plataforma multiagente que conecta voluntarios con ONG y Defensa Civil · IBM watsonx · FastAPI",
+    "pr.s": "Sistema de gestión académica, proyecto final de la ETEC en equipo de 4 · Node.js · Prisma · PostgreSQL",
+    "pr.l": "Calculadora de sistemas lineales · FastAPI · React · TypeScript",
+    "pr.d": "Control de horas por tarea, sin back-end · PWA · JavaScript",
+    "pr.e": "Bot de Telegram que valida CPF, equipo de 5 · Elixir",
+    "pr.f": "README de GitHub generado por código · SVG · GitHub Actions",
+    "st.eyebrow": "Tecnologías",
+    "st.h": "Mi <em>stack</em>",
+    "st.note": "Arrastra la esfera para girarla. Pasa el cursor o toca una tecnología.",
+    "st.hint": "arrastra para girar",
+    "st.k": "inspeccionar",
+    "st.lg1": "uso diario en el trabajo",
+    "st.lg2": "proyectos y facultad",
+    "ed.eyebrow": "Formación",
+    "ed.h": "Siempre <em>aprendiendo</em>",
+    "ed.note": "17 certificados en LinkedIn.",
+    "ed.u.s": "en curso · feb 2026 – dic 2029",
+    "ed.u.h": "Sistemas de Información",
+    "ed.u.d": "UNASP, Centro Universitário Adventista de São Paulo, campus Hortolândia.",
+    "ed.e.s": "concluido · feb 2024 – jun 2025",
+    "ed.e.h": "Técnico en Desarrollo Web",
+    "ed.e.d": "ETEC. Lógica de programación, orientación a objetos y desarrollo web. Proyecto final: SAGA, un sistema de gestión académica hecho en equipo de cuatro.",
+    "ce.h": "Certificados destacados",
+    "ce.count": "17 en total",
+    "ce.wait": "imagen del certificado próximamente",
+    "ce.p5.s": "certificado · emisor por confirmar",
+    "ce.p5.t": "// por confirmar: emisor, fecha y carga horaria",
+    "ce.py.s": "UNASP · nov 2025",
+    "ce.py.h": "Python Intermedio",
+    "ce.py.d": "Continuación de Python Básico (may 2025).",
+    "ce.alura": "Cursos de Alura",
+    "ce.alura.d": "Haz clic en la pila para pasar los certificados.",
+    "ce.alura.card": "nombre del curso",
+    "ce.alura.t": "// envía la lista de cursos de Alura",
+    "ct.eyebrow": "Contacto",
+    "ct.l1": "Vamos a",
+    "ct.l2": "conversar",
+    "ct.copy": "Copiar",
+    "ct.q": "“Compárate con quien eras ayer, no con quien es otra persona hoy.”",
+    "ds.eyebrow": "Solo en el prototipo",
+    "ds.h": "Sistema de <em>diseño</em>",
+    "ds.goal": "Objetivo y referencia",
+    "ds.g1": "Dirección basada en la referencia que enviaste: póster oscuro, palabra gigante detrás de la foto recortada y elementos de interfaz flotando. El color de acento pasó de rojo a verde, como pediste.",
+    "ds.g2": "Tema 100 % de tecnología, sin referencia a ningún sector de negocio.",
+    "ds.g3": "En 10 segundos, quien llega entiende quién eres, qué haces y cómo contactarte.",
+    "ds.g4": "Metas técnicas: Lighthouse ≥ 90 en rendimiento y 100 en accesibilidad.",
+    "ds.g5": "Idiomas: inglés por defecto, con portugués y español en el selector superior.",
+    "ds.pal": "Paleta",
+    "ds.c1": "negro · fondo",
+    "ds.c2": "grafito · tarjetas",
+    "ds.c3": "verde · acento",
+    "ds.c4": "verde oscuro · apoyo",
+    "ds.c5": "blanco roto · texto",
+    "ds.c6": "gris · secundario",
+    "ds.type": "Tipografía",
+    "ds.t1": "Caveat · Hola, soy",
+    "ds.t2": "Manrope para el texto corrido, legible en cualquier tamaño.",
+    "ds.motion": "Efectos e interacciones",
+    "ds.m1": "Inicio: log de arranque, contador 000→100 %, barra de progreso y la pantalla abriéndose al medio con un trazo verde.",
+    "ds.m2": "Entrada del hero: las letras de PORTFOLIO suben una a una, la foto aparece desde abajo, y el nombre, los números y la ventana entran en secuencia.",
+    "ds.m3": "Profundidad 3D: fondo, palabra, foto e interfaz se mueven en capas con el cursor. Un cursor “tú” sigue al tuyo.",
+    "ds.m4": "Franjas cruzadas con el stack, vista previa flotante de los proyectos, esfera 3D del stack que gira al arrastrar y aparición al hacer scroll.",
+    "ds.m5": "Con “reducir movimiento” activo, la intro se salta y nada se anima.",
+    "ft": "Hecho a mano en Hortolândia, Brasil",
+    "_copied": "Copiado",
+    "_daily": "uso diario en Softwrench",
+    "_side": "proyectos y facultad",
+    "_deck": "Ver el siguiente certificado de Alura"
+  };
+  const PT = { "_copied": "Copiado", "_daily": "uso diário na Softwrench", "_side": "projetos e faculdade", "_deck": "Ver o próximo certificado da Alura" };
   document.querySelectorAll("[data-i18n]").forEach(el => { PT[el.dataset.i18n] = el.textContent; });
   document.querySelectorAll("[data-i18n-html]").forEach(el => { PT[el.dataset.i18nHtml] = el.innerHTML; });
-  let lang = "pt";
-  const t = k => (lang === "en" ? EN : PT)[k] ?? PT[k] ?? k;
-  const langBtn = document.getElementById("langBtn");
+  const LANGS = { en: EN, pt: PT, es: ES }, HTML_LANG = { en: "en", pt: "pt-BR", es: "es" };
+  let lang = "en";
+  const t = k => (LANGS[lang] || EN)[k] ?? EN[k] ?? PT[k] ?? k;
+  const langBtns = [...document.querySelectorAll(".langs button")];
   const relabel = [];
   function applyLang() {
-    root.lang = lang === "en" ? "en" : "pt-BR";
+    root.lang = HTML_LANG[lang];
     document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
     document.querySelectorAll("[data-i18n-html]").forEach(el => { el.innerHTML = t(el.dataset.i18nHtml); });
-    langBtn.textContent = lang === "en" ? "PT" : "EN";
-    langBtn.setAttribute("aria-label", t("_lang"));
+    langBtns.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
     relabel.forEach(f => f());
   }
-  langBtn.addEventListener("click", () => { lang = lang === "pt" ? "en" : "pt"; applyLang(); try { localStorage.setItem("ff-lang", lang); } catch (e) {} });
+  langBtns.forEach(b => b.addEventListener("click", () => { lang = b.dataset.lang; applyLang(); try { localStorage.setItem("ff-lang", lang); } catch (e) {} }));
 
   /* ---------------- boot sequence ---------------- */
   const boot = document.getElementById("boot"), bootLog = document.getElementById("bootLog"), bootNum = document.getElementById("bootNum"), bootBar = document.getElementById("bootBar");
@@ -839,6 +1087,17 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     addEventListener("mousemove", e => { pvx = Math.min(innerWidth - 160, e.clientX + 170); pvy = e.clientY; });
   }
 
+  /* ---------------- Alura certificate deck ---------------- */
+  const deck = document.getElementById("deck");
+  if (deck) {
+    const dcards = [...deck.querySelectorAll(".deck__card")];
+    const order = dcards.map((_, i) => i);
+    const lay = () => order.forEach((ci, pos) => { dcards[ci].style.setProperty("--i", pos); dcards[ci].classList.toggle("is-top", pos === 0); });
+    lay();
+    deck.addEventListener("click", () => { order.push(order.shift()); lay(); });
+    relabel.push(() => deck.setAttribute("aria-label", t("_deck")));
+  }
+
   /* ---------------- copy email ---------------- */
   document.getElementById("copyMail").addEventListener("click", async e => {
     const b = e.currentTarget;
@@ -852,12 +1111,12 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     ["JavaScript", 0, ["SAGA", "DevAgenda"]], ["TypeScript", 0, ["Guardião", "LinSolve"]], ["React", 0, ["Guardião", "LinSolve"]], ["Node.js", 0, ["SAGA", "Profile as Code"]],
     ["Fastify", 0, ["Guardião"]], ["Express", 0, ["SAGA"]], ["Prisma", 0, ["Guardião", "SAGA"]], ["PostgreSQL", 0, ["Guardião", "SAGA"]], ["Socket.IO", 0, ["Guardião"]],
     ["Python", 0, ["Pulso", "LinSolve"]], ["FastAPI", 0, ["Pulso", "LinSolve"]], ["Elixir", 0, ["ElixirBot"]], ["LLM", 0, ["Guardião", "Pulso"]], ["watsonx", 0, ["Pulso"]],
-    ["Docker", 0, ["Guardião", "SAGA"]], ["Git", 0, ["todos os projetos|every project"]], ["GitHub Actions", 0, ["Profile as Code"]], ["Vite", 0, ["Guardião", "LinSolve"]], ["HTML", 0, ["SAGA", "DevAgenda"]],
-    ["CSS", 0, ["SAGA", "DevAgenda"]], ["SQLite", 0, ["Pulso"]], ["PWA", 0, ["Guardião", "DevAgenda"]], ["Three.js", 0, ["Guardião (pitch)"]], ["Bootstrap", 0, ["portfólio v1|portfolio v1"]],
+    ["Docker", 0, ["Guardião", "SAGA"]], ["Git", 0, ["todos os projetos|every project|todos los proyectos"]], ["GitHub Actions", 0, ["Profile as Code"]], ["Vite", 0, ["Guardião", "LinSolve"]], ["HTML", 0, ["SAGA", "DevAgenda"]],
+    ["CSS", 0, ["SAGA", "DevAgenda"]], ["SQLite", 0, ["Pulso"]], ["PWA", 0, ["Guardião", "DevAgenda"]], ["Three.js", 0, ["Guardião (pitch)"]], ["Bootstrap", 0, ["portfólio v1|portfolio v1|portafolio v1"]],
   ];
   const iName = document.getElementById("iName"), iType = document.getElementById("iType"), iUses = document.getElementById("iUses");
   let current = TECH[0];
-  const pickL = s => { const [a, b] = s.split("|"); return lang === "en" ? (b || a) : a; };
+  const pickL = s => { const [pt, en, es] = s.split("|"); return lang === "en" ? (en || pt) : lang === "es" ? (es || en || pt) : pt; };
   function inspectTech(item) {
     current = item;
     iName.textContent = item[0];
@@ -941,7 +1200,8 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   addEventListener("resize", fitWord);
 
   /* ---------------- start ---------------- */
-  try { if (localStorage.getItem("ff-lang") === "en") { lang = "en"; applyLang(); } } catch (e) {}
+  try { const saved = localStorage.getItem("ff-lang"); if (saved && LANGS[saved]) lang = saved; } catch (e) {}
+  applyLang();
   inspectTech(TECH[0]);
   const fontsReady = document.fonts ? Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1500))]) : Promise.resolve();
   fitWord();
