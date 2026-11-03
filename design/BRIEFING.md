@@ -82,9 +82,9 @@ Regra do Felipe: o design não pode remeter a nenhum setor de negócio, apenas a
 
 - **Idiomas:** inglês é o padrão; o site também precisa estar em português e espanhol (seletor EN · PT · ES no topo).
 - **SAGA:** confirmado como TCC da ETEC.
-- **Certificados em destaque:** Profissional 5.0 (AC International Group e UNASP Hortolândia, 28/10/2026, 4 h) e Python Intermediário (UNASPython, 4ª edição, UNASP Hortolândia, 21/09 a 30/11/2025, 16 h). As imagens estão em `design/prototipo/img/cert-*.webp` e abrem ampliadas ao clicar. Os cursos da Alura entram empilhados em um baralho que se folheia com clique.
+- **Certificados em destaque:** Profissional 5.0 (AC International Group e UNASP Hortolândia, 28/10/2026, 4 h) e Python Intermediário (UNASPython, 4ª edição, UNASP Hortolândia, 21/09 a 30/11/2025, 16 h). As imagens estão em `design/prototipo/img/cert-*.webp` e abrem ampliadas ao clicar. Os cursos da Alura entram empilhados em um baralho que se folheia com clique: Desenvolvimento de projeto, Páginas web, Lógica de programação e Desvendando a IA, cada um com link para o certificado.
 - **Foto do topo:** crachá e cordão do evento sem desfoque, a pedido do Felipe.
 
 ### Ainda falta
 - Grêmio: cargo e período
-- Lista dos cursos da Alura
+- Imagens dos 4 certificados da Alura com a foto do Felipe no lugar da imagem quebrada (a rede da sessão bloqueia cursos.alura.com.br)
