@@ -82,11 +82,9 @@ Regra do Felipe: o design não pode remeter a nenhum setor de negócio, apenas a
 
 - **Idiomas:** inglês é o padrão; o site também precisa estar em português e espanhol (seletor EN · PT · ES no topo).
 - **SAGA:** confirmado como TCC da ETEC.
-- **Certificados em destaque:** Profissional 5.0 (certificado a enviar) e Python Intermediário (UNASP, nov 2025; imagem a enviar). Os cursos da Alura entram empilhados em um baralho que se folheia com clique.
+- **Certificados em destaque:** Profissional 5.0 (AC International Group e UNASP Hortolândia, 28/10/2026, 4 h) e Python Intermediário (UNASPython, 4ª edição, UNASP Hortolândia, 21/09 a 30/11/2025, 16 h). As imagens estão em `design/prototipo/img/cert-*.webp` e abrem ampliadas ao clicar. Os cursos da Alura entram empilhados em um baralho que se folheia com clique.
 - **Foto do topo:** crachá e cordão do evento sem desfoque, a pedido do Felipe.
 
 ### Ainda falta
 - Grêmio: cargo e período
-- Profissional 5.0: emissor, data e carga horária
-- Imagens dos dois certificados em destaque
 - Lista dos cursos da Alura

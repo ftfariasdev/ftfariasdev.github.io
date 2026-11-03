@@ -329,7 +329,15 @@ html.pre-hero .spark { opacity: 0; animation: none; }
 .certs__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; align-items: start; }
 .cert { border: 1px solid var(--line); border-radius: 14px; background: var(--bg-2); overflow: hidden; transition: border-color .3s, transform .5s var(--ease), opacity 1s var(--ease); }
 .cert:hover { border-color: rgba(34, 216, 119, .5); transform: translateY(-6px); }
-.cert__img { aspect-ratio: 4 / 3; display: grid; place-items: center; background: #0E0E11; border-bottom: 1px solid var(--line); }
+.cert__img { position: relative; display: block; width: 100%; aspect-ratio: 4 / 3; padding: 14px; border: 0; border-bottom: 1px solid var(--line); background: #0E0E11; cursor: zoom-in; overflow: hidden; }
+.cert__img img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; transition: transform .6s var(--ease); }
+.cert:hover .cert__img img { transform: scale(1.03); }
+.cert__zoom { position: absolute; right: 12px; bottom: 12px; font: 700 .64rem/1 var(--f-mono); color: var(--bg); background: var(--accent); padding: 6px 9px; border-radius: 999px; opacity: 0; transform: translateY(6px); transition: .3s var(--ease); }
+.cert:hover .cert__zoom, .cert__img:focus-visible .cert__zoom { opacity: 1; transform: none; }
+.lightbox { max-width: min(94vw, 1100px); max-height: 92vh; padding: 0; border: 1px solid var(--line); border-radius: 14px; background: var(--bg-2); color: var(--white); overflow: hidden; }
+.lightbox::backdrop { background: rgba(5, 5, 6, .85); backdrop-filter: blur(4px); }
+.lightbox img { display: block; max-width: 100%; max-height: calc(92vh - 64px); margin: 0 auto; }
+.lightbox .pill { margin: 12px auto; display: flex; }
 .cert__img--empty { background: repeating-linear-gradient(135deg, rgba(243, 240, 236, .035) 0 10px, transparent 10px 20px), #0E0E11; }
 .cert__img--empty span { font: 400 .7rem/1.4 var(--f-mono); color: var(--muted); border: 1px dashed rgba(243, 240, 236, .2); border-radius: 8px; padding: 8px 12px; }
 .cert__body { padding: 20px 22px 24px; display: grid; gap: 8px; }
@@ -568,6 +576,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   </div>
 </section>
 <div class="preview" id="preview" aria-hidden="true"></div>
+<dialog class="lightbox" id="lightbox"><img id="lightboxImg" src="" alt=""><button class="pill" type="button" id="lightboxClose" data-i18n="ce.close">fechar ✕</button></dialog>
 
 <!-- ================= STACK ================= -->
 <section class="sec" id="stack">
@@ -609,12 +618,12 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
       <div class="certs__head"><h3 class="certs__title" data-i18n="ce.h">Certificados em destaque</h3><span class="certs__count" data-i18n="ce.count">17 no total</span></div>
       <div class="certs__grid">
         <article class="cert rv">
-          <div class="cert__img cert__img--empty"><span data-i18n="ce.wait">imagem do certificado em breve</span></div>
-          <div class="cert__body"><span class="card__s" data-i18n="ce.p5.s">certificado · emissor a confirmar</span><h4>Profissional 5.0</h4><p class="todo" data-i18n="ce.p5.t">// a confirmar: emissor, data e carga horária</p></div>
+          <button class="cert__img" type="button" data-full="img/cert-profissional50.webp"><img src="img/cert-profissional50.webp" alt="Certificado de participação no treinamento Profissional 5.0, AC International Group e UNASP Hortolândia" width="1200" height="933" loading="lazy"><span class="cert__zoom" data-i18n="ce.zoom">ampliar</span></button>
+          <div class="cert__body"><span class="card__s" data-i18n="ce.p5.s">AC International Group · UNASP · out 2026 · 4 h</span><h4>Profissional 5.0</h4><p data-i18n="ce.p5.d">Treinamento promovido pela AC International Group e pela UNASP Hortolândia.</p></div>
         </article>
         <article class="cert rv">
-          <div class="cert__img cert__img--empty"><span data-i18n="ce.wait">imagem do certificado em breve</span></div>
-          <div class="cert__body"><span class="card__s" data-i18n="ce.py.s">UNASP · nov 2025</span><h4 data-i18n="ce.py.h">Python Intermediário</h4><p data-i18n="ce.py.d">Continuação do Python Básico (mai 2025).</p></div>
+          <button class="cert__img" type="button" data-full="img/cert-python.webp"><img src="img/cert-python.webp" alt="Certificado do curso de extensão UNASPython, nível intermediário, UNASP campus Hortolândia" width="1200" height="851" loading="lazy"><span class="cert__zoom" data-i18n="ce.zoom">ampliar</span></button>
+          <div class="cert__body"><span class="card__s" data-i18n="ce.py.s">UNASP Hortolândia · set – nov 2025 · 16 h</span><h4 data-i18n="ce.py.h">Python Intermediário</h4><p data-i18n="ce.py.d">4ª edição do curso de extensão UNASPython, nível intermediário. Continuação do Python Básico (mai 2025).</p></div>
         </article>
         <div class="deck-wrap rv">
           <button class="deck" id="deck" type="button">
@@ -785,12 +794,10 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "ed.e.d": "ETEC. Programming logic, object-oriented programming and web development. Capstone: SAGA, an academic management system built by a team of four.",
     "ce.h": "Featured certificates",
     "ce.count": "17 in total",
-    "ce.wait": "certificate image coming soon",
-    "ce.p5.s": "certificate · issuer to confirm",
-    "ce.p5.t": "// to confirm: issuer, date and hours",
-    "ce.py.s": "UNASP · Nov 2025",
+    "ce.p5.s": "AC International Group · UNASP · Oct 2026 · 4 h",
+    "ce.py.s": "UNASP Hortolândia · Sep – Nov 2025 · 16 h",
     "ce.py.h": "Intermediate Python",
-    "ce.py.d": "Follow-up to Basic Python (May 2025).",
+    "ce.py.d": "4th edition of the UNASPython extension course, intermediate level. Follow-up to Basic Python (May 2025).",
     "ce.alura": "Alura courses",
     "ce.alura.d": "Click the stack to flip through the certificates.",
     "ce.alura.card": "course name",
@@ -828,7 +835,10 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "_copied": "Copied",
     "_daily": "used daily at Softwrench",
     "_side": "projects and college",
-    "_deck": "Show the next Alura certificate"
+    "_deck": "Show the next Alura certificate",
+    "ce.p5.d": "Training promoted by AC International Group and UNASP Hortolândia.",
+    "ce.zoom": "enlarge",
+    "ce.close": "close ✕"
   };
   const ES = {
     "strip": "Prototipo v3.2 · estilo póster en verde · EN · PT · ES · solo diseño, el código del sitio no se modificó · los elementos en amarillo esperan confirmación",
@@ -908,12 +918,10 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "ed.e.d": "ETEC. Lógica de programación, orientación a objetos y desarrollo web. Proyecto final: SAGA, un sistema de gestión académica hecho en equipo de cuatro.",
     "ce.h": "Certificados destacados",
     "ce.count": "17 en total",
-    "ce.wait": "imagen del certificado próximamente",
-    "ce.p5.s": "certificado · emisor por confirmar",
-    "ce.p5.t": "// por confirmar: emisor, fecha y carga horaria",
-    "ce.py.s": "UNASP · nov 2025",
+    "ce.p5.s": "AC International Group · UNASP · oct 2026 · 4 h",
+    "ce.py.s": "UNASP Hortolândia · sep – nov 2025 · 16 h",
     "ce.py.h": "Python Intermedio",
-    "ce.py.d": "Continuación de Python Básico (may 2025).",
+    "ce.py.d": "4.ª edición del curso de extensión UNASPython, nivel intermedio. Continuación de Python Básico (may 2025).",
     "ce.alura": "Cursos de Alura",
     "ce.alura.d": "Haz clic en la pila para pasar los certificados.",
     "ce.alura.card": "nombre del curso",
@@ -951,7 +959,10 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "_copied": "Copiado",
     "_daily": "uso diario en Softwrench",
     "_side": "proyectos y facultad",
-    "_deck": "Ver el siguiente certificado de Alura"
+    "_deck": "Ver el siguiente certificado de Alura",
+    "ce.p5.d": "Capacitación promovida por AC International Group y la UNASP Hortolândia.",
+    "ce.zoom": "ampliar",
+    "ce.close": "cerrar ✕"
   };
   const PT = { "_copied": "Copiado", "_daily": "uso diário na Softwrench", "_side": "projetos e faculdade", "_deck": "Ver o próximo certificado da Alura" };
   document.querySelectorAll("[data-i18n]").forEach(el => { PT[el.dataset.i18n] = el.textContent; });
@@ -1097,6 +1108,15 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     deck.addEventListener("click", () => { order.push(order.shift()); lay(); });
     relabel.push(() => deck.setAttribute("aria-label", t("_deck")));
   }
+
+  /* ---------------- certificate lightbox ---------------- */
+  const lb = document.getElementById("lightbox"), lbImg = document.getElementById("lightboxImg");
+  document.querySelectorAll(".cert__img[data-full]").forEach(b => b.addEventListener("click", () => {
+    const img = b.querySelector("img"); lbImg.src = b.dataset.full; lbImg.alt = img.alt;
+    if (lb.showModal) lb.showModal(); else lb.setAttribute("open", "");
+  }));
+  document.getElementById("lightboxClose").addEventListener("click", () => lb.close ? lb.close() : lb.removeAttribute("open"));
+  lb.addEventListener("click", e => { if (e.target === lb && lb.close) lb.close(); });
 
   /* ---------------- copy email ---------------- */
   document.getElementById("copyMail").addEventListener("click", async e => {
