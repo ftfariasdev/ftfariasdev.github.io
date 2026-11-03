@@ -345,8 +345,8 @@ html.pre-hero .spark { opacity: 0; animation: none; }
 .cert p, .deck-wrap p { color: var(--muted); font-size: .9rem; }
 .cert p.todo, .deck-wrap p.todo { color: var(--pending); font-size: .7rem; }
 .deck-wrap { display: grid; gap: 8px; }
-.deck { position: relative; display: block; width: 100%; aspect-ratio: 4 / 3; margin-bottom: 14px; padding: 0; border: 0; background: none; cursor: pointer; text-align: left; color: inherit; font: inherit; border-radius: 14px; }
-.deck__card { --i: 0; position: absolute; inset: 16% 16% 0 0; border-radius: 12px; border: 1px solid var(--line); background: var(--bg-2); padding: 18px; display: flex; flex-direction: column; justify-content: space-between; transform: translate(calc(var(--i) * 9px), calc(var(--i) * -9px)) rotate(calc(var(--i) * 2deg)); transform-origin: bottom left; z-index: calc(10 - var(--i)); transition: transform .6s var(--ease), border-color .3s, opacity .3s; box-shadow: 0 18px 40px -18px rgba(0, 0, 0, .9); }
+.deck { position: relative; display: block; width: 100%; aspect-ratio: 10 / 7; margin-bottom: 14px; padding: 0; border: 0; background: none; cursor: pointer; text-align: left; color: inherit; font: inherit; border-radius: 14px; }
+.deck__card { --i: 0; position: absolute; inset: 16% 16% 0 0; border-radius: 12px; border: 1px solid var(--line); background: var(--bg-2); padding: 0; overflow: hidden; display: block; transform: translate(calc(var(--i) * 9px), calc(var(--i) * -9px)) rotate(calc(var(--i) * 2deg)); transform-origin: bottom left; z-index: calc(10 - var(--i)); transition: transform .6s var(--ease), border-color .3s, opacity .3s; box-shadow: 0 18px 40px -18px rgba(0, 0, 0, .9); }
 .deck:hover .deck__card, .deck:focus-visible .deck__card { transform: translate(calc(var(--i) * 22px), calc(var(--i) * -12px)) rotate(calc(var(--i) * 4deg)); }
 .deck__card:not(.is-top) { opacity: .92; }
 .deck__card.is-top { border-color: rgba(34, 216, 119, .6); }
@@ -354,11 +354,18 @@ html.pre-hero .spark { opacity: 0; animation: none; }
 .deck__top b { font: 400 1.3rem/1 var(--f-display); color: var(--white); letter-spacing: .02em; font-weight: 400; }
 .deck__card.is-top .deck__top b { color: var(--accent); }
 .deck__name { font: 400 1.5rem/1.05 var(--f-display); text-transform: uppercase; color: var(--white); }
-.deck__links { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 2px; }
-.deck__links a { display: flex; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line); font: 400 .74rem/1.3 var(--f-mono); color: var(--white); text-decoration: none; }
-.deck__links a span { color: var(--muted); white-space: nowrap; }
-.deck__links a span::after { content: " ↗"; }
-.deck__links a:hover, .deck__links a:hover span { color: var(--accent); }
+.deck__card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.deck__cap { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: end; gap: 10px; padding: 26px 14px 12px; background: linear-gradient(0deg, rgba(10, 10, 12, .92), transparent); }
+.deck__cap b { font: 400 1.05rem/1.1 var(--f-display); text-transform: uppercase; color: var(--white); font-weight: 400; }
+.deck__cap span { font: 400 .64rem/1 var(--f-mono); color: var(--accent); white-space: nowrap; }
+.deck__links { list-style: none; margin: 4px 0 0; padding: 0; display: grid; }
+.deck__links li { display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--line); }
+.deck__row { flex: 1; min-width: 0; display: grid; gap: 3px; padding: 10px 0; background: none; border: 0; color: var(--white); text-align: left; font: 400 .8rem/1.35 var(--f-body); cursor: zoom-in; }
+.deck__row:hover { color: var(--accent); }
+.deck__meta { font: 400 .66rem/1 var(--f-mono); color: var(--muted); }
+.deck__verify { font: 400 .66rem/1 var(--f-mono); color: var(--muted); text-decoration: none; white-space: nowrap; }
+.deck__verify::after { content: " ↗"; }
+.deck__verify:hover { color: var(--accent); }
 .deck__foot { font: 400 .64rem/1 var(--f-mono); color: var(--muted); }
 @media (max-width: 900px) { .certs__grid { grid-template-columns: 1fr; } }
 @media (max-width: 700px) { .edu { grid-template-columns: 1fr; } }
@@ -632,18 +639,18 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
         </article>
         <div class="deck-wrap rv">
           <button class="deck" id="deck" type="button">
-          <span class="deck__card"><span class="deck__top"><b>Alura</b><span>01 / 04</span></span><span class="deck__name">Desenvolvimento de projeto</span><span class="deck__foot">alura.com.br</span></span>
-          <span class="deck__card"><span class="deck__top"><b>Alura</b><span>02 / 04</span></span><span class="deck__name">Páginas web</span><span class="deck__foot">alura.com.br</span></span>
-          <span class="deck__card"><span class="deck__top"><b>Alura</b><span>03 / 04</span></span><span class="deck__name">Lógica de programação</span><span class="deck__foot">alura.com.br</span></span>
-          <span class="deck__card"><span class="deck__top"><b>Alura</b><span>04 / 04</span></span><span class="deck__name">Desvendando a IA</span><span class="deck__foot">alura.com.br</span></span>
+          <span class="deck__card"><img src="img/alura-1.webp" alt="" width="1200" height="840" loading="lazy"><span class="deck__cap"><b>Projetos com programação</b><span>7 h · 03/2024</span></span></span>
+          <span class="deck__card"><img src="img/alura-3.webp" alt="" width="1200" height="840" loading="lazy"><span class="deck__cap"><b>Lógica de programação</b><span>10 h · 05/2024</span></span></span>
+          <span class="deck__card"><img src="img/alura-4.webp" alt="" width="1200" height="840" loading="lazy"><span class="deck__cap"><b>ChatGPT: desvendando a IA</b><span>8 h · 07/2024</span></span></span>
+          <span class="deck__card"><img src="img/alura-2.webp" alt="" width="1200" height="840" loading="lazy"><span class="deck__cap"><b>Página web responsiva</b><span>8 h · 11/2024</span></span></span>
           </button>
           <h4 data-i18n="ce.alura">Cursos da Alura</h4>
-          <p data-i18n="ce.alura.d">Clique na pilha para folhear os certificados.</p>
+          <p data-i18n="ce.alura.d">4 cursos · 33 horas. Clique na pilha para folhear e em um curso para ver o certificado.</p>
           <ul class="deck__links">
-            <li><a href="https://cursos.alura.com.br/certificate/ac3eb375-fda1-4ac9-ac15-802e4355e174">Desenvolvimento de projeto <span data-i18n="ce.alura.v">ver certificado</span></a></li>
-            <li><a href="https://cursos.alura.com.br/certificate/e6dfdb8b-fb81-4713-9d2f-b802f8a4d5a2">Páginas web <span data-i18n="ce.alura.v">ver certificado</span></a></li>
-            <li><a href="https://cursos.alura.com.br/certificate/5a649649-665a-4085-832e-8c5a895a8d25">Lógica de programação <span data-i18n="ce.alura.v">ver certificado</span></a></li>
-            <li><a href="https://cursos.alura.com.br/certificate/8b56d992-7ab5-42e0-9326-ca4db46c9ebc">Desvendando a IA <span data-i18n="ce.alura.v">ver certificado</span></a></li>
+            <li><button type="button" class="deck__row" data-full="img/alura-1.webp" data-alt="Certificado Alura: Projetos com programação: utilizando a criatividade através dos códigos"><span>Projetos com programação: utilizando a criatividade através dos códigos</span><span class="deck__meta">7 h · 03/2024</span></button><a class="deck__verify" href="https://cursos.alura.com.br/certificate/ac3eb375-fda1-4ac9-ac15-802e4355e174" data-i18n="ce.alura.v">verificar</a></li>
+            <li><button type="button" class="deck__row" data-full="img/alura-3.webp" data-alt="Certificado Alura: Lógica de programação: desenvolvendo um jogo estilo Pong"><span>Lógica de programação: desenvolvendo um jogo estilo Pong</span><span class="deck__meta">10 h · 05/2024</span></button><a class="deck__verify" href="https://cursos.alura.com.br/certificate/5a649649-665a-4085-832e-8c5a895a8d25" data-i18n="ce.alura.v">verificar</a></li>
+            <li><button type="button" class="deck__row" data-full="img/alura-4.webp" data-alt="Certificado Alura: ChatGPT: desvendando a IA em conversas e suas aplicações"><span>ChatGPT: desvendando a IA em conversas e suas aplicações</span><span class="deck__meta">8 h · 07/2024</span></button><a class="deck__verify" href="https://cursos.alura.com.br/certificate/8b56d992-7ab5-42e0-9326-ca4db46c9ebc" data-i18n="ce.alura.v">verificar</a></li>
+            <li><button type="button" class="deck__row" data-full="img/alura-2.webp" data-alt="Certificado Alura: Página web: utilizando a responsividade em aplicações com HTML e CSS - Parte 2"><span>Página web: utilizando a responsividade em aplicações com HTML e CSS - Parte 2</span><span class="deck__meta">8 h · 11/2024</span></button><a class="deck__verify" href="https://cursos.alura.com.br/certificate/e6dfdb8b-fb81-4713-9d2f-b802f8a4d5a2" data-i18n="ce.alura.v">verificar</a></li>
           </ul>
         </div>
       </div>
@@ -808,7 +815,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "ce.py.h": "Intermediate Python",
     "ce.py.d": "4th edition of the UNASPython extension course, intermediate level. Follow-up to Basic Python (May 2025).",
     "ce.alura": "Alura courses",
-    "ce.alura.d": "Click the stack to flip through the certificates.",
+    "ce.alura.d": "4 courses · 33 hours. Click the stack to flip through it, or a course to view its certificate.",
     "ct.eyebrow": "Contact",
     "ct.l1": "Let's",
     "ct.l2": "talk",
@@ -846,7 +853,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "ce.p5.d": "Training promoted by AC International Group and UNASP Hortolândia.",
     "ce.zoom": "enlarge",
     "ce.close": "close ✕",
-    "ce.alura.v": "view certificate"
+    "ce.alura.v": "verify"
   };
   const ES = {
     "strip": "Prototipo v3.2 · estilo póster en verde · EN · PT · ES · solo diseño, el código del sitio no se modificó · los elementos en amarillo esperan confirmación",
@@ -931,7 +938,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "ce.py.h": "Python Intermedio",
     "ce.py.d": "4.ª edición del curso de extensión UNASPython, nivel intermedio. Continuación de Python Básico (may 2025).",
     "ce.alura": "Cursos de Alura",
-    "ce.alura.d": "Haz clic en la pila para pasar los certificados.",
+    "ce.alura.d": "4 cursos · 33 horas. Haz clic en la pila para pasarla, o en un curso para ver su certificado.",
     "ct.eyebrow": "Contacto",
     "ct.l1": "Vamos a",
     "ct.l2": "conversar",
@@ -969,7 +976,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "ce.p5.d": "Capacitación promovida por AC International Group y la UNASP Hortolândia.",
     "ce.zoom": "ampliar",
     "ce.close": "cerrar ✕",
-    "ce.alura.v": "ver certificado"
+    "ce.alura.v": "verificar"
   };
   const PT = { "_copied": "Copiado", "_daily": "uso diário na Softwrench", "_side": "projetos e faculdade", "_deck": "Ver o próximo certificado da Alura" };
   document.querySelectorAll("[data-i18n]").forEach(el => { PT[el.dataset.i18n] = el.textContent; });
@@ -1118,8 +1125,8 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
 
   /* ---------------- certificate lightbox ---------------- */
   const lb = document.getElementById("lightbox"), lbImg = document.getElementById("lightboxImg");
-  document.querySelectorAll(".cert__img[data-full]").forEach(b => b.addEventListener("click", () => {
-    const img = b.querySelector("img"); lbImg.src = b.dataset.full; lbImg.alt = img.alt;
+  document.querySelectorAll("[data-full]").forEach(b => b.addEventListener("click", () => {
+    const img = b.querySelector("img"); lbImg.src = b.dataset.full; lbImg.alt = b.dataset.alt || (img ? img.alt : "");
     if (lb.showModal) lb.showModal(); else lb.setAttribute("open", "");
   }));
   document.getElementById("lightboxClose").addEventListener("click", () => lb.close ? lb.close() : lb.removeAttribute("open"));
