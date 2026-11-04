@@ -114,6 +114,11 @@ test.describe("stack sphere", () => {
     await page.locator(".tagb", { hasText: /^Prisma$/ }).focus();
     await expect(page.locator("#iName")).toHaveText("Prisma");
     await expect(page.locator("#iUses")).toContainText("SAGA");
+    // Every technology stays reachable by keyboard, including those on the back of the sphere.
+    const unreachable = await page
+      .locator(".tagb")
+      .evaluateAll((els) => els.filter((b) => (b as HTMLElement).tabIndex < 0).length);
+    expect(unreachable).toBe(0);
     expect(errors).toEqual([]);
   });
 

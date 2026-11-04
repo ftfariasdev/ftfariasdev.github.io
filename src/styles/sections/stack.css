@@ -170,3 +170,12 @@
     margin-inline: auto;
   }
 }
+/* A focused tag on the back of the sphere comes to the front at full strength. */
+.sphere__tags li:focus-within {
+  opacity: 1 !important;
+  z-index: 200 !important;
+}
+.tagb:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 2px;
+}

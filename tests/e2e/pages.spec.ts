@@ -48,10 +48,10 @@ test("every image loads", async ({ page }) => {
     const failed: string[] = [];
     for (const img of images) {
       img.scrollIntoView({ block: "center" });
-      try {
-        await img.decode();
-      } catch {
-        /* reported below */
+      // Wait for the browser to start and finish the lazy load (Firefox resolves decode() early).
+      const start = performance.now();
+      while (!(img.complete && img.naturalWidth > 0) && performance.now() - start < 8000) {
+        await new Promise((r) => setTimeout(r, 50));
       }
       if (img.naturalWidth === 0) failed.push(img.currentSrc || img.src);
     }

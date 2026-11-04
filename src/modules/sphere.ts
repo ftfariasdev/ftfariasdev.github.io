@@ -88,9 +88,8 @@ export function initSphere(): void {
       o.li.style.transform = `translate3d(${(x1 * radius).toFixed(1)}px,${(y2 * radius).toFixed(1)}px,0) scale(${scale.toFixed(3)})`;
       o.li.style.opacity = (0.04 + 0.96 * Math.pow(Math.max(0, (depth - 0.28) / 0.72), 1.1)).toFixed(3);
       o.li.style.zIndex = String(Math.round(depth * 100));
-      const front = depth > 0.5;
-      o.b.style.pointerEvents = front ? "auto" : "none";
-      o.b.tabIndex = front ? 0 : -1;
+      // Only the front half takes the mouse; every tag stays reachable with Tab.
+      o.b.style.pointerEvents = depth > 0.5 ? "auto" : "none";
     }
   };
 
