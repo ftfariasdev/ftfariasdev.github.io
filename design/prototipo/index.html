@@ -429,7 +429,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   <div class="boot__bar"><i id="bootBar"></i></div>
 </div>
 
-<div class="proto-strip"><span data-i18n="strip">Protótipo v3.2 · estilo pôster em verde · EN · PT · ES · só design, o código do site não foi alterado · itens em amarelo aguardam confirmação</span> <button type="button" id="replay" data-i18n="strip.replay">rever intro</button> <a href="#design" data-i18n="strip.ds">sistema de design</a></div>
+<div class="proto-strip"><span data-i18n="strip">Protótipo v3.7 · estilo pôster em verde · EN · PT · ES · conteúdo completo · só design, o código do site ainda não foi alterado</span> <button type="button" id="replay" data-i18n="strip.replay">rever intro</button> <a href="#design" data-i18n="strip.ds">sistema de design</a></div>
 
 <main>
 <!-- ================= HERO ================= -->
@@ -540,7 +540,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
       <div class="job__year">2025<small data-i18n="xp.when">ago 2025 – hoje · tempo integral</small><span class="job__live" data-i18n="xp.live">atual</span></div>
       <div>
         <h3>Full Stack Developer</h3>
-        <p class="job__co"><img src="img/sw.png" alt="">Softwrench · Scottsdale, AZ, EUA · <span data-i18n="xp.remote">remoto</span></p>
+        <p class="job__co"><img src="img/sw.png" alt="">Softwrench · <span data-i18n="xp.loc">Scottsdale, AZ, EUA</span> · <span data-i18n="xp.remote">remoto</span></p>
         <ul>
           <li data-i18n="xp.b1">Desenvolvimento full stack de uma plataforma web de gestão de manutenção e ativos (CMMS) usada por clientes nos EUA.</li>
           <li data-i18n="xp.b2">Funcionalidades de ponta a ponta: serviços de back-end em C# e .NET com SQL Server e entrega no front-end em AngularJS.</li>
@@ -549,12 +549,15 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
         <div class="tags"><span class="tag">C#</span><span class="tag">.NET Framework</span><span class="tag">SQL Server</span><span class="tag">AngularJS</span></div>
       </div>
     </article>
-    <article class="job job--todo rv">
-      <div class="job__year" style="color:var(--muted)">—</div>
+    <article class="job rv">
+      <div class="job__year">4<small data-i18n="xp.scWhen">anos na presidência</small></div>
       <div>
-        <h3 data-i18n="xp.sc">Grêmio estudantil</h3>
-        <p class="job__co" data-i18n="xp.scd">Escola Estadual Prof. Hedy Madalena Bocchi · liderança, comunicação, planejamento e trabalho em equipe.</p>
-        <p class="todo" data-i18n="xp.todo">// a confirmar: cargo e período</p>
+        <h3 data-i18n="xp.sc">Presidente do Grêmio Estudantil</h3>
+        <p class="job__co">Escola Estadual Prof. Hedy Madalena Bocchi</p>
+        <ul>
+          <li data-i18n="xp.scb1">Presidi o grêmio estudantil por 4 anos, representando os alunos junto à direção da escola.</li>
+          <li data-i18n="xp.scb2">Liderança, comunicação, planejamento e trabalho em equipe na organização de projetos e eventos.</li>
+        </ul>
       </div>
     </article>
   </div>
@@ -740,7 +743,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
 
   /* ---------------- i18n ---------------- */
   const EN = {
-    "strip": "Prototype v3.2 · green poster style · EN · PT · ES · design only, no site code was changed · yellow items await confirmation",
+    "strip": "Prototype v3.7 · green poster style · EN · PT · ES · content complete · design only, no site code has been changed yet",
     "strip.replay": "replay intro",
     "strip.ds": "design system",
     "boot.skip": "skip intro ⏎",
@@ -780,9 +783,6 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "xp.b1": "Full stack development of a web platform for maintenance and asset management (CMMS) used by customers in the US.",
     "xp.b2": "Features end to end: back-end services in C# and .NET with SQL Server, front-end delivery in AngularJS.",
     "xp.b3": "Bug fixing and continuous improvement of a production system, with an international team.",
-    "xp.sc": "Student Council",
-    "xp.scd": "Escola Estadual Prof. Hedy Madalena Bocchi · leadership, communication, planning and teamwork.",
-    "xp.todo": "// to confirm: role and dates",
     "pr.eyebrow": "Selected projects (06)",
     "pr.h": "What I <em>built</em>",
     "pr.note": "Hover each row to see a preview.",
@@ -859,10 +859,15 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "ce.p5.d": "Training promoted by AC International Group and UNASP Hortolândia.",
     "ce.zoom": "enlarge",
     "ce.close": "close ✕",
-    "ce.alura.v": "verify"
+    "ce.alura.v": "verify",
+    "xp.sc": "Student Council President",
+    "xp.scWhen": "years as president",
+    "xp.scb1": "Led the student council for 4 years, representing students before the school administration.",
+    "xp.scb2": "Leadership, communication, planning and teamwork while organizing projects and events.",
+    "xp.loc": "Scottsdale, AZ, USA"
   };
   const ES = {
-    "strip": "Prototipo v3.2 · estilo póster en verde · EN · PT · ES · solo diseño, el código del sitio no se modificó · los elementos en amarillo esperan confirmación",
+    "strip": "Prototipo v3.7 · estilo póster en verde · EN · PT · ES · contenido completo · solo diseño, el código del sitio aún no se modificó",
     "strip.replay": "ver la intro otra vez",
     "strip.ds": "sistema de diseño",
     "boot.skip": "saltar intro ⏎",
@@ -902,9 +907,6 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "xp.b1": "Desarrollo full stack de una plataforma web de gestión de mantenimiento y activos (CMMS) usada por clientes en EE. UU.",
     "xp.b2": "Funcionalidades de punta a punta: servicios de back-end en C# y .NET con SQL Server y entrega en el front-end con AngularJS.",
     "xp.b3": "Corrección de errores y mejora continua de un sistema en producción, con un equipo internacional.",
-    "xp.sc": "Centro de estudiantes",
-    "xp.scd": "Escola Estadual Prof. Hedy Madalena Bocchi · liderazgo, comunicación, planificación y trabajo en equipo.",
-    "xp.todo": "// por confirmar: cargo y período",
     "pr.eyebrow": "Proyectos seleccionados (06)",
     "pr.h": "Lo que <em>construí</em>",
     "pr.note": "Pasa el cursor por cada fila para ver una vista previa.",
@@ -981,7 +983,12 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "ce.p5.d": "Capacitación promovida por AC International Group y la UNASP Hortolândia.",
     "ce.zoom": "ampliar",
     "ce.close": "cerrar ✕",
-    "ce.alura.v": "verificar"
+    "ce.alura.v": "verificar",
+    "xp.sc": "Presidente del Centro de Estudiantes",
+    "xp.scWhen": "años en la presidencia",
+    "xp.scb1": "Presidí el centro de estudiantes durante 4 años, representando a los alumnos ante la dirección de la escuela.",
+    "xp.scb2": "Liderazgo, comunicación, planificación y trabajo en equipo en la organización de proyectos y eventos.",
+    "xp.loc": "Scottsdale, AZ, EE. UU."
   };
   const PT = { "_copied": "Copiado", "_daily": "uso diário na Softwrench", "_side": "projetos e faculdade", "_deck": "Ver o próximo certificado da Alura" };
   document.querySelectorAll("[data-i18n]").forEach(el => { PT[el.dataset.i18n] = el.textContent; });

@@ -28,7 +28,7 @@ O protótipo navegável está em `design/prototipo/index.html`.
 - Funcionalidades de ponta a ponta: back-end em C#/.NET com SQL Server, front-end em AngularJS.
 - Correção de bugs e melhoria contínua de um sistema existente.
 
-**Grêmio estudantil · Escola Estadual Prof. Hedy Madalena Bocchi:** liderança, comunicação, planejamento e trabalho em equipe. *Falta: cargo e período.*
+**Presidente do Grêmio Estudantil · Escola Estadual Prof. Hedy Madalena Bocchi** (4 anos): liderança, comunicação, planejamento e trabalho em equipe.
 
 ## Formação
 
@@ -85,6 +85,6 @@ Regra do Felipe: o design não pode remeter a nenhum setor de negócio, apenas a
 - **Foto do topo:** crachá e cordão do evento sem desfoque, a pedido do Felipe.
 
 ### Ainda falta
-- Grêmio: cargo e período
+- Nada de conteúdo. Próximo passo: aprovação final do design e plano de implementação.
 
 - **DevAgenda:** removido do portfólio a pedido do Felipe (03/11/2026). Agora são 6 projetos.
