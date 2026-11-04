@@ -79,7 +79,7 @@ html.booting .boot { display: block; }
 .top { position: absolute; top: 0; left: 0; right: 0; z-index: 20; }
 .top__in { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; padding-top: 26px; }
 .brand { text-decoration: none; display: grid; gap: 4px; }
-.brand b { font: 400 1.6rem/1 var(--f-display); letter-spacing: .02em; }
+.brand b { font: 400 1.6rem/1 var(--f-display); letter-spacing: .02em; white-space: nowrap; }
 .brand b i { color: var(--accent); font-style: normal; }
 .brand span { font: 400 .62rem/1.3 var(--f-mono); color: var(--accent); text-transform: uppercase; letter-spacing: .08em; }
 .nav { display: flex; gap: 22px; list-style: none; margin: 6px 0 0; padding: 0; }
@@ -100,7 +100,7 @@ html.booting .boot { display: block; }
 .langs button:hover { color: var(--white); }
 .langs button[aria-pressed="true"] { background: var(--white); color: var(--bg); }
 @media (max-width: 980px) { .nav { display: none; } }
-@media (max-width: 520px) { .top__actions { gap: 6px; } .brand span { display: none; } .top__actions .pill--accent { display: none; } }
+@media (max-width: 520px) { .top__actions { gap: 6px; } .brand b { font-size: 1.2rem; } .brand span { display: none; } .top__actions .pill--accent { display: none; } }
 
 /* ================= HERO ================= */
 .hero { --mx: 0; --my: 0; position: relative; overflow: hidden; isolation: isolate; min-height: clamp(660px, 100svh, 980px); background: var(--bg); }
@@ -433,7 +433,7 @@ footer { border-top: 1px solid var(--line); }
 <section class="hero" id="inicio" aria-label="Apresentação">
   <header class="top">
     <div class="wrap top__in">
-      <a class="brand" href="#inicio"><b>FELIPE<i>.</i></b><span>full stack developer<br>c# · .net · sql · angular</span></a>
+      <a class="brand" href="#inicio"><b>FELIPE FARIAS<i>.</i></b><span>full stack developer<br>c# · .net · sql · angular</span></a>
       <ul class="nav">
         <li><a href="#sobre" data-i18n="nav.about">Sobre</a></li>
         <li><a href="#experiencia" data-i18n="nav.xp">Experiência</a></li>

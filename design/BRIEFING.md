@@ -91,3 +91,4 @@ Regra do Felipe: o design não pode remeter a nenhum setor de negócio, apenas a
 - **Sem cara de busca de emprego** (04/11/2026): removidos a seção "Vamos conversar", o botão do topo, o selo "disponível para novos projetos" e o "Open to work" das faixas. Nada no site deve sugerir que o Felipe procura trabalho.
 - **Ícones do GitHub e LinkedIn** (04/11/2026): no topo, ao lado do seletor de idioma, e no rodapé (com Instagram).
 - **Palavra do topo** (04/11/2026): PORTFOLIO trocado por FTFARIAS (marca pessoal e usuário do GitHub). A altura da palavra agora tem limite, para não cobrir os números da direita com a fonte real carregada.
+- **Marca do topo** (04/11/2026): "FELIPE." trocado por "FELIPE FARIAS." (menor no celular para caber ao lado dos ícones e do seletor de idioma).
