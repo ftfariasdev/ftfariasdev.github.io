@@ -103,4 +103,10 @@
   .facts {
     grid-template-columns: repeat(2, 1fr);
   }
+  .about__fig figcaption {
+    position: static;
+    max-width: none;
+    margin-top: 12px;
+    text-align: center;
+  }
 }
