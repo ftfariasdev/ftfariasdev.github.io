@@ -89,3 +89,4 @@ Regra do Felipe: o design não pode remeter a nenhum setor de negócio, apenas a
 
 - **DevAgenda:** removido do portfólio a pedido do Felipe (03/11/2026). Agora são 6 projetos.
 - **Sem cara de busca de emprego** (04/11/2026): removidos a seção "Vamos conversar", o botão do topo, o selo "disponível para novos projetos" e o "Open to work" das faixas. Nada no site deve sugerir que o Felipe procura trabalho.
+- **Ícones do GitHub e LinkedIn** (04/11/2026): no topo, ao lado do seletor de idioma, e no rodapé (com Instagram).
