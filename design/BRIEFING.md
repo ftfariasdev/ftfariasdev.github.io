@@ -51,7 +51,7 @@ O protótipo navegável está em `design/prototipo/index.html`.
 ## Contato
 
 - E-mail: farias_felipe@outlook.com.br
-- LinkedIn: linkedin.com/in/ftfariasdev (o site atual aponta para `/in/devfelipefarias`, que deve ser trocado)
+- LinkedIn: linkedin.com/in/ftfariasdev (confirmado; o link antigo `/in/devfelipefarias` foi corrigido no site atual e no README)
 - GitHub: @ftfariasdev
 - Instagram: @eu_felipefarias
 

@@ -1,6 +1,6 @@
 # Implementation plan: ftfariasdev.github.io v2
 
-Status: draft for Felipe's review, 2026-11-04
+Status: approved by Felipe, 2026-11-04
 Design source: approved prototype in `design/prototipo/index.html` (also at https://claude.ai/artifact/PwuYeCsjCswgerbAReT2Bz)
 Content source: `design/BRIEFING.md`
 Branch: `claude/portfolio-rebuild-696ssa`, merged into `main` by pull request at the end
@@ -171,10 +171,10 @@ Each phase ends with something you can open and check. I'll stop after phases 2,
 
 ## 8. What I need from you
 
-1. **Approve this plan,** or tell me what to change.
-2. **Fix GitHub access** so I can push. The pull request and deploy depend on it.
+1. ~~Approve this plan~~ Approved 2026-11-04.
+2. ~~Fix GitHub access~~ Working again since 2026-11-04.
 3. **Change one GitHub setting when we reach phase 7:** Settings → Pages → Build and deployment → Source: "GitHub Actions". I'll remind you at that point.
-4. **Confirm the LinkedIn URL:** the new site uses `linkedin.com/in/ftfariasdev`. The current site points to `/in/devfelipefarias`.
+4. ~~Confirm the LinkedIn URL~~ Confirmed: `linkedin.com/in/ftfariasdev`. The old `/in/devfelipefarias` link was fixed in the current site and README.
 
 ## 9. After launch
 
