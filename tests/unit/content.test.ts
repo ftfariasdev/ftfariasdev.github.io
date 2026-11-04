@@ -8,6 +8,7 @@ import { featured, projects } from "../../src/content/projects.ts";
 import { stack } from "../../src/content/stack.ts";
 import { LANGS } from "../../src/content/types.ts";
 import { dictionaries } from "../../src/render/i18n.ts";
+import { imageInfo } from "../../src/render/images.ts";
 import { renderPage } from "../../src/render/page.ts";
 
 const publicFile = (path: string) => resolve(import.meta.dirname, "../../public", path);
@@ -27,16 +28,23 @@ test("no translation is empty", () => {
   }
 });
 
-test("every image referenced by the content exists in public/", () => {
-  const images = [
-    ...featured.photos.map((p) => p.src),
-    ...featuredCertificates.map((c) => c.image.src),
+test("every image referenced by the content has generated files in public/img", () => {
+  const names = [
+    ...featured.photos.map((p) => p.name),
+    ...featuredCertificates.map((c) => c.image.name),
     ...alura.map((c) => c.image),
-    ...jobs.flatMap((j) => (j.logo ? [j.logo.src] : [])),
-    "img/hero.webp",
-    "img/about.webp",
+    ...jobs.flatMap((j) => (j.logo ? [j.logo.name] : [])),
+    "hero",
+    "about",
   ];
-  for (const src of images) assert.ok(existsSync(publicFile(src)), `missing public/${src}`);
+  for (const name of names) {
+    const info = imageInfo(name);
+    for (const w of info.widths) {
+      for (const ext of ["avif", "webp"]) {
+        assert.ok(existsSync(publicFile(`img/${name}-${w}.${ext}`)), `missing public/img/${name}-${w}.${ext}`);
+      }
+    }
+  }
 });
 
 test("project ids are unique and every technology is used somewhere", () => {

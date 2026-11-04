@@ -14,9 +14,7 @@ export const featuredCertificates: FeaturedCertificate[] = [
       es: "Capacitación promovida por AC International Group y la UNASP Hortolândia.",
     },
     image: {
-      src: "img/cert-profissional50.webp",
-      width: 1200,
-      height: 933,
+      name: "cert-profissional50",
       alt: {
         en: "Certificate of participation in the Profissional 5.0 training, AC International Group and UNASP Hortolândia",
         pt: "Certificado de participação no treinamento Profissional 5.0, AC International Group e UNASP Hortolândia",
@@ -37,9 +35,7 @@ export const featuredCertificates: FeaturedCertificate[] = [
       es: "4.ª edición del curso de extensión UNASPython, nivel intermedio. Continuación de Python Básico (may 2025).",
     },
     image: {
-      src: "img/cert-python.webp",
-      width: 1200,
-      height: 851,
+      name: "cert-python",
       alt: {
         en: "Certificate of the UNASPython extension course, intermediate level, UNASP Hortolândia campus",
         pt: "Certificado do curso de extensão UNASPython, nível intermediário, UNASP campus Hortolândia",
@@ -56,7 +52,7 @@ export const alura: AluraCertificate[] = [
     short: "Projetos com programação",
     hours: 7,
     date: "03/2024",
-    image: "img/alura-1.webp",
+    image: "alura-1",
     url: "https://cursos.alura.com.br/certificate/ac3eb375-fda1-4ac9-ac15-802e4355e174",
   },
   {
@@ -64,7 +60,7 @@ export const alura: AluraCertificate[] = [
     short: "Lógica de programação",
     hours: 10,
     date: "05/2024",
-    image: "img/alura-3.webp",
+    image: "alura-3",
     url: "https://cursos.alura.com.br/certificate/5a649649-665a-4085-832e-8c5a895a8d25",
   },
   {
@@ -72,7 +68,7 @@ export const alura: AluraCertificate[] = [
     short: "ChatGPT: desvendando a IA",
     hours: 8,
     date: "07/2024",
-    image: "img/alura-4.webp",
+    image: "alura-4",
     url: "https://cursos.alura.com.br/certificate/8b56d992-7ab5-42e0-9326-ca4db46c9ebc",
   },
   {
@@ -80,7 +76,7 @@ export const alura: AluraCertificate[] = [
     short: "Página web responsiva",
     hours: 8,
     date: "11/2024",
-    image: "img/alura-2.webp",
+    image: "alura-2",
     url: "https://cursos.alura.com.br/certificate/e6dfdb8b-fb81-4713-9d2f-b802f8a4d5a2",
   },
 ];

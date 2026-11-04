@@ -11,7 +11,7 @@ export const jobs: Job[] = [
     current: true,
     title: { en: "Full Stack Developer", pt: "Full Stack Developer", es: "Full Stack Developer" },
     org: "Softwrench",
-    logo: { src: "img/sw.png", alt: { en: "Softwrench logo", pt: "Logo da Softwrench", es: "Logo de Softwrench" } },
+    logo: { name: "softwrench", alt: { en: "Softwrench logo", pt: "Logo da Softwrench", es: "Logo de Softwrench" } },
     location: { en: "Scottsdale, AZ, USA", pt: "Scottsdale, AZ, EUA", es: "Scottsdale, AZ, EE. UU." },
     remote: true,
     bullets: [

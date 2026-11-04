@@ -5,10 +5,13 @@ import { stack } from "../content/stack.ts";
 import { LANGS, type Lang } from "../content/types.ts";
 import { esc, HTML_LANG, LANG_DIR, plain, t, tx, type Key } from "./i18n.ts";
 import { icons, SOCIAL } from "./icons.ts";
+import { imageUrl, picture } from "./images.ts";
 
 export const SITE_URL = "https://ftfariasdev.github.io/";
 
 const pad = (n: number) => String(n).padStart(2, "0");
+/** Path prefix from a language page back to the site root, for attributes Vite does not rewrite. */
+const base = (lang: Lang) => (lang === "en" ? "./" : "../");
 
 /**
  * Runs before first paint: plays the boot sequence once per browser session, never with
@@ -21,10 +24,6 @@ const BOOT_GATE = [
   "d.classList.add('booting','pre-hero');",
   "setTimeout(function(){d.classList.remove('booting','pre-hero');},7000);})();",
 ].join("");
-/** Public files are referenced from the site root; Vite rewrites them for the configured base. */
-const asset = (path: string) => `/${path}`;
-/** Same file, for attributes Vite does not rewrite (data-*): relative to the page's own folder. */
-const relAsset = (lang: Lang, path: string) => `${lang === "en" ? "./" : "../"}${path}`;
 
 /** Relative link from one language page to another, so the site works under any base path. */
 function langHref(from: Lang, to: Lang): string {
@@ -55,6 +54,7 @@ function head(lang: Lang): string {
   <title>${esc(t(lang, "meta.title"))}</title>
   <meta name="description" content="${esc(t(lang, "meta.description"))}">
   <meta name="theme-color" content="#0A0A0C">
+  <link rel="preload" as="image" type="image/avif" imagesrcset="/img/hero-360.avif 360w, /img/hero-520.avif 520w, /img/hero-655.avif 655w" imagesizes="(max-width: 860px) min(78vw, 400px), 440px" fetchpriority="high">
   <link rel="canonical" href="${url}">
   ${alternates}
   <link rel="alternate" hreflang="x-default" href="${SITE_URL}">
@@ -88,7 +88,7 @@ function hero(lang: Lang): string {
   <div class="layer hero__grid" aria-hidden="true"></div>
   <div class="layer hero__glow" aria-hidden="true"></div>
   <div class="layer hero__word" aria-hidden="true"><div class="word" id="word">${word}</div></div>
-  <div class="layer hero__person"><img class="person" src="${asset("img/hero.webp")}" alt="${esc(t(lang, "alt.hero"))}" width="655" height="1195" fetchpriority="high"></div>
+  <div class="layer hero__person">${picture("hero", { alt: t(lang, "alt.hero"), sizes: "(max-width: 860px) min(78vw, 400px), 440px", eager: true, className: "person" })}</div>
   <div class="layer hero__front" aria-hidden="true">
     <span class="spark" style="left:44%;top:30%">+</span>
     <span class="spark g" style="left:30%;top:64%;animation-delay:.8s">+</span>
@@ -170,7 +170,7 @@ function about(lang: Lang): string {
   ${ghost(plain(t(lang, "nav.about")).toUpperCase())}
   <div class="wrap about">
     <figure class="about__fig rv">
-      <img src="${asset("img/about.webp")}" alt="${esc(t(lang, "alt.about"))}" width="740" height="900" loading="lazy">
+      ${picture("about", { alt: t(lang, "alt.about"), sizes: "(max-width: 900px) 330px, 430px" })}
       <figcaption>${t(lang, "about.cap")}</figcaption>
     </figure>
     <div class="about__text">
@@ -196,9 +196,7 @@ function experience(lang: Lang): string {
       const where = [esc(job.org), job.location ? tx(lang, job.location) : "", job.remote ? t(lang, "xp.remote") : ""]
         .filter(Boolean)
         .join(" · ");
-      const logo = job.logo
-        ? `<img src="${asset(job.logo.src)}" alt="${esc(tx(lang, job.logo.alt))}" width="34" height="34" loading="lazy">`
-        : "";
+      const logo = job.logo ? picture(job.logo.name, { alt: tx(lang, job.logo.alt), sizes: "34px" }) : "";
       const tags = job.tags?.length
         ? `<div class="tags">${job.tags.map((x) => `<span class="tag">${esc(x)}</span>`).join("")}</div>`
         : "";
@@ -225,9 +223,13 @@ function experience(lang: Lang): string {
 function projectsSection(lang: Lang): string {
   const f = featured;
   const photos = f.photos
-    .map(
-      (p, i) =>
-        `<img src="${asset(p.src)}" alt="${esc(tx(lang, p.alt))}" width="${p.width}" height="${p.height}" loading="lazy" style="object-position: ${p.position ?? "50% 50%"}"${i ? ' aria-hidden="true"' : ""}>`,
+    .map((p, i) =>
+      picture(p.name, {
+        alt: tx(lang, p.alt),
+        sizes: "(max-width: 760px) calc(100vw - 40px), 680px",
+        style: `object-position: ${p.position ?? "50% 50%"}`,
+        attrs: i ? ' aria-hidden="true"' : "",
+      }),
     )
     .join("\n        ");
   const links = f.links
@@ -309,7 +311,7 @@ function education(lang: Lang): string {
   const featuredCards = featuredCertificates
     .map(
       (c) => `<article class="cert rv">
-          <button class="cert__img" type="button" data-full="${relAsset(lang, c.image.src)}"><img src="${asset(c.image.src)}" alt="${esc(tx(lang, c.image.alt))}" width="${c.image.width}" height="${c.image.height}" loading="lazy"><span class="cert__zoom">${t(lang, "ce.zoom")}</span></button>
+          <button class="cert__img" type="button" data-full="${imageUrl(c.image.name, base(lang))}">${picture(c.image.name, { alt: tx(lang, c.image.alt), sizes: "(max-width: 900px) calc(100vw - 40px), 400px", maxWidths: 1 })}<span class="cert__zoom">${t(lang, "ce.zoom")}</span></button>
           <div class="cert__body"><span class="card__s">${tx(lang, c.meta)}</span><h4>${esc(tx(lang, c.title))}</h4><p>${tx(lang, c.description)}</p></div>
         </article>`,
     )
@@ -317,13 +319,13 @@ function education(lang: Lang): string {
   const deckCards = alura
     .map(
       (c) =>
-        `<span class="deck__card"><img src="${asset(c.image)}" alt="" width="1200" height="840" loading="lazy"><span class="deck__cap"><b>${esc(c.short)}</b><span>${c.hours} h · ${c.date}</span></span></span>`,
+        `<span class="deck__card">${picture(c.image, { alt: "", sizes: "(max-width: 900px) calc(100vw - 40px), 400px", maxWidths: 1 })}<span class="deck__cap"><b>${esc(c.short)}</b><span>${c.hours} h · ${c.date}</span></span></span>`,
     )
     .join("\n            ");
   const deckRows = alura
     .map(
       (c) =>
-        `<li><button type="button" class="deck__row" data-full="${relAsset(lang, c.image)}" data-alt="${esc(`${t(lang, "alt.cert")} Alura: ${c.title}`)}"><span>${esc(c.title)}</span><span class="deck__meta">${c.hours} h · ${c.date}</span></button><a class="deck__verify" href="${esc(c.url)}">${t(lang, "ce.alura.v")}</a></li>`,
+        `<li><button type="button" class="deck__row" data-full="${imageUrl(c.image, base(lang))}" data-alt="${esc(`${t(lang, "alt.cert")} Alura: ${c.title}`)}"><span>${esc(c.title)}</span><span class="deck__meta">${c.hours} h · ${c.date}</span></button><a class="deck__verify" href="${esc(c.url)}">${t(lang, "ce.alura.v")}</a></li>`,
     )
     .join("\n            ");
   return `<section class="sec" id="education">

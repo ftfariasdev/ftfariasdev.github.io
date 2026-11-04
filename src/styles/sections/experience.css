@@ -55,6 +55,7 @@
   background: var(--bg-2);
   padding: 5px;
   border: 1px solid var(--line);
+  object-fit: contain;
 }
 .job ul {
   list-style: none;

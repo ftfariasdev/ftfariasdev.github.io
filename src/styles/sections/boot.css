@@ -70,7 +70,10 @@ html.booting .boot {
 .boot.is-open .boot__bar,
 .boot.is-open .boot__skip {
   opacity: 0;
-  transition: opacity 0.2s;
+  visibility: hidden;
+  transition:
+    opacity 0.2s,
+    visibility 0s 0.2s;
 }
 .boot__count {
   position: absolute;

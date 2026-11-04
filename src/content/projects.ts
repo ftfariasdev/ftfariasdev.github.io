@@ -42,9 +42,7 @@ export const featured: FeaturedProject = {
   ],
   photos: [
     {
-      src: "img/p2.jpg",
-      width: 760,
-      height: 1140,
+      name: "guardiao-1",
       position: "50% 12%",
       alt: {
         en: "Felipe presenting Guardião Antigolpe, with the app on the big screen",
@@ -53,9 +51,7 @@ export const featured: FeaturedProject = {
       },
     },
     {
-      src: "img/p1.jpg",
-      width: 760,
-      height: 1140,
+      name: "guardiao-2",
       position: "60% 18%",
       alt: {
         en: "Felipe on stage at UNASP next to his laptop",

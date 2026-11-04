@@ -7,12 +7,11 @@ export type L10n = Record<Lang, string>;
 /** Plain text that reads the same in every language, or translated text. */
 export type Text = string | L10n;
 
+/** `name` is an image in images/, turned into responsive files by scripts/optimize-images.ts. */
 export interface Photo {
-  src: string;
+  name: string;
   alt: L10n;
   position?: string;
-  width: number;
-  height: number;
 }
 
 export interface FeaturedProject {
@@ -45,7 +44,7 @@ export interface Job {
   current?: boolean;
   title: L10n;
   org: string;
-  logo?: { src: string; alt: L10n };
+  logo?: { name: string; alt: L10n };
   location?: L10n;
   remote?: boolean;
   bullets: L10n[];
@@ -62,7 +61,7 @@ export interface FeaturedCertificate {
   title: Text;
   meta: L10n;
   description: L10n;
-  image: { src: string; width: number; height: number; alt: L10n };
+  image: { name: string; alt: L10n };
 }
 
 export interface AluraCertificate {
@@ -71,6 +70,7 @@ export interface AluraCertificate {
   hours: number;
   /** MM/YYYY */
   date: string;
+  /** Image name, see Photo. */
   image: string;
   url: string;
 }
