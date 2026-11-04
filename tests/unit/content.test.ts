@@ -68,3 +68,21 @@ test("each rendered page is complete and in its own language", () => {
     }
   }
 });
+
+test("each page has canonical, hreflang, social cards and valid structured data", () => {
+  for (const lang of LANGS) {
+    const html = renderPage(lang);
+    assert.match(html, /<link rel="canonical" href="https:\/\/ftfariasdev\.github\.io\/[a-z/]*">/);
+    for (const h of ["en", "pt-BR", "es", "x-default"]) assert.match(html, new RegExp(`hreflang="${h}"`));
+    assert.match(html, new RegExp(`og:image" content="https://ftfariasdev\\.github\\.io/og-${lang}\\.jpg"`));
+    assert.ok(existsSync(publicFile(`og-${lang}.jpg`)), `missing public/og-${lang}.jpg`);
+    const ld = html.match(/<script type="application\/ld\+json">(.*?)<\/script>/)?.[1];
+    assert.ok(ld, `${lang} has no JSON-LD`);
+    const person = JSON.parse(ld);
+    assert.equal(person["@type"], "Person");
+    assert.ok(person.sameAs.includes("https://www.linkedin.com/in/ftfariasdev"));
+  }
+  for (const f of ["favicon.svg", "favicon.ico", "apple-touch-icon.png", "robots.txt", "sitemap.xml"]) {
+    assert.ok(existsSync(publicFile(f)), `missing public/${f}`);
+  }
+});

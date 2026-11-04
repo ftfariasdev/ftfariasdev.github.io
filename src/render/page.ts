@@ -44,6 +44,31 @@ const navLabel = (lang: Lang, id: (typeof SECTIONS)[number]) => {
   return key ? t(lang, key) : "Stack";
 };
 
+const OG_LOCALE: Record<Lang, string> = { en: "en_US", pt: "pt_BR", es: "es_ES" };
+
+/** schema.org Person, so search engines can show a profile card. */
+function jsonLd(lang: Lang): string {
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Felipe Teixeira Farias",
+    alternateName: "ftfariasdev",
+    url: SITE_URL + LANG_DIR[lang],
+    image: `${SITE_URL}og-${lang}.jpg`,
+    jobTitle: "Full Stack Developer",
+    worksFor: { "@type": "Organization", name: "Softwrench" },
+    address: { "@type": "PostalAddress", addressLocality: "Hortolândia", addressRegion: "SP", addressCountry: "BR" },
+    alumniOf: [
+      { "@type": "EducationalOrganization", name: "ETEC" },
+      { "@type": "CollegeOrUniversity", name: "UNASP – Centro Universitário Adventista de São Paulo" },
+    ],
+    knowsAbout: ["C#", ".NET", "SQL Server", "AngularJS", "TypeScript", "React", "Node.js", "Python"],
+    knowsLanguage: ["pt-BR", "en"],
+    sameAs: [SOCIAL.github, SOCIAL.linkedin, SOCIAL.instagram],
+  };
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
+
 function head(lang: Lang): string {
   const url = SITE_URL + LANG_DIR[lang];
   const alternates = LANGS.map(
@@ -58,6 +83,29 @@ function head(lang: Lang): string {
   <link rel="canonical" href="${url}">
   ${alternates}
   <link rel="alternate" hreflang="x-default" href="${SITE_URL}">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta property="og:type" content="profile">
+  <meta property="og:site_name" content="Felipe Farias">
+  <meta property="og:title" content="${esc(t(lang, "meta.title"))}">
+  <meta property="og:description" content="${esc(t(lang, "meta.description"))}">
+  <meta property="og:url" content="${url}">
+  <meta property="og:image" content="${SITE_URL}og-${lang}.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="${esc(t(lang, "alt.og"))}">
+  <meta property="og:locale" content="${OG_LOCALE[lang]}">
+  ${LANGS.filter((l) => l !== lang)
+    .map((l) => `<meta property="og:locale:alternate" content="${OG_LOCALE[l]}">`)
+    .join("\n  ")}
+  <meta property="profile:first_name" content="Felipe">
+  <meta property="profile:last_name" content="Teixeira Farias">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${esc(t(lang, "meta.title"))}">
+  <meta name="twitter:description" content="${esc(t(lang, "meta.description"))}">
+  <meta name="twitter:image" content="${SITE_URL}og-${lang}.jpg">
+  <script type="application/ld+json">${jsonLd(lang)}</script>
   <script>${BOOT_GATE}</script>`;
 }
 
@@ -226,7 +274,7 @@ function projectsSection(lang: Lang): string {
     .map((p, i) =>
       picture(p.name, {
         alt: tx(lang, p.alt),
-        sizes: "(max-width: 760px) calc(100vw - 40px), 680px",
+        sizes: "(max-width: 760px) calc(100vw - 40px), 640px",
         style: `object-position: ${p.position ?? "50% 50%"}`,
         attrs: i ? ' aria-hidden="true"' : "",
       }),
@@ -386,7 +434,7 @@ export function renderPage(lang: Lang): string {
   <div class="boot__seam"></div>
   <div class="boot__log" id="bootLog"></div>
   <button class="boot__skip" id="bootSkip" type="button" tabindex="-1">${t(lang, "boot.skip")}</button>
-  <div class="boot__count"><span id="bootNum">000</span><small>%</small></div>
+  <div class="boot__count"><span id="bootNum"><span>0</span><span>0</span><span>0</span></span><small>%</small></div>
   <div class="boot__bar"><i id="bootBar"></i></div>
 </div>
 <main>

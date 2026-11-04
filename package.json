@@ -14,7 +14,8 @@
     "format:check": "prettier --check .",
     "test:unit": "tsx --test tests/unit/*.test.ts",
     "check": "npm run typecheck && npm run lint && npm run format:check && npm run test:unit",
-    "images": "tsx scripts/optimize-images.ts"
+    "images": "tsx scripts/optimize-images.ts",
+    "og": "node scripts/og-images.cjs"
   },
   "engines": {
     "node": ">=20"

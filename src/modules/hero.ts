@@ -1,27 +1,38 @@
 import { $, $$, finePointer, reduceMotion, whileVisible } from "./env.ts";
 
-/** Fills the width with the giant word, capped in height so it never covers the stats column. */
+/** Fills the width with the giant word, capped so it always ends above the first stat number. */
 function initWordFit(hero: HTMLElement): void {
   const word = $("#word");
   if (!word) return;
+  // Scaled with a transform, not font-size: the re-fit after the font loads moves nothing in layout.
+  word.style.transformOrigin = "50% 0";
   const fit = () => {
-    word.style.fontSize = "";
+    word.style.transform = "";
     const mobile = innerWidth < 860;
     const target = hero.clientWidth * (mobile ? 0.97 : 0.94);
-    const width = word.scrollWidth;
-    if (!width) return;
-    const fontSize = parseFloat(getComputedStyle(word).fontSize);
-    const byWidth = (fontSize * target) / width;
-    const byHeight = mobile ? Infinity : (hero.clientHeight * 0.34) / 0.8;
-    word.style.fontSize = `${Math.min(byWidth, byHeight).toFixed(1)}px`;
+    const { width, height } = word.getBoundingClientRect();
+    if (!width || !height) return;
+    const byWidth = target / width;
+    let byStats = Infinity;
+    if (!mobile) {
+      // Stop 24 px above the first stat number, leaving room for the parallax drift.
+      const stat = $(".stat b");
+      const top = word.getBoundingClientRect().top;
+      if (stat) byStats = (stat.getBoundingClientRect().top - 24 - top) / height;
+    }
+    word.style.transform = `scale(${Math.max(0.3, Math.min(byWidth, byStats)).toFixed(4)})`;
   };
   fit();
-  document.fonts?.ready.then(fit);
+  // Re-fit whenever anything it depends on changes size: the window, the word itself when its
+  // font arrives, or the stats when theirs does. The transform never resizes them, so no loop.
   let pending = 0;
-  addEventListener("resize", () => {
+  const refit = () => {
     cancelAnimationFrame(pending);
     pending = requestAnimationFrame(fit);
-  });
+  };
+  const watch = new ResizeObserver(refit);
+  for (const el of [hero, word, $(".stat")]) if (el) watch.observe(el);
+  document.fonts?.ready.then(refit);
 }
 
 /** Mouse parallax across the hero layers, plus the "you" cursor that trails the pointer. */

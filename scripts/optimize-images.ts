@@ -17,8 +17,8 @@ const MANIFEST = resolve(root, "src/content/images.generated.json");
 const JOBS: { name: string; file: string; widths: number[] }[] = [
   { name: "hero", file: "hero.png", widths: [360, 520, 655] },
   { name: "about", file: "about.png", widths: [380, 560, 740] },
-  { name: "guardiao-1", file: "guardiao-1.jpg", widths: [480, 760, 1100] },
-  { name: "guardiao-2", file: "guardiao-2.jpg", widths: [480, 760, 1100] },
+  { name: "guardiao-1", file: "guardiao-1.jpg", widths: [480, 640, 760, 1100] },
+  { name: "guardiao-2", file: "guardiao-2.jpg", widths: [480, 640, 760, 1100] },
   { name: "softwrench", file: "softwrench.png", widths: [68] },
   // Certificates: a small card image, and a large one that only loads in the viewer.
   { name: "cert-profissional50", file: "cert-profissional50.png", widths: [600, 1600] },

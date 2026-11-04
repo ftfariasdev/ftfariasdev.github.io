@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ftfariasdev.github.io/sitemap.xml

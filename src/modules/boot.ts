@@ -23,6 +23,13 @@ export function initBoot(onOpen: () => void): void {
 
   const log = $("#bootLog");
   const num = $("#bootNum");
+  // One fixed-width slot per digit, so the counter never shifts as the glyph widths change.
+  const digits = num ? [...num.children] : [];
+  const show = (n: number) =>
+    String(n)
+      .padStart(3, "0")
+      .split("")
+      .forEach((d, i) => digits[i] && (digits[i].textContent = d));
   const bar = $("#bootBar");
   const skip = $<HTMLButtonElement>("#bootSkip");
   let raf = 0;
@@ -38,7 +45,7 @@ export function initBoot(onOpen: () => void): void {
     } catch {
       /* private mode: the sequence simply plays again next time */
     }
-    if (num) num.textContent = "100";
+    show(100);
     if (bar) bar.style.width = "100%";
     boot.classList.add("is-done");
     setTimeout(() => {
@@ -64,7 +71,7 @@ export function initBoot(onOpen: () => void): void {
   const step = (now: number) => {
     const p = Math.min(1, (now - start) / DURATION);
     const pct = Math.round((1 - Math.pow(1 - p, 2.2)) * 100);
-    if (num) num.textContent = String(pct).padStart(3, "0");
+    show(pct);
     if (bar) bar.style.width = `${pct}%`;
     while (shown < LOG.length && pct >= (LOG[shown]?.[0] ?? 101)) {
       const line = document.createElement("div");
