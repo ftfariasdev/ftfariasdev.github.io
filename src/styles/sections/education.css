@@ -337,3 +337,15 @@
     grid-template-columns: 1fr;
   }
 }
+.deck:has(.deck__next) {
+  margin-bottom: 58px;
+}
+.deck__next {
+  position: absolute;
+  right: 0;
+  bottom: -50px;
+  z-index: 20;
+  height: 34px;
+  padding: 0 14px;
+  font-size: 0.72rem;
+}

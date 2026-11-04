@@ -389,9 +389,10 @@ function education(lang: Lang): string {
       <div class="certs__grid">
         ${featuredCards}
         <div class="deck-wrap rv">
-          <button class="deck" id="deck" type="button" aria-label="${esc(t(lang, "_deck"))}">
+          <div class="deck" id="deck">
             ${deckCards}
-          </button>
+            <button class="pill deck__next" id="deckNext" type="button">${t(lang, "_deck")} →</button>
+          </div>
           <h4>${t(lang, "ce.alura")}</h4>
           <p>${t(lang, "ce.alura.d")}</p>
           <ul class="deck__links">

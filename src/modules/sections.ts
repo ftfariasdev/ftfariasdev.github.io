@@ -87,10 +87,12 @@ export function initDeck(): void {
       el.classList.toggle("is-top", pos === 0);
     });
   layout();
-  deck.addEventListener("click", () => {
+  const next = () => {
     order.push(order.shift() as number);
     layout();
-  });
+  };
+  // The cards are a picture you can click; the labelled button does the same for keyboard users.
+  deck.addEventListener("click", next);
 }
 
 /** Certificate viewer. Uses <dialog>, so Esc and focus trapping come from the browser. */
