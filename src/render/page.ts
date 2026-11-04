@@ -9,6 +9,18 @@ import { icons, SOCIAL } from "./icons.ts";
 export const SITE_URL = "https://ftfariasdev.github.io/";
 
 const pad = (n: number) => String(n).padStart(2, "0");
+
+/**
+ * Runs before first paint: plays the boot sequence once per browser session, never with
+ * reduced motion, and never leaves the page hidden if the main script fails to load.
+ */
+const BOOT_GATE = [
+  "(function(){var d=document.documentElement;",
+  "if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;",
+  "try{if(sessionStorage.getItem('ff-booted'))return;}catch(e){}",
+  "d.classList.add('booting','pre-hero');",
+  "setTimeout(function(){d.classList.remove('booting','pre-hero');},7000);})();",
+].join("");
 /** Public files are referenced from the site root; Vite rewrites them for the configured base. */
 const asset = (path: string) => `/${path}`;
 /** Same file, for attributes Vite does not rewrite (data-*): relative to the page's own folder. */
@@ -45,7 +57,8 @@ function head(lang: Lang): string {
   <meta name="theme-color" content="#0A0A0C">
   <link rel="canonical" href="${url}">
   ${alternates}
-  <link rel="alternate" hreflang="x-default" href="${SITE_URL}">`;
+  <link rel="alternate" hreflang="x-default" href="${SITE_URL}">
+  <script>${BOOT_GATE}</script>`;
 }
 
 function topBar(lang: Lang): string {
@@ -365,6 +378,15 @@ export function renderPage(lang: Lang): string {
 </head>
 <body>
 <a class="skip-link" href="#intro">${t(lang, "a11y.skip")}</a>
+<div class="boot" id="boot" aria-hidden="true">
+  <div class="boot__half boot__half--top"></div>
+  <div class="boot__half boot__half--bot"></div>
+  <div class="boot__seam"></div>
+  <div class="boot__log" id="bootLog"></div>
+  <button class="boot__skip" id="bootSkip" type="button" tabindex="-1">${t(lang, "boot.skip")}</button>
+  <div class="boot__count"><span id="bootNum">000</span><small>%</small></div>
+  <div class="boot__bar"><i id="bootBar"></i></div>
+</div>
 <main>
 ${hero(lang)}
 ${bands()}
@@ -375,6 +397,13 @@ ${projectsSection(lang)}
 ${stackSection(lang)}
 ${education(lang)}
 </main>
+<script type="application/json" id="stack-data">${JSON.stringify(
+    stack.map((tech) => ({ n: tech.name, d: tech.daily, u: tech.usedIn.map((u) => tx(lang, u)) })),
+  ).replace(/</g, "\\u003c")}</script>
+<script type="application/json" id="i18n-data">${JSON.stringify({
+    daily: t(lang, "_daily"),
+    side: t(lang, "_side"),
+  })}</script>
 <dialog class="lightbox" id="lightbox"><img id="lightboxImg" src="" alt=""><button class="pill" type="button" id="lightboxClose">${t(lang, "ce.close")}</button></dialog>
 ${footer(lang)}
 </body>
