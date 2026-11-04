@@ -51,6 +51,36 @@ test.describe("hero", () => {
     });
   }
 
+  for (const [w, h] of [
+    [1280, 720],
+    [1366, 768],
+    [1440, 900],
+    [1920, 1080],
+  ]) {
+    test(`photo fits inside the hero, below the top bar, at ${w}×${h}`, async ({ page }) => {
+      test.skip(test.info().project.name.startsWith("mobile"), "laptop sizes only");
+      await page.setViewportSize({ width: w as number, height: h as number });
+      await openSite(page, "/");
+      await page.evaluate(() => document.fonts.ready);
+      const box = await page.evaluate(() => {
+        const img = document.querySelector(".person")!.getBoundingClientRect();
+        const hero = document.getElementById("top")!.getBoundingClientRect();
+        const bar = document.querySelector(".top")!.getBoundingClientRect();
+        return {
+          imgTop: img.top,
+          imgBottom: img.bottom,
+          imgH: img.height,
+          heroBottom: hero.bottom,
+          heroH: hero.height,
+          barBottom: bar.bottom,
+        };
+      });
+      expect(box.imgTop, "photo starts under the top bar").toBeGreaterThanOrEqual(box.barBottom);
+      expect(box.imgH, "photo is no taller than the hero").toBeLessThanOrEqual(box.heroH);
+      expect(box.imgBottom).toBeLessThanOrEqual(box.heroBottom + 1);
+    });
+  }
+
   test("shows the time in Brasília", async ({ page }) => {
     await openSite(page, "/");
     await expect(page.locator("#clock")).toHaveText(/^\d{2}:\d{2} BRT$/);

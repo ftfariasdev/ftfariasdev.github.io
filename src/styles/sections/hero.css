@@ -54,10 +54,21 @@ html.pre-hero .word span {
   align-items: flex-end;
   justify-content: center;
 }
-.person {
+/* The <picture> wrapper takes the height, so the photo scales with the hero instead of
+   rendering at its srcset size (which cropped the head on short laptop screens). */
+.hero__person picture {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
   height: 90%;
+  max-width: 100%;
+}
+.person {
+  height: 100%;
   width: auto;
   max-width: none;
+  object-fit: contain;
+  object-position: 50% 100%;
   filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 1px rgba(34, 216, 119, 0.5));
   transition:
     transform 1.2s var(--ease),
@@ -456,6 +467,9 @@ html.pre-hero .spark {
     display: flex;
     align-items: flex-start;
     padding-top: 120px;
+  }
+  .hero__person picture {
+    height: auto;
   }
   .person {
     height: auto;
