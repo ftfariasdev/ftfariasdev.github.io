@@ -170,8 +170,6 @@ html.pre-hero .spark { opacity: 0; animation: none; }
 
 .hero__bottom { position: absolute; left: 0; right: 0; bottom: 0; z-index: 5; border-top: 1px solid var(--line); background: linear-gradient(0deg, rgba(10,10,12,.9), rgba(10,10,12,0)); }
 .hero__bottom .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; height: 54px; font: 400 .7rem/1 var(--f-mono); color: var(--muted); }
-.avail { display: inline-flex; align-items: center; gap: 8px; color: var(--white); }
-.avail::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #4BD37B; box-shadow: 0 0 10px #4BD37B; animation: blink 2s steps(1) infinite; }
 @keyframes blink { 50% { opacity: .25; } }
 .scroll-cue { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
 .scroll-cue i { width: 1px; height: 22px; background: linear-gradient(var(--accent), transparent); animation: cue 1.6s var(--ease) infinite; }
@@ -379,17 +377,6 @@ html.pre-hero .spark { opacity: 0; animation: none; }
 @media (max-width: 900px) { .certs__grid { grid-template-columns: 1fr; } }
 @media (max-width: 700px) { .edu { grid-template-columns: 1fr; } }
 
-/* contact */
-.contact { text-align: center; padding-block: clamp(110px, 14vw, 180px) 70px; position: relative; overflow: hidden; }
-.contact .eyebrow { justify-content: center; }
-.contact__big { font: 400 clamp(4rem, 14vw, 13rem)/.84 var(--f-display); text-transform: uppercase; display: block; text-decoration: none; }
-.contact__big span { display: block; }
-.contact__big span:last-child { color: transparent; -webkit-text-stroke: 2px var(--accent); transition: color .5s var(--ease); }
-.contact__big:hover span:last-child { color: var(--accent); }
-.mail { display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 12px; align-items: center; margin-top: 40px; }
-.mail a { font: 700 clamp(1rem, 2.4vw, 1.5rem)/1.2 var(--f-mono); text-decoration: none; border-bottom: 2px solid var(--accent); word-break: break-all; }
-.socials { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
-.quote { margin: 70px auto 0; max-width: 40ch; font: 700 clamp(1.6rem, 3vw, 2.2rem)/1.15 var(--f-script); color: var(--muted); }
 
 /* design spec */
 .spec { background: var(--bg-2); border-top: 1px solid var(--line); }
@@ -408,7 +395,13 @@ html.pre-hero .spark { opacity: 0; animation: none; }
 @media (max-width: 860px) { .spec__grid { grid-template-columns: 1fr; } }
 
 footer { border-top: 1px solid var(--line); }
-footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-block: 28px 40px; font: 400 .7rem/1.5 var(--f-mono); color: var(--muted); }
+.foot { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px 40px; align-items: end; padding-block: 64px 40px; }
+.foot__quote { font: 700 clamp(1.5rem, 2.8vw, 2.1rem)/1.15 var(--f-script); color: var(--muted); max-width: 34ch; }
+.foot__links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.foot__links a { display: inline-flex; align-items: center; height: 38px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; font: 700 .78rem/1 var(--f-body); text-decoration: none; transition: border-color .2s, color .2s; }
+.foot__links a:hover { border-color: var(--accent); color: var(--accent); }
+.foot__base { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 22px; border-top: 1px solid var(--line); font: 400 .7rem/1.5 var(--f-mono); color: var(--muted); }
+@media (max-width: 760px) { .foot { grid-template-columns: 1fr; } }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition-duration: 1ms !important; transition-delay: 0ms !important; }
@@ -446,7 +439,6 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
       </ul>
       <div class="top__actions">
         <div class="langs" role="group" aria-label="Language / Idioma"><button type="button" data-lang="en" aria-pressed="true" lang="en">EN</button><button type="button" data-lang="pt" aria-pressed="false" lang="pt-BR">PT</button><button type="button" data-lang="es" aria-pressed="false" lang="es">ES</button></div>
-        <a class="pill pill--accent" href="#contato" data-i18n="nav.talk">Vamos conversar ↗</a>
       </div>
     </div>
   </header>
@@ -494,7 +486,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     <div class="wrap">
       <span>© 2026 · ftfariasdev</span>
       <a class="scroll-cue" href="#sobre"><i></i><span data-i18n="hero.scroll">role para explorar</span></a>
-      <span class="avail" data-i18n="hero.avail">disponível para novos projetos</span>
+      <span>C# · .NET · SQL Server · AngularJS</span>
     </div>
   </div>
 </section>
@@ -669,21 +661,6 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   </div>
 </section>
 
-<!-- ================= CONTATO ================= -->
-<section class="contact" id="contato">
-  <div class="wrap">
-    <p class="eyebrow" data-i18n="ct.eyebrow">Contato</p>
-    <a class="contact__big" href="mailto:farias_felipe@outlook.com.br"><span data-i18n="ct.l1">Vamos</span><span data-i18n="ct.l2">conversar</span></a>
-    <div class="mail"><a href="mailto:farias_felipe@outlook.com.br">farias_felipe@outlook.com.br</a><button class="pill" type="button" id="copyMail" data-i18n="ct.copy">Copiar</button></div>
-    <div class="socials">
-      <a class="pill" href="https://www.linkedin.com/in/ftfariasdev">LinkedIn ↗</a>
-      <a class="pill" href="https://github.com/ftfariasdev">GitHub ↗</a>
-      <a class="pill" href="https://www.instagram.com/eu_felipefarias/">Instagram ↗</a>
-    </div>
-    <p class="quote" data-i18n="ct.q">“Compare-se com quem você era ontem, não com quem outra pessoa é hoje.”</p>
-  </div>
-</section>
-
 <!-- ================= SISTEMA DE DESIGN (protótipo) ================= -->
 <section class="sec spec" id="design">
   <div class="wrap">
@@ -694,7 +671,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
         <ul>
           <li data-i18n="ds.g1">Direção baseada na referência que você enviou: pôster escuro, palavra gigante atrás da foto recortada e elementos de interface flutuando. A cor de destaque passou de vermelho para verde, a seu pedido.</li>
           <li data-i18n="ds.g2">Tema 100% de tecnologia, sem referência a nenhum setor de negócio.</li>
-          <li data-i18n="ds.g3">Em 10 segundos, quem chega entende quem você é, o que faz e como falar com você.</li>
+          <li data-i18n="ds.g3">Em 10 segundos, quem chega entende quem você é e o que você constrói. Nada no site sugere busca de emprego.</li>
           <li data-i18n="ds.g4">Metas técnicas: Lighthouse ≥ 90 em performance e 100 em acessibilidade.</li>
           <li data-i18n="ds.g5">Idiomas: inglês por padrão, com português e espanhol no seletor do topo.</li>
         </ul>
@@ -732,7 +709,17 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
 </section>
 </main>
 
-<footer><div class="wrap"><span>© 2026 Felipe Teixeira Farias</span><span data-i18n="ft">Feito à mão em Hortolândia, SP</span></div></footer>
+<footer>
+  <div class="wrap foot">
+    <p class="foot__quote" data-i18n="ft.q">“Compare-se com quem você era ontem, não com quem outra pessoa é hoje.”</p>
+    <ul class="foot__links">
+      <li><a href="https://github.com/ftfariasdev">GitHub ↗</a></li>
+      <li><a href="https://www.linkedin.com/in/ftfariasdev">LinkedIn ↗</a></li>
+      <li><a href="https://www.instagram.com/eu_felipefarias/">Instagram ↗</a></li>
+    </ul>
+    <div class="foot__base"><span>© 2026 Felipe Teixeira Farias</span><span data-i18n="ft">Feito à mão em Hortolândia, SP</span></div>
+  </div>
+</footer>
 
 <script>
 (function () {
@@ -751,7 +738,6 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "nav.xp": "Experience",
     "nav.projects": "Projects",
     "nav.edu": "Education",
-    "nav.talk": "Let's talk ↗",
     "hero.you": "you",
     "hero.hello": "Hello, I'm",
     "hero.role": "Full Stack Developer<br>@ Softwrench",
@@ -763,7 +749,6 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "hero.s2": "place · Tech Week<br>UNASP",
     "hero.s3": "certificates",
     "hero.scroll": "scroll to explore",
-    "hero.avail": "open to new projects",
     "about.cap": "Guardião Antigolpe pitch · UNASP Hortolândia",
     "about.eyebrow": "About me",
     "about.lead": "From the database to the interface, <em>end to end.</em>",
@@ -822,17 +807,11 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "ce.py.d": "4th edition of the UNASPython extension course, intermediate level. Follow-up to Basic Python (May 2025).",
     "ce.alura": "Alura courses",
     "ce.alura.d": "4 courses · 33 hours. Click the stack to flip through it, or a course to view its certificate.",
-    "ct.eyebrow": "Contact",
-    "ct.l1": "Let's",
-    "ct.l2": "talk",
-    "ct.copy": "Copy",
-    "ct.q": "“Compare yourself to who you were yesterday, not to who someone else is today.”",
     "ds.eyebrow": "Prototype only",
     "ds.h": "Design <em>system</em>",
     "ds.goal": "Goal and reference",
     "ds.g1": "Direction based on the reference you sent: dark poster, a giant word behind the cut-out photo and floating interface elements. The accent moved from red to green, as you asked.",
     "ds.g2": "A 100% technology theme, with no reference to any business sector.",
-    "ds.g3": "In 10 seconds a visitor knows who you are, what you do and how to reach you.",
     "ds.g4": "Technical targets: Lighthouse ≥ 90 performance and 100 accessibility.",
     "ds.g5": "Languages: English by default, with Portuguese and Spanish in the top switcher.",
     "ds.pal": "Palette",
@@ -852,7 +831,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "ds.m4": "Crossing stack bands, floating project previews, a 3D stack sphere you can drag and reveal on scroll.",
     "ds.m5": "With reduced motion on, the intro is skipped and nothing animates.",
     "ft": "Handmade in Hortolândia, Brazil",
-    "_copied": "Copied",
+    
     "_daily": "used daily at Softwrench",
     "_side": "projects and college",
     "_deck": "Show the next Alura certificate",
@@ -864,7 +843,9 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "xp.scWhen": "years as president",
     "xp.scb1": "Led the student council for 4 years, representing students before the school administration.",
     "xp.scb2": "Leadership, communication, planning and teamwork while organizing projects and events.",
-    "xp.loc": "Scottsdale, AZ, USA"
+    "xp.loc": "Scottsdale, AZ, USA",
+    "ds.g3": "In 10 seconds a visitor knows who you are and what you build. Nothing on the site suggests a job search.",
+    "ft.q": "“Compare yourself to who you were yesterday, not to who someone else is today.”"
   };
   const ES = {
     "strip": "Prototipo v3.7 · estilo póster en verde · EN · PT · ES · contenido completo · solo diseño, el código del sitio aún no se modificó",
@@ -875,7 +856,6 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "nav.xp": "Experiencia",
     "nav.projects": "Proyectos",
     "nav.edu": "Formación",
-    "nav.talk": "Hablemos ↗",
     "hero.you": "tú",
     "hero.hello": "Hola, soy",
     "hero.role": "Full Stack Developer<br>@ Softwrench",
@@ -887,7 +867,6 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "hero.s2": "lugar · Semana de la<br>Tecnología UNASP",
     "hero.s3": "certificados",
     "hero.scroll": "desliza para explorar",
-    "hero.avail": "disponible para nuevos proyectos",
     "about.cap": "Pitch de Guardião Antigolpe · UNASP Hortolândia",
     "about.eyebrow": "Sobre mí",
     "about.lead": "De la base de datos a la interfaz, <em>de punta a punta.</em>",
@@ -946,17 +925,11 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "ce.py.d": "4.ª edición del curso de extensión UNASPython, nivel intermedio. Continuación de Python Básico (may 2025).",
     "ce.alura": "Cursos de Alura",
     "ce.alura.d": "4 cursos · 33 horas. Haz clic en la pila para pasarla, o en un curso para ver su certificado.",
-    "ct.eyebrow": "Contacto",
-    "ct.l1": "Vamos a",
-    "ct.l2": "conversar",
-    "ct.copy": "Copiar",
-    "ct.q": "“Compárate con quien eras ayer, no con quien es otra persona hoy.”",
     "ds.eyebrow": "Solo en el prototipo",
     "ds.h": "Sistema de <em>diseño</em>",
     "ds.goal": "Objetivo y referencia",
     "ds.g1": "Dirección basada en la referencia que enviaste: póster oscuro, palabra gigante detrás de la foto recortada y elementos de interfaz flotando. El color de acento pasó de rojo a verde, como pediste.",
     "ds.g2": "Tema 100 % de tecnología, sin referencia a ningún sector de negocio.",
-    "ds.g3": "En 10 segundos, quien llega entiende quién eres, qué haces y cómo contactarte.",
     "ds.g4": "Metas técnicas: Lighthouse ≥ 90 en rendimiento y 100 en accesibilidad.",
     "ds.g5": "Idiomas: inglés por defecto, con portugués y español en el selector superior.",
     "ds.pal": "Paleta",
@@ -976,7 +949,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "ds.m4": "Franjas cruzadas con el stack, vista previa flotante de los proyectos, esfera 3D del stack que gira al arrastrar y aparición al hacer scroll.",
     "ds.m5": "Con “reducir movimiento” activo, la intro se salta y nada se anima.",
     "ft": "Hecho a mano en Hortolândia, Brasil",
-    "_copied": "Copiado",
+    
     "_daily": "uso diario en Softwrench",
     "_side": "proyectos y facultad",
     "_deck": "Ver el siguiente certificado de Alura",
@@ -988,9 +961,11 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "xp.scWhen": "años en la presidencia",
     "xp.scb1": "Presidí el centro de estudiantes durante 4 años, representando a los alumnos ante la dirección de la escuela.",
     "xp.scb2": "Liderazgo, comunicación, planificación y trabajo en equipo en la organización de proyectos y eventos.",
-    "xp.loc": "Scottsdale, AZ, EE. UU."
+    "xp.loc": "Scottsdale, AZ, EE. UU.",
+    "ds.g3": "En 10 segundos, quien llega entiende quién eres y qué construyes. Nada en el sitio sugiere búsqueda de empleo.",
+    "ft.q": "“Compárate con quien eras ayer, no con quien es otra persona hoy.”"
   };
-  const PT = { "_copied": "Copiado", "_daily": "uso diário na Softwrench", "_side": "projetos e faculdade", "_deck": "Ver o próximo certificado da Alura" };
+  const PT = { "_daily": "uso diário na Softwrench", "_side": "projetos e faculdade", "_deck": "Ver o próximo certificado da Alura" };
   document.querySelectorAll("[data-i18n]").forEach(el => { PT[el.dataset.i18n] = el.textContent; });
   document.querySelectorAll("[data-i18n-html]").forEach(el => { PT[el.dataset.i18nHtml] = el.innerHTML; });
   const LANGS = { en: EN, pt: PT, es: ES }, HTML_LANG = { en: "en", pt: "pt-BR", es: "es" };
@@ -1089,7 +1064,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
 
   /* ---------------- marquee bands ---------------- */
   const A = ["C#", ".NET", "SQL Server", "AngularJS", "TypeScript", "React", "Node.js", "Python", "PostgreSQL", "Docker"];
-  const B = ["Full Stack", "Clean Code", "End to End", "Remote", "Open to work", "Full Stack", "Clean Code", "End to End"];
+  const B = ["Full Stack", "Clean Code", "End to End", "Remote", "Ship it", "Full Stack", "Clean Code", "End to End"];
   const fill = (el, arr) => { const html = arr.map(x => "<span>" + x + "</span>").join(""); el.innerHTML = html + html + html + html; };
   fill(document.getElementById("bandA"), A); fill(document.getElementById("bandB"), B);
 
@@ -1143,12 +1118,6 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   document.getElementById("lightboxClose").addEventListener("click", () => lb.close ? lb.close() : lb.removeAttribute("open"));
   lb.addEventListener("click", e => { if (e.target === lb && lb.close) lb.close(); });
 
-  /* ---------------- copy email ---------------- */
-  document.getElementById("copyMail").addEventListener("click", async e => {
-    const b = e.currentTarget;
-    try { await navigator.clipboard.writeText("farias_felipe@outlook.com.br"); b.textContent = t("_copied"); setTimeout(() => b.textContent = t("ct.copy"), 1600); }
-    catch (err) { b.textContent = "farias_felipe@outlook.com.br"; }
-  });
 
   /* ---------------- 3D stack sphere ---------------- */
   const TECH = [

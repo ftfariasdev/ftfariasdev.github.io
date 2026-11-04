@@ -62,7 +62,7 @@ Regra do Felipe: o design não pode remeter a nenhum setor de negócio, apenas a
 - **Abertura:** log de boot, contador 000→100%, barra de progresso e a tela abrindo ao meio com um traço vermelho. Botão para pular (Enter/Esc) e para rever.
 - **Hero:** "PORTFOLIO" gigante em verde atrás da foto recortada (Felipe de camisa branca, olhando para a câmera; crachá mantido sem edição, a pedido dele). A foto do pitch com microfone e notebook foi para a seção Sobre. Nome, cargo, bio e CTAs à esquerda; janela de terminal do Guardião e números (7 projetos, 3º lugar, 17 certificados) à direita. Cursores colaborativos flutuando (C#, SQL Server, AngularJS) e um cursor "você" que segue o mouse.
 - **Profundidade 3D:** grade, brilho, palavra, foto e interface se movem em camadas com o mouse.
-- **Seções:** faixas cruzadas com a stack, Sobre com a foto do pitch recortada, Experiência com anos gigantes, Projetos com destaque do Guardião e lista com prévia flutuante de código, Stack em esfera 3D feita com HTML e CSS (sem WebGL, que falhava no aparelho do Felipe) que gira com arraste, Formação em cards, Contato com "Vamos conversar" gigante.
+- **Seções:** faixas cruzadas com a stack, Sobre com a foto do pitch recortada, Experiência com anos gigantes, Projetos com destaque do Guardião e lista com prévia flutuante de código, Stack em esfera 3D feita com HTML e CSS (sem WebGL, que falhava no aparelho do Felipe) que gira com arraste, Formação em cards. Sem seção de contato: o rodapé traz só a frase do Felipe e links para GitHub, LinkedIn e Instagram.
 - **Paleta (v3.1, verde a pedido do Felipe):** preto `#0A0A0C`, grafite `#131317`, verde `#22D877`, verde escuro `#0C5A33`, off-white `#F3F0EC`, cinza `#8E8E96`; amarelo `#F5B940` só para pendências do protótipo.
 - **Tipografia:** Anton (títulos), Caveat ("Olá, eu sou"), Manrope (texto), JetBrains Mono (rótulos e código).
 - **Fotos:** recortadas localmente com rembg (modelo BiRefNet portrait) e exportadas em WebP com transparência.
@@ -88,3 +88,4 @@ Regra do Felipe: o design não pode remeter a nenhum setor de negócio, apenas a
 - Nada de conteúdo. Próximo passo: aprovação final do design e plano de implementação.
 
 - **DevAgenda:** removido do portfólio a pedido do Felipe (03/11/2026). Agora são 6 projetos.
+- **Sem cara de busca de emprego** (04/11/2026): removidos a seção "Vamos conversar", o botão do topo, o selo "disponível para novos projetos" e o "Open to work" das faixas. Nada no site deve sugerir que o Felipe procura trabalho.
