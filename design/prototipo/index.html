@@ -299,7 +299,16 @@ html.pre-hero .spark { opacity: 0; animation: none; }
 .stack { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 40px; align-items: center; }
 .sphere { position: relative; aspect-ratio: 1; width: 100%; max-width: 620px; cursor: grab; touch-action: pan-y; }
 .sphere:active { cursor: grabbing; }
-.sphere canvas { width: 100%; height: 100%; display: block; }
+.sphere::before { content: ""; position: absolute; inset: 9%; border-radius: 50%; border: 1px solid rgba(34, 216, 119, .16); background: radial-gradient(circle at 38% 32%, rgba(34, 216, 119, .14), rgba(34, 216, 119, .03) 55%, transparent 72%); box-shadow: inset 0 0 80px rgba(34, 216, 119, .06); }
+.sphere::after { content: ""; position: absolute; inset: 9%; border-radius: 50%; background: repeating-radial-gradient(circle at 50% 50%, transparent 0 38px, rgba(34, 216, 119, .05) 38px 39px); pointer-events: none; }
+.sphere__tags { list-style: none; margin: 0; padding: 0; position: absolute; inset: 0; z-index: 1; }
+.sphere__tags li { position: absolute; left: 50%; top: 50%; will-change: transform, opacity; }
+.tagb { display: block; transform: translate(-50%, -50%); padding: 5px 8px; border: 0; border-radius: 6px; background: transparent; color: var(--white); font: 400 clamp(.85rem, 1.6vw, 1.15rem)/1 var(--f-display); text-transform: uppercase; letter-spacing: .02em; white-space: nowrap; cursor: pointer; transition: background .2s, color .2s; }
+.tagb.daily { color: var(--accent); }
+.tagb:hover, .tagb:focus-visible, .tagb[aria-pressed="true"] { background: var(--accent); color: var(--bg); outline: none; }
+.sphere.is-static .sphere__tags { position: static; display: flex; flex-wrap: wrap; gap: 6px; padding: 12% 6%; }
+.sphere.is-static .sphere__tags li { position: static; }
+.sphere.is-static .tagb { transform: none; }
 .sphere__hint { position: absolute; left: 0; right: 0; bottom: 0; text-align: center; font: 400 .7rem/1 var(--f-mono); color: var(--muted); }
 .inspect { border: 1px solid var(--line); border-radius: 14px; padding: 28px; background: var(--bg-2); min-height: 260px; }
 .inspect__k { font: 400 .7rem/1 var(--f-mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
@@ -475,7 +484,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
         <div class="win__bar"><i></i><i></i><i></i><span>~/guardiao-antigolpe</span></div>
         <div class="win__body">$ git push origin main<br><span class="ok">✓ build passed</span> · 9 <span data-i18n="hero.days">dias</span><br><span class="r">★ <span data-i18n="hero.place">3º lugar · Semana da Tecnologia</span></span></div>
       </div>
-      <div class="stat"><b data-count="7">07</b><span data-i18n="hero.s1">projetos no GitHub</span></div>
+      <div class="stat"><b data-count="6">06</b><span data-i18n="hero.s1">projetos no GitHub</span></div>
       <div class="stat"><b>3º</b><span data-i18n-html="hero.s2">lugar · Semana da<br>Tecnologia UNASP</span></div>
       <div class="stat"><b data-count="17">17</b><span data-i18n="hero.s3">certificados</span></div>
     </div>
@@ -556,7 +565,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   <span class="ghost" aria-hidden="true">WORK</span>
   <div class="wrap">
     <div class="sec__head">
-      <div><p class="eyebrow" data-i18n="pr.eyebrow">Projetos selecionados (07)</p><h2 class="h2 rv" data-i18n-html="pr.h">O que eu <em>construí</em></h2></div>
+      <div><p class="eyebrow" data-i18n="pr.eyebrow">Projetos selecionados (06)</p><h2 class="h2 rv" data-i18n-html="pr.h">O que eu <em>construí</em></h2></div>
       <p class="sec__note" data-i18n="pr.note">Passe o mouse em cada linha para ver uma prévia.</p>
     </div>
 
@@ -581,9 +590,8 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
       <li><a class="prow" href="https://github.com/ftfariasdev/pulso" data-prev="pulso"><span class="prow__i">02</span><span class="prow__n">Pulso</span><span class="prow__d" data-i18n="pr.p">Plataforma multiagente que conecta voluntários a ONGs e à Defesa Civil · IBM watsonx · FastAPI</span><span class="prow__y">2026</span><svg class="prow__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></a></li>
       <li><a class="prow" href="https://github.com/ftfariasdev/SAGA" data-prev="saga"><span class="prow__i">03</span><span class="prow__n">SAGA</span><span class="prow__d" data-i18n="pr.s">Sistema de gestão acadêmica, TCC da ETEC em time de 4 · Node.js · Prisma · PostgreSQL</span><span class="prow__y">2025</span><svg class="prow__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></a></li>
       <li><a class="prow" href="https://github.com/ftfariasdev/LinSolve" data-prev="linsolve"><span class="prow__i">04</span><span class="prow__n">LinSolve</span><span class="prow__d" data-i18n="pr.l">Calculadora de sistemas lineares · FastAPI · React · TypeScript</span><span class="prow__y">2026</span><svg class="prow__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></a></li>
-      <li><a class="prow" href="https://github.com/ftfariasdev/DevAgenda" data-prev="devagenda"><span class="prow__i">05</span><span class="prow__n">DevAgenda</span><span class="prow__d" data-i18n="pr.d">Controle de horas por task, sem back-end · PWA · JavaScript</span><span class="prow__y">2026</span><svg class="prow__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></a></li>
-      <li><a class="prow" href="https://github.com/ftfariasdev/ElixirBotForTelegram" data-prev="elixir"><span class="prow__i">06</span><span class="prow__n">ElixirBot</span><span class="prow__d" data-i18n="pr.e">Bot de Telegram que valida CPFs, time de 5 · Elixir</span><span class="prow__y">Elixir</span><svg class="prow__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></a></li>
-      <li><a class="prow" href="https://github.com/ftfariasdev/ftfariasdev" data-prev="profile"><span class="prow__i">07</span><span class="prow__n">Profile as Code</span><span class="prow__d" data-i18n="pr.f">README do GitHub gerado por código · SVG · GitHub Actions</span><span class="prow__y">2026</span><svg class="prow__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></a></li>
+      <li><a class="prow" href="https://github.com/ftfariasdev/ElixirBotForTelegram" data-prev="elixir"><span class="prow__i">05</span><span class="prow__n">ElixirBot</span><span class="prow__d" data-i18n="pr.e">Bot de Telegram que valida CPFs, time de 5 · Elixir</span><span class="prow__y">Elixir</span><svg class="prow__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></a></li>
+      <li><a class="prow" href="https://github.com/ftfariasdev/ftfariasdev" data-prev="profile"><span class="prow__i">06</span><span class="prow__n">Profile as Code</span><span class="prow__d" data-i18n="pr.f">README do GitHub gerado por código · SVG · GitHub Actions</span><span class="prow__y">2026</span><svg class="prow__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></a></li>
     </ul>
   </div>
 </section>
@@ -599,7 +607,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
       <p class="sec__note" data-i18n="st.note">Arraste a esfera para girar. Passe o mouse ou toque em uma tecnologia.</p>
     </div>
     <div class="stack">
-      <div class="sphere" id="sphere"><canvas id="sphereCanvas" aria-label="Esfera 3D com as tecnologias do Felipe"></canvas><p class="sphere__hint" data-i18n="st.hint">arraste para girar</p></div>
+      <div class="sphere" id="sphere"><ul class="sphere__tags" id="sphereTags" aria-label="Tecnologias"></ul><p class="sphere__hint" data-i18n="st.hint">arraste para girar</p></div>
       <div>
         <div class="inspect" aria-live="polite">
           <p class="inspect__k" data-i18n="st.k">inspecionar</p>
@@ -723,7 +731,6 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
 
 <footer><div class="wrap"><span>© 2026 Felipe Teixeira Farias</span><span data-i18n="ft">Feito à mão em Hortolândia, SP</span></div></footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (function () {
   "use strict";
@@ -776,7 +783,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "xp.sc": "Student Council",
     "xp.scd": "Escola Estadual Prof. Hedy Madalena Bocchi · leadership, communication, planning and teamwork.",
     "xp.todo": "// to confirm: role and dates",
-    "pr.eyebrow": "Selected projects (07)",
+    "pr.eyebrow": "Selected projects (06)",
     "pr.h": "What I <em>built</em>",
     "pr.note": "Hover each row to see a preview.",
     "pr.g.medal": "place · Tech Week<br>UNASP",
@@ -789,7 +796,6 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "pr.p": "Multi-agent platform matching volunteers with NGOs and civil defense · IBM watsonx · FastAPI",
     "pr.s": "Academic management system, ETEC capstone with a team of 4 · Node.js · Prisma · PostgreSQL",
     "pr.l": "Linear systems calculator · FastAPI · React · TypeScript",
-    "pr.d": "Per-task time tracker with no back end · PWA · JavaScript",
     "pr.e": "Telegram bot that validates CPF numbers, team of 5 · Elixir",
     "pr.f": "GitHub README generated by code · SVG · GitHub Actions",
     "st.eyebrow": "Technologies",
@@ -899,7 +905,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "xp.sc": "Centro de estudiantes",
     "xp.scd": "Escola Estadual Prof. Hedy Madalena Bocchi · liderazgo, comunicación, planificación y trabajo en equipo.",
     "xp.todo": "// por confirmar: cargo y período",
-    "pr.eyebrow": "Proyectos seleccionados (07)",
+    "pr.eyebrow": "Proyectos seleccionados (06)",
     "pr.h": "Lo que <em>construí</em>",
     "pr.note": "Pasa el cursor por cada fila para ver una vista previa.",
     "pr.g.medal": "lugar · Semana de la<br>Tecnología UNASP",
@@ -912,7 +918,6 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     "pr.p": "Plataforma multiagente que conecta voluntarios con ONG y Defensa Civil · IBM watsonx · FastAPI",
     "pr.s": "Sistema de gestión académica, proyecto final de la ETEC en equipo de 4 · Node.js · Prisma · PostgreSQL",
     "pr.l": "Calculadora de sistemas lineales · FastAPI · React · TypeScript",
-    "pr.d": "Control de horas por tarea, sin back-end · PWA · JavaScript",
     "pr.e": "Bot de Telegram que valida CPF, equipo de 5 · Elixir",
     "pr.f": "README de GitHub generado por código · SVG · GitHub Actions",
     "st.eyebrow": "Tecnologías",
@@ -1002,7 +1007,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     [8, "<b>[ OK ]</b> loading runtime ........ .NET · Node 22"],
     [22, "<b>[ OK ]</b> connecting database ... SQL Server"],
     [36, "<b>[ OK ]</b> compiling stack ....... C# · AngularJS · TypeScript"],
-    [52, "<b>[ OK ]</b> mounting ~/projects ... 7 repos"],
+    [52, "<b>[ OK ]</b> mounting ~/projects ... 6 repos"],
     [68, "<b>[ OK ]</b> loading assets ........ photos · 3d sphere"],
     [84, "<b>[ OK ]</b> rendering interface ..."],
     [98, "<b>&gt;</b> <i>welcome.</i>"],
@@ -1097,7 +1102,6 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     pulso: '<span class="c">// modo CRISE ativado</span>\n<span class="k">await</span> matchmaker.rank({\n  demanda: <span class="s">"enchente"</span>,\n  skills: [<span class="s">"primeiros_socorros"</span>],\n  raio_km: 15\n})\n<span class="ok">→ 8 voluntários convocados</span>',
     saga: '<span class="k">SELECT</span> a.nome, t.turma\n<span class="k">FROM</span> alunos a\n<span class="k">JOIN</span> matriculas m <span class="k">ON</span> m.aluno_id = a.id\n<span class="k">JOIN</span> turmas t <span class="k">ON</span> t.id = m.turma_id;\n<span class="ok">→ ok</span>',
     linsolve: '<span class="c">// POST /api/linear-system/solve</span>\n[ 2  1 | 5 ]\n[ 1 -1 | 1 ]\n\n<span class="ok">→ SPD · x = 2, y = 1</span>',
-    devagenda: '<span class="c">// task #12 · refactor auth</span>\n▶ <span class="s">00:42:17</span>\n\nhoje      <span class="s">6h 12m</span>\nsemana    <span class="s">31h 05m</span>\n<span class="ok">✓ salvo no navegador</span>',
     elixir: '<span class="k">CpfValidator</span>.valid?(\n  <span class="s">"529.982.247-25"</span>\n)\n<span class="ok">→ true · CPF válido</span>',
     profile: '$ npm run build\n<span class="c">reading tokens.json…</span>\n<span class="ok">✓ SVGs rendered</span>\n<span class="ok">✓ README.md updated</span>\n$ git push',
   };
@@ -1142,11 +1146,11 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   /* ---------------- 3D stack sphere ---------------- */
   const TECH = [
     ["C#", 1, ["Softwrench"]], [".NET", 1, ["Softwrench"]], ["SQL Server", 1, ["Softwrench"]], ["AngularJS", 1, ["Softwrench"]], ["SQL", 1, ["Softwrench", "SAGA"]],
-    ["JavaScript", 0, ["SAGA", "DevAgenda"]], ["TypeScript", 0, ["Guardião", "LinSolve"]], ["React", 0, ["Guardião", "LinSolve"]], ["Node.js", 0, ["SAGA", "Profile as Code"]],
+    ["JavaScript", 0, ["SAGA"]], ["TypeScript", 0, ["Guardião", "LinSolve"]], ["React", 0, ["Guardião", "LinSolve"]], ["Node.js", 0, ["SAGA", "Profile as Code"]],
     ["Fastify", 0, ["Guardião"]], ["Express", 0, ["SAGA"]], ["Prisma", 0, ["Guardião", "SAGA"]], ["PostgreSQL", 0, ["Guardião", "SAGA"]], ["Socket.IO", 0, ["Guardião"]],
     ["Python", 0, ["Pulso", "LinSolve"]], ["FastAPI", 0, ["Pulso", "LinSolve"]], ["Elixir", 0, ["ElixirBot"]], ["LLM", 0, ["Guardião", "Pulso"]], ["watsonx", 0, ["Pulso"]],
-    ["Docker", 0, ["Guardião", "SAGA"]], ["Git", 0, ["todos os projetos|every project|todos los proyectos"]], ["GitHub Actions", 0, ["Profile as Code"]], ["Vite", 0, ["Guardião", "LinSolve"]], ["HTML", 0, ["SAGA", "DevAgenda"]],
-    ["CSS", 0, ["SAGA", "DevAgenda"]], ["SQLite", 0, ["Pulso"]], ["PWA", 0, ["Guardião", "DevAgenda"]], ["Three.js", 0, ["Guardião (pitch)"]], ["Bootstrap", 0, ["portfólio v1|portfolio v1|portafolio v1"]],
+    ["Docker", 0, ["Guardião", "SAGA"]], ["Git", 0, ["todos os projetos|every project|todos los proyectos"]], ["GitHub Actions", 0, ["Profile as Code"]], ["Vite", 0, ["Guardião", "LinSolve"]], ["HTML", 0, ["SAGA"]],
+    ["CSS", 0, ["SAGA"]], ["SQLite", 0, ["Pulso"]], ["PWA", 0, ["Guardião"]], ["Three.js", 0, ["Guardião (pitch)"]], ["Bootstrap", 0, ["portfólio v1|portfolio v1|portafolio v1"]],
   ];
   const iName = document.getElementById("iName"), iType = document.getElementById("iType"), iUses = document.getElementById("iUses");
   let current = TECH[0];
@@ -1160,66 +1164,54 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   relabel.push(() => inspectTech(current));
 
   function initSphere() {
-    const wrap = document.getElementById("sphere"), canvas = document.getElementById("sphereCanvas");
-    if (!window.THREE) return;
-    let renderer; try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true }); } catch (e) { return; }
-    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
-    const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(40, 1, .1, 100);
-    camera.position.set(0, 0, 10.5);
-    const group = new THREE.Group(); scene.add(group);
-    group.add(new THREE.LineSegments(new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(2.6, 2)), new THREE.LineBasicMaterial({ color: 0x22D877, transparent: true, opacity: .14 })));
-    group.add(new THREE.Mesh(new THREE.SphereGeometry(1.15, 32, 16), new THREE.MeshBasicMaterial({ color: 0x22D877, transparent: true, opacity: .08 })));
-    const sprites = [], N = TECH.length;
-    TECH.forEach((item, i) => {
-      const c = document.createElement("canvas"), g = c.getContext("2d"), label = item[0].toUpperCase();
-      g.font = "400 64px Anton, Impact, sans-serif";
-      const w = Math.ceil(g.measureText(label).width) + 24;
-      c.width = w; c.height = 84;
-      g.font = "400 64px Anton, Impact, sans-serif"; g.textBaseline = "middle";
-      g.fillStyle = item[1] ? "#22D877" : "#F3F0EC"; g.fillText(label, 12, 46);
-      const tex = new THREE.CanvasTexture(c); tex.minFilter = THREE.LinearFilter;
-      const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false }));
-      const k = item[1] ? .0056 : .0044;
-      s.scale.set(w * k, 84 * k, 1); s.userData = { item, bx: w * k, by: 84 * k };
-      const y = 1 - (i / (N - 1)) * 2, r = Math.sqrt(1 - y * y), th = i * Math.PI * (3 - Math.sqrt(5));
-      s.position.set(Math.cos(th) * r * 3, y * 3, Math.sin(th) * r * 3);
-      group.add(s); sprites.push(s);
+    const wrap = document.getElementById("sphere"), list = document.getElementById("sphereTags");
+    const N = TECH.length, STEP = 11; // spread "daily" items around the sphere instead of clustering them
+    const items = TECH.map((item, i) => {
+      const li = document.createElement("li"), b = document.createElement("button");
+      b.type = "button"; b.className = "tagb" + (item[1] ? " daily" : ""); b.textContent = item[0]; b.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+      const k = (i * STEP) % N, y = 1 - (k + .5) / N * 2, r = Math.sqrt(1 - y * y), th = k * Math.PI * (3 - Math.sqrt(5));
+      li.appendChild(b); list.appendChild(li);
+      const pick = () => { items.forEach(o => o.b.setAttribute("aria-pressed", String(o.b === b))); inspectTech(item); };
+      b.addEventListener("click", pick);
+      b.addEventListener("focus", () => { paused = true; pick(); });
+      b.addEventListener("blur", () => { paused = false; });
+      if (fine) b.addEventListener("mouseenter", pick);
+      return { li, b, x: Math.cos(th) * r, y, z: Math.sin(th) * r };
     });
-    const size = () => { const w = wrap.clientWidth; renderer.setSize(w, w, false); };
+    let rx = -.25, ry = .6, vx = 0, vy = .0035, dragging = false, moved = 0, lx = 0, ly = 0, paused = false, on = true, R = 200;
+    const size = () => { R = wrap.clientWidth * .37; };
     size(); new ResizeObserver(size).observe(wrap);
-    let vx = .0012, vy = .0035, dragging = false, moved = 0, lx = 0, ly = 0, hover = null;
-    const ray = new THREE.Raycaster(), m = new THREE.Vector2();
-    function pick(e, commit) {
-      const r = canvas.getBoundingClientRect(); m.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
-      ray.setFromCamera(m, camera);
-      const hit = ray.intersectObjects(sprites)[0];
-      hover = hit ? hit.object : null;
-      if (hover && commit) inspectTech(hover.userData.item);
+    function place() {
+      const cX = Math.cos(rx), sX = Math.sin(rx), cY = Math.cos(ry), sY = Math.sin(ry);
+      for (const o of items) {
+        const x1 = o.x * cY + o.z * sY, z1 = -o.x * sY + o.z * cY;
+        const y2 = o.y * cX - z1 * sX, z2 = o.y * sX + z1 * cX;
+        const depth = (z2 + 1) / 2; // 0 back, 1 front
+        const sc = .5 + .62 * depth;
+        o.li.style.transform = "translate3d(" + (x1 * R).toFixed(1) + "px," + (y2 * R).toFixed(1) + "px,0) scale(" + sc.toFixed(3) + ")";
+        o.li.style.opacity = (.04 + .96 * Math.pow(Math.max(0, (depth - .28) / .72), 1.1)).toFixed(3);
+        o.li.style.zIndex = String(Math.round(depth * 100));
+        o.b.style.pointerEvents = depth > .5 ? "auto" : "none";
+        o.b.tabIndex = depth > .5 ? 0 : -1;
+      }
     }
-    wrap.addEventListener("pointerdown", e => { dragging = true; moved = 0; lx = e.clientX; ly = e.clientY; });
-    addEventListener("pointerup", e => { if (dragging && moved < 6 && wrap.contains(e.target)) pick(e, true); dragging = false; });
+    wrap.addEventListener("pointerdown", e => { if (e.target.closest(".tagb")) return; dragging = true; moved = 0; lx = e.clientX; ly = e.clientY; wrap.setPointerCapture && wrap.setPointerCapture(e.pointerId); });
     wrap.addEventListener("pointermove", e => {
-      if (dragging) { const dx = e.clientX - lx, dy = e.clientY - ly; moved += Math.abs(dx) + Math.abs(dy); vy = dx * .0035; vx = dy * .0035; lx = e.clientX; ly = e.clientY; }
-      else if (fine) pick(e, true);
+      if (!dragging) return;
+      const dx = e.clientX - lx, dy = e.clientY - ly; lx = e.clientX; ly = e.clientY; moved += Math.abs(dx) + Math.abs(dy);
+      ry += dx * .008; rx -= dy * .008; vy = dx * .0009; vx = -dy * .0009; place();
     });
-    wrap.addEventListener("pointerleave", () => { hover = null; });
-    let on = true;
-    const q = new THREE.Quaternion(), ax = new THREE.Vector3(), wp = new THREE.Vector3();
+    const stop = () => { dragging = false; };
+    wrap.addEventListener("pointerup", stop); wrap.addEventListener("pointercancel", stop);
+    if (fine) { wrap.addEventListener("mouseenter", () => { paused = true; }); wrap.addEventListener("mouseleave", () => { paused = false; }); }
+    place();
+    if (reduce) return;
     const loop = () => {
       if (!on) return;
-      if (!dragging) { vx += (.0012 - vx) * .02; vy += (.0035 - vy) * .02; }
-      q.setFromAxisAngle(ax.set(1, 0, 0), vx); group.quaternion.premultiply(q);
-      q.setFromAxisAngle(ax.set(0, 1, 0), vy); group.quaternion.premultiply(q);
-      sprites.forEach(s => {
-        s.getWorldPosition(wp);
-        s.material.opacity = .22 + .78 * Math.max(0, Math.min(1, (wp.z + 3) / 6));
-        const k = s === hover ? 1.35 : 1;
-        s.scale.set(s.userData.bx * k, s.userData.by * k, 1);
-      });
-      renderer.render(scene, camera);
-      if (!reduce) requestAnimationFrame(loop);
+      if (!dragging && !paused) { vx += (0 - vx) * .03; vy += (.0035 - vy) * .03; rx += vx; ry += vy; place(); }
+      requestAnimationFrame(loop);
     };
-    new IntersectionObserver(es => { const was = on; on = es[0].isIntersecting; if (on && !was && !reduce) requestAnimationFrame(loop); }).observe(wrap);
+    new IntersectionObserver(es => { const was = on; on = es[0].isIntersecting; if (on && !was) requestAnimationFrame(loop); }).observe(wrap);
     requestAnimationFrame(loop);
   }
 
@@ -1239,7 +1231,8 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   inspectTech(TECH[0]);
   const fontsReady = document.fonts ? Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1500))]) : Promise.resolve();
   fitWord();
-  fontsReady.then(() => { fitWord(); initSphere(); });
+  try { initSphere(); } catch (e) { document.getElementById("sphere").classList.add("is-static"); }
+  fontsReady.then(fitWord);
   startBoot();
 })();
 </script>
