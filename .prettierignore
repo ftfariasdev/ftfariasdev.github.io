@@ -1,0 +1,7 @@
+dist/
+node_modules/
+design/
+package-lock.json
+public/
+images/
+src/content/images.generated.json

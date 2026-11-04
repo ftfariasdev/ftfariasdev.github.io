@@ -1,0 +1,66 @@
+/* ================= SECTIONS ================= */
+.sec {
+  position: relative;
+  isolation: isolate;
+  padding-block: clamp(90px, 12vw, 150px);
+  overflow: hidden;
+}
+.sec__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 56px;
+}
+.eyebrow {
+  font: 400 0.72rem/1 var(--f-mono);
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.eyebrow::before {
+  content: "";
+  width: 26px;
+  height: 1px;
+  background: var(--accent);
+}
+.h2 {
+  font: 400 clamp(3rem, 8vw, 7.2rem)/0.88 var(--f-display);
+  text-transform: uppercase;
+}
+.h2 em {
+  font-style: normal;
+  color: var(--accent);
+}
+.sec__note {
+  font: 400 0.78rem/1.5 var(--f-mono);
+  color: var(--muted);
+  max-width: 32ch;
+  text-align: right;
+}
+.ghost {
+  position: absolute;
+  top: 30px;
+  right: -2vw;
+  font: 400 clamp(8rem, 22vw, 22rem)/0.8 var(--f-display);
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(243, 240, 236, 0.06);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  z-index: -1;
+}
+.rv {
+  transition:
+    transform 1s var(--ease),
+    opacity 1s var(--ease);
+}
+.rv.pre {
+  transform: translateY(40px);
+  opacity: 0;
+}

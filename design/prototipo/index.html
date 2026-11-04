@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en" class="booting pre-hero">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfólio Felipe Farias · Protótipo</title>
+<meta name="description" content="Protótipo v3 do novo portfólio de Felipe Farias, Full Stack Developer.">
+<script>/* failsafe: never leave the page hidden if the script below fails */ setTimeout(function () { document.documentElement.classList.remove("booting", "pre-hero"); }, 7000);</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@700&family=JetBrains+Mono:wght@400;700&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a film-poster hero (giant word, cut-out portrait, floating UI)
+   that boots like a machine, followed by bold editorial sections. */
+:root {
+  --bg: #0A0A0C;
+  --bg-2: #131317;
+  --accent: #22D877;
+  --pending: #F5B940;
+  --accent-deep: #0C5A33;
+  --white: #F3F0EC;
+  --muted: #8E8E96;
+  --line: rgba(243, 240, 236, .09);
+
+  --f-display: "Anton", "Impact", "Arial Narrow", sans-serif;
+  --f-script: "Caveat", "Segoe Script", cursive;
+  --f-body: "Manrope", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  --ease: cubic-bezier(.16, 1, .3, 1);
+  --wrap: 1240px;
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--bg); scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--white); font: 400 1rem/1.65 var(--f-body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+html.booting body { overflow: hidden; }
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+::selection { background: var(--accent); color: var(--bg); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+p { margin: 0; }
+.wrap { width: min(100% - 40px, var(--wrap)); margin-inline: auto; }
+.proto-strip { position: relative; z-index: 60; font: 400 .7rem/1.4 var(--f-mono); color: var(--white); background: var(--accent-deep); padding: 7px 16px; text-align: center; }
+.proto-strip a { color: var(--white); }
+.proto-strip button { font: inherit; color: var(--white); background: transparent; border: 1px solid rgba(255,255,255,.4); border-radius: 3px; padding: 1px 6px; margin-left: 6px; cursor: pointer; }
+
+/* grain over everything */
+body::after { content: ""; position: fixed; inset: -50%; z-index: 150; pointer-events: none; opacity: .07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 1s steps(4) infinite; }
+@keyframes grain { 25% { transform: translate(-3%, 2%); } 50% { transform: translate(2%, -3%); } 75% { transform: translate(-2%, -1%); } }
+
+/* ================= BOOT ================= */
+.boot { position: fixed; inset: 0; z-index: 200; display: none; }
+html.booting .boot { display: block; }
+.boot__half { position: absolute; left: 0; right: 0; height: 50.5%; background: #050506; transition: transform .9s var(--ease); }
+.boot__half--top { top: 0; }
+.boot__half--bot { bottom: 0; }
+.boot.is-open .boot__half--top { transform: translateY(-101%); }
+.boot.is-open .boot__half--bot { transform: translateY(101%); }
+.boot__seam { position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; box-shadow: 0 0 24px var(--accent); }
+.boot.is-done .boot__seam { transform: scaleX(1); transition: transform .35s var(--ease); }
+.boot.is-open .boot__seam { opacity: 0; transition: opacity .2s; }
+.boot__log { position: absolute; left: clamp(20px, 5vw, 64px); top: clamp(24px, 8vh, 80px); font: 400 clamp(.66rem, 1.2vw, .85rem)/1.9 var(--f-mono); color: var(--muted); }
+.boot__log div { white-space: pre; }
+.boot__log b { color: var(--accent); font-weight: 400; }
+.boot__log i { color: var(--white); font-style: normal; }
+.boot.is-open .boot__log, .boot.is-open .boot__count, .boot.is-open .boot__bar, .boot.is-open .boot__skip { opacity: 0; transition: opacity .2s; }
+.boot__count { position: absolute; right: clamp(20px, 5vw, 64px); bottom: clamp(30px, 8vh, 80px); font: 400 clamp(6rem, 22vw, 18rem)/.8 var(--f-display); color: var(--accent); font-variant-numeric: tabular-nums; }
+.boot__count small { font-size: .18em; color: var(--muted); vertical-align: top; margin-left: .2em; }
+.boot__bar { position: absolute; left: clamp(20px, 5vw, 64px); right: clamp(20px, 5vw, 64px); bottom: clamp(18px, 4vh, 40px); height: 2px; background: var(--line); }
+.boot__bar i { display: block; height: 100%; width: 0; background: var(--accent); }
+.boot__skip { position: absolute; right: clamp(20px, 5vw, 64px); top: clamp(24px, 8vh, 80px); font: 400 .72rem/1 var(--f-mono); color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 9px 14px; cursor: pointer; }
+.boot__skip:hover { color: var(--white); border-color: var(--accent); }
+
+/* ================= TOP BAR ================= */
+.top { position: absolute; top: 0; left: 0; right: 0; z-index: 20; }
+.top__in { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; padding-top: 26px; }
+.brand { text-decoration: none; display: grid; gap: 4px; }
+.brand b { font: 400 1.6rem/1 var(--f-display); letter-spacing: .02em; white-space: nowrap; }
+.brand b i { color: var(--accent); font-style: normal; }
+.brand span { font: 400 .62rem/1.3 var(--f-mono); color: var(--accent); text-transform: uppercase; letter-spacing: .08em; }
+.nav { display: flex; gap: 22px; list-style: none; margin: 6px 0 0; padding: 0; }
+.nav a { text-decoration: none; font: 500 .82rem/1 var(--f-body); color: var(--muted); position: relative; }
+.nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: right; transition: transform .35s var(--ease); }
+.nav a:hover { color: var(--white); }
+.nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+.top__actions { display: flex; gap: 10px; align-items: center; }
+.pill { display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); background: rgba(10, 10, 12, .5); color: var(--white); font: 700 .78rem/1 var(--f-body); text-decoration: none; cursor: pointer; transition: border-color .2s, background .2s; }
+.pill:hover { border-color: var(--accent); }
+.pill--accent { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.pill--accent:hover { background: #4BEA92; }
+.icon-btn { display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 999px; border: 1px solid var(--line); background: rgba(10, 10, 12, .5); color: var(--white); transition: background .2s, color .2s, border-color .2s, transform .3s var(--ease); }
+.icon-btn svg { width: 16px; height: 16px; }
+.icon-btn:hover, .icon-btn:focus-visible { background: var(--accent); border-color: var(--accent); color: var(--bg); transform: translateY(-2px); }
+.langs { display: inline-flex; gap: 2px; height: 38px; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: rgba(10, 10, 12, .5); }
+.langs button { font: 700 .7rem/1 var(--f-mono); color: var(--muted); background: transparent; border: 0; border-radius: 999px; padding: 0 10px; cursor: pointer; transition: background .2s, color .2s; }
+.langs button:hover { color: var(--white); }
+.langs button[aria-pressed="true"] { background: var(--white); color: var(--bg); }
+@media (max-width: 980px) { .nav { display: none; } }
+@media (max-width: 520px) { .top__actions { gap: 6px; } .brand b { font-size: 1.2rem; } .brand span { display: none; } .top__actions .pill--accent { display: none; } }
+
+/* ================= HERO ================= */
+.hero { --mx: 0; --my: 0; position: relative; overflow: hidden; isolation: isolate; min-height: clamp(660px, 100svh, 980px); background: var(--bg); }
+.layer { position: absolute; inset: 0; pointer-events: none; transform: translate3d(calc(var(--mx) * var(--d) * 1px), calc(var(--my) * var(--d) * 1px), 0); }
+.hero__grid { --d: -6; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 80px 80px; mask-image: radial-gradient(70% 60% at 50% 45%, #000 20%, transparent 75%); -webkit-mask-image: radial-gradient(70% 60% at 50% 45%, #000 20%, transparent 75%); opacity: .6; }
+.hero__glow { --d: -10; background: radial-gradient(38% 46% at 52% 58%, rgba(34, 216, 119, .32), transparent 70%); }
+.hero__word { --d: -18; display: grid; place-items: start center; padding-top: clamp(110px, 17vh, 170px); }
+.word { font: 400 clamp(7rem, 23.5vw, 25rem)/.78 var(--f-display); color: var(--accent); letter-spacing: -.01em; display: flex; overflow: hidden; padding-bottom: .02em; }
+.word span { display: inline-block; transition: transform 1s var(--ease); }
+html.pre-hero .word span { transform: translateY(105%); }
+.hero__person { --d: 10; display: flex; align-items: flex-end; justify-content: center; }
+.person { height: 90%; width: auto; max-width: none; filter: drop-shadow(0 30px 60px rgba(0, 0, 0, .6)) drop-shadow(0 0 1px rgba(34, 216, 119, .5)); transition: transform 1.2s var(--ease), opacity 1.2s var(--ease); }
+html.pre-hero .person { transform: translateY(18%); opacity: 0; }
+.hero__front { --d: 22; }
+.hero__ui { position: relative; z-index: 3; min-height: inherit; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; gap: 24px; padding-top: 120px; padding-bottom: 92px; pointer-events: none; }
+.hero__ui a, .hero__ui button, .hero__ui .win { pointer-events: auto; }
+.intro { max-width: 430px; display: grid; gap: 10px; }
+.intro > * { transition: transform .9s var(--ease), opacity .9s var(--ease); }
+html.pre-hero .intro > * { transform: translateY(24px); opacity: 0; }
+.hello { font: 700 clamp(2.4rem, 4.4vw, 3.6rem)/.9 var(--f-script); color: var(--white); transform: rotate(-4deg); transform-origin: left; margin-bottom: -6px; }
+html.pre-hero .intro .hello { transform: rotate(-4deg) translateY(24px); }
+.name { font: 400 clamp(3.2rem, 6.4vw, 6rem)/.88 var(--f-display); text-transform: uppercase; letter-spacing: .005em; }
+.name i { color: var(--accent); font-style: normal; }
+.role { font: 700 .95rem/1.25 var(--f-body); color: var(--accent); text-transform: uppercase; letter-spacing: .04em; }
+.bio { color: #C9C6C1; font-size: .95rem; max-width: 36ch; }
+.cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.btn { display: inline-flex; align-items: center; gap: 10px; height: 50px; padding: 0 22px; border-radius: 6px; font: 700 .86rem/1 var(--f-body); text-decoration: none; cursor: pointer; border: 1px solid var(--accent); transition: transform .3s var(--ease), box-shadow .3s; }
+.btn--accent { background: var(--accent); color: var(--bg); box-shadow: 0 10px 40px -10px rgba(34, 216, 119, .8); }
+.btn--line { background: rgba(10, 10, 12, .55); color: var(--white); border-color: var(--line); }
+.btn:hover { transform: translateY(-3px); }
+.btn svg { width: 16px; height: 16px; }
+.loc { display: flex; align-items: center; gap: 8px; font: 400 .72rem/1 var(--f-mono); color: var(--muted); margin-top: 18px; }
+.loc i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(34, 216, 119, .2); }
+
+.stats { justify-self: end; display: grid; gap: 22px; text-align: right; }
+.stat { transition: transform .9s var(--ease), opacity .9s var(--ease); }
+html.pre-hero .stat { transform: translateX(30px); opacity: 0; }
+.stat b { display: block; font: 400 clamp(2.6rem, 4.5vw, 3.8rem)/.9 var(--f-display); color: var(--accent); font-variant-numeric: tabular-nums; }
+.stat span { font: 400 .7rem/1.35 var(--f-mono); color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.win { justify-self: end; width: 250px; text-align: left; border: 1px solid var(--line); border-radius: 10px; background: rgba(19, 19, 23, .78); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); font: 400 .7rem/1.6 var(--f-mono); overflow: hidden; transition: transform .9s var(--ease), opacity .9s var(--ease); }
+html.pre-hero .win { transform: translateY(20px) scale(.96); opacity: 0; }
+.win__bar { display: flex; gap: 6px; align-items: center; padding: 8px 10px; border-bottom: 1px solid var(--line); color: var(--muted); }
+.win__bar i { width: 8px; height: 8px; border-radius: 50%; background: #3a3a40; }
+.win__bar i:first-child { background: var(--accent); }
+.win__bar span { margin-left: 6px; }
+.win__body { padding: 10px 12px; color: #C9C6C1; }
+.win__body .ok { color: #4BD37B; }
+.win__body .r { color: var(--accent); }
+
+/* floating cursors + sparkles */
+.cursor-tag { position: absolute; display: flex; align-items: flex-start; gap: 2px; pointer-events: none; z-index: 4; transition: opacity .6s; }
+html.pre-hero .cursor-tag { opacity: 0; }
+.cursor-tag svg { width: 18px; height: 18px; filter: drop-shadow(0 2px 4px rgba(0,0,0,.5)); }
+.cursor-tag span { margin-top: 14px; font: 700 .64rem/1 var(--f-mono); color: var(--white); background: var(--accent); padding: 4px 7px; border-radius: 3px 10px 10px 10px; white-space: nowrap; }
+.cursor-tag.c2 span { background: #2E6BFF; }
+.cursor-tag.c3 span { background: #F2F0EC; color: #111; }
+.cursor-tag.c1 { left: 58%; top: 26%; animation: drift1 9s ease-in-out infinite; }
+.cursor-tag.c2 { left: 34%; top: 46%; animation: drift2 11s ease-in-out infinite; }
+.cursor-tag.c3 { left: 70%; top: 58%; animation: drift3 10s ease-in-out infinite; }
+@keyframes drift1 { 0%,100% { transform: translate(0,0); } 30% { transform: translate(-60px, 40px); } 60% { transform: translate(30px, 70px); } }
+@keyframes drift2 { 0%,100% { transform: translate(0,0); } 40% { transform: translate(80px, -50px); } 70% { transform: translate(20px, 30px); } }
+@keyframes drift3 { 0%,100% { transform: translate(0,0); } 35% { transform: translate(-40px, -60px); } 65% { transform: translate(-90px, 10px); } }
+.cursor-tag.you { left: 0; top: 0; opacity: 0; z-index: 6; transition: opacity .3s; }
+.cursor-tag.you span { background: var(--white); color: var(--bg); }
+.hero.has-pointer .cursor-tag.you { opacity: 1; }
+.spark { position: absolute; color: var(--white); font: 300 1.4rem/1 var(--f-body); pointer-events: none; animation: twinkle 3s ease-in-out infinite; }
+.spark.g { color: var(--accent); }
+@keyframes twinkle { 0%,100% { opacity: .15; transform: scale(.7) rotate(0); } 50% { opacity: 1; transform: scale(1.1) rotate(45deg); } }
+html.pre-hero .spark { opacity: 0; animation: none; }
+
+.hero__bottom { position: absolute; left: 0; right: 0; bottom: 0; z-index: 5; border-top: 1px solid var(--line); background: linear-gradient(0deg, rgba(10,10,12,.9), rgba(10,10,12,0)); }
+.hero__bottom .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; height: 54px; font: 400 .7rem/1 var(--f-mono); color: var(--muted); }
+@keyframes blink { 50% { opacity: .25; } }
+.scroll-cue { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
+.scroll-cue i { width: 1px; height: 22px; background: linear-gradient(var(--accent), transparent); animation: cue 1.6s var(--ease) infinite; }
+@keyframes cue { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+@media (max-width: 860px) {
+  .hero { min-height: 0; }
+  .hero__word { padding-top: 104px; }
+  .word { font-size: 24.5vw; }
+  .hero__person { position: relative; inset: auto; display: flex; align-items: flex-start; padding-top: 120px; }
+  .person { height: auto; width: min(78vw, 400px); }
+  .hero__ui { grid-template-columns: 1fr; padding-top: 0; margin-top: -30vw; padding-bottom: 80px; min-height: 0; }
+  .stats { justify-self: start; text-align: left; grid-template-columns: repeat(3, auto); gap: 18px; }
+  .win, .cursor-tag:not(.you) { display: none; }
+  .intro { position: relative; }
+  .intro::before { content: ""; position: absolute; inset: -40px -20px -20px; z-index: -1; background: linear-gradient(180deg, transparent, rgba(10,10,12,.85) 22%, var(--bg) 60%); }
+  .hero__bottom .scroll-cue { display: none; }
+}
+
+/* ================= MARQUEE ================= */
+.bands { position: relative; height: 170px; overflow: hidden; }
+.band { position: absolute; left: -5%; right: -5%; top: 50%; padding: 14px 0; display: flex; overflow: hidden; white-space: nowrap; }
+.band--accent { background: var(--accent); transform: translateY(-50%) rotate(-3deg); z-index: 2; }
+.band--dark { background: var(--bg-2); border-block: 1px solid var(--line); transform: translateY(-50%) rotate(2.5deg); }
+.band__track { display: flex; flex: none; animation: marquee 30s linear infinite; }
+.band--dark .band__track { animation-direction: reverse; animation-duration: 38s; }
+.band__track span { font: 400 2rem/1 var(--f-display); text-transform: uppercase; padding-right: 28px; }
+.band--accent .band__track span { color: var(--bg); }
+.band--dark .band__track span { color: transparent; -webkit-text-stroke: 1px var(--muted); }
+.band__track span::after { content: "✦"; margin-left: 28px; font-size: .7em; vertical-align: .15em; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ================= SECTIONS ================= */
+.sec { position: relative; isolation: isolate; padding-block: clamp(90px, 12vw, 150px); overflow: hidden; }
+.sec__head { display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; margin-bottom: 56px; }
+.eyebrow { font: 400 .72rem/1 var(--f-mono); color: var(--accent); text-transform: uppercase; letter-spacing: .12em; display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--accent); }
+.h2 { font: 400 clamp(3rem, 8vw, 7.2rem)/.88 var(--f-display); text-transform: uppercase; }
+.h2 em { font-style: normal; color: var(--accent); }
+.sec__note { font: 400 .78rem/1.5 var(--f-mono); color: var(--muted); max-width: 32ch; text-align: right; }
+.ghost { position: absolute; top: 30px; right: -2vw; font: 400 clamp(8rem, 22vw, 22rem)/.8 var(--f-display); color: transparent; -webkit-text-stroke: 1px rgba(243, 240, 236, .06); pointer-events: none; user-select: none; white-space: nowrap; z-index: -1; }
+.rv { transition: transform 1s var(--ease), opacity 1s var(--ease); }
+.rv.pre { transform: translateY(40px); opacity: 0; }
+
+/* about */
+.about { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(30px, 6vw, 90px); align-items: center; }
+.about__fig { position: relative; margin: 0; display: grid; place-items: end center; min-height: 560px; }
+.about__fig::before { content: ""; position: absolute; width: 78%; aspect-ratio: 1; bottom: 14%; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #7CF5B4, var(--accent) 40%, var(--accent-deep) 100%); }
+.about__fig::after { content: "<dev />"; position: absolute; top: 6%; left: 0; font: 400 .8rem/1 var(--f-mono); color: var(--muted); }
+.about__fig img { position: relative; height: 520px; width: auto; object-fit: contain; filter: drop-shadow(0 24px 40px rgba(0,0,0,.6)); }
+.about__fig figcaption { position: absolute; right: 0; bottom: 30px; font: 400 .66rem/1.4 var(--f-mono); color: var(--muted); max-width: 18ch; text-align: right; }
+.about__lead { font: 400 clamp(1.8rem, 3.4vw, 2.8rem)/1.02 var(--f-display); text-transform: uppercase; margin-bottom: 26px; }
+.about__lead em { color: var(--accent); font-style: normal; }
+.about__text p { color: #C9C6C1; margin-bottom: 16px; max-width: 60ch; }
+.about__text strong { color: var(--white); }
+.facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin-top: 30px; }
+.facts div { background: var(--bg); padding: 18px 16px; }
+.facts b { display: block; font: 400 1.5rem/1 var(--f-display); text-transform: uppercase; }
+.facts span { display: block; margin-top: 8px; font: 400 .66rem/1.35 var(--f-mono); color: var(--muted); text-transform: uppercase; }
+@media (max-width: 900px) { .about { grid-template-columns: 1fr; } .about__fig { min-height: 440px; } .about__fig img { height: 400px; } .facts { grid-template-columns: repeat(2, 1fr); } }
+
+/* experience */
+.job { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 40px; padding: 40px 0; border-top: 1px solid var(--line); }
+.job:last-child { border-bottom: 1px solid var(--line); }
+.job__year { font: 400 clamp(4rem, 9vw, 8rem)/.85 var(--f-display); color: var(--accent); }
+.job__year small { display: block; margin-top: 14px; font: 400 .72rem/1.4 var(--f-mono); color: var(--muted); }
+.job__live { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; font: 400 .7rem/1 var(--f-mono); color: #4BD37B; }
+.job__live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; animation: blink 2s steps(1) infinite; }
+.job h3 { font: 400 clamp(1.8rem, 3vw, 2.6rem)/1 var(--f-display); text-transform: uppercase; }
+.job__co { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 12px 0 18px; color: var(--muted); font-size: .92rem; }
+.job__co img { width: 34px; height: 34px; border-radius: 8px; background: var(--bg-2); padding: 5px; border: 1px solid var(--line); }
+.job ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; color: #C9C6C1; max-width: 64ch; }
+.job li { padding-left: 26px; position: relative; }
+.job li::before { content: "→"; position: absolute; left: 0; color: var(--accent); }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.tag { font: 400 .7rem/1 var(--f-mono); padding: 8px 11px; border: 1px solid var(--line); border-radius: 999px; color: var(--white); }
+.job--todo h3 { color: var(--muted); }
+.todo { font: 400 .7rem/1.5 var(--f-mono); color: var(--pending); margin-top: 10px; }
+@media (max-width: 760px) { .job { grid-template-columns: 1fr; gap: 16px; } }
+
+/* projects */
+.feature { display: grid; grid-template-columns: 1.1fr 1fr; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; margin-bottom: 56px; background: var(--bg-2); }
+.feature__img { position: relative; min-height: 480px; overflow: hidden; }
+.feature__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease), opacity .6s; }
+.feature__img img + img { opacity: 0; }
+.feature__img.alt img:first-child { opacity: 0; }
+.feature__img.alt img + img { opacity: 1; }
+.feature:hover .feature__img img { transform: scale(1.04); }
+.feature__img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 60%, var(--bg-2)); pointer-events: none; }
+.feature__img .pill { position: absolute; left: 16px; bottom: 16px; z-index: 2; }
+.medal { position: absolute; left: 16px; top: 16px; z-index: 2; display: flex; align-items: center; gap: 10px; background: var(--accent); color: var(--bg); padding: 10px 14px; border-radius: 8px; font: 700 .76rem/1.2 var(--f-body); box-shadow: 0 10px 30px -8px rgba(34,216,119,.8); }
+.medal b { font: 400 1.8rem/1 var(--f-display); }
+.feature__body { padding: clamp(24px, 4vw, 48px); display: flex; flex-direction: column; gap: 16px; }
+.feature__meta { font: 400 .7rem/1 var(--f-mono); color: var(--accent); text-transform: uppercase; letter-spacing: .06em; }
+.feature h3 { font: 400 clamp(2.6rem, 5vw, 4.2rem)/.9 var(--f-display); text-transform: uppercase; }
+.feature p { color: #C9C6C1; }
+.links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; padding-top: 8px; }
+.links .btn { height: 44px; padding: 0 16px; }
+
+.plist { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.prow { position: relative; display: grid; grid-template-columns: 70px minmax(0, 1fr) minmax(0, 1.2fr) 70px; align-items: center; gap: 20px; padding: 26px 10px; border-bottom: 1px solid var(--line); text-decoration: none; overflow: hidden; isolation: isolate; }
+.prow::before { content: ""; position: absolute; inset: 0; background: var(--accent); transform: scaleY(0); transform-origin: bottom; transition: transform .5s var(--ease); z-index: -1; }
+.prow:hover::before, .prow:focus-visible::before { transform: scaleY(1); }
+.prow__i { font: 400 .78rem/1 var(--f-mono); color: var(--muted); }
+.prow__n { font: 400 clamp(1.8rem, 3.6vw, 3rem)/1 var(--f-display); text-transform: uppercase; transition: transform .5s var(--ease); }
+.prow:hover .prow__n { transform: translateX(10px); }
+.prow__d { color: var(--muted); font-size: .9rem; }
+.prow__y { font: 400 .74rem/1 var(--f-mono); color: var(--muted); text-align: right; transition: opacity .3s; }
+.prow:hover .prow__i, .prow:hover .prow__d, .prow:hover .prow__n, .prow:hover .prow__arrow { color: var(--bg); }
+.prow__arrow { position: absolute; right: 14px; top: 50%; width: 22px; height: 22px; transform: translate(10px, -50%); opacity: 0; transition: .4s var(--ease); }
+.prow:hover .prow__arrow { transform: translate(0, -50%); opacity: 1; }
+.prow:hover .prow__y { opacity: 0; }
+@media (max-width: 760px) { .prow { grid-template-columns: 34px 1fr; gap: 6px 14px; } .prow__d { grid-column: 2; } .prow__y { display: none; } .feature { grid-template-columns: 1fr; } .feature__img { min-height: 360px; } .feature__img::after { background: linear-gradient(0deg, var(--bg-2), transparent 40%); } }
+
+.preview { position: fixed; left: 0; top: 0; z-index: 90; width: 300px; height: 200px; pointer-events: none; border-radius: 12px; overflow: hidden; opacity: 0; transform: translate(-50%, -50%) scale(.6) rotate(-6deg); transition: opacity .3s, transform .5s var(--ease); box-shadow: 0 30px 60px -20px rgba(0,0,0,.8); }
+.preview.on { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-3deg); }
+.preview__code { width: 100%; height: 100%; background: #0E0E11; border: 1px solid rgba(34,216,119,.5); border-radius: 12px; padding: 16px; font: 400 .74rem/1.7 var(--f-mono); color: #C9C6C1; white-space: pre-wrap; }
+.preview__code .k { color: var(--accent); }
+.preview__code .s { color: #F3D98B; }
+.preview__code .c { color: #6C6C75; }
+.preview__code .ok { color: #4BD37B; }
+@media (hover: none) { .preview { display: none; } }
+
+/* stack */
+.stack { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 40px; align-items: center; }
+.sphere { position: relative; aspect-ratio: 1; width: 100%; max-width: 620px; cursor: grab; touch-action: pan-y; }
+.sphere:active { cursor: grabbing; }
+.sphere::before { content: ""; position: absolute; inset: 9%; border-radius: 50%; border: 1px solid rgba(34, 216, 119, .16); background: radial-gradient(circle at 38% 32%, rgba(34, 216, 119, .14), rgba(34, 216, 119, .03) 55%, transparent 72%); box-shadow: inset 0 0 80px rgba(34, 216, 119, .06); }
+.sphere::after { content: ""; position: absolute; inset: 9%; border-radius: 50%; background: repeating-radial-gradient(circle at 50% 50%, transparent 0 38px, rgba(34, 216, 119, .05) 38px 39px); pointer-events: none; }
+.sphere__tags { list-style: none; margin: 0; padding: 0; position: absolute; inset: 0; z-index: 1; }
+.sphere__tags li { position: absolute; left: 50%; top: 50%; will-change: transform, opacity; }
+.tagb { display: block; transform: translate(-50%, -50%); padding: 5px 8px; border: 0; border-radius: 6px; background: transparent; color: var(--white); font: 400 clamp(.85rem, 1.6vw, 1.15rem)/1 var(--f-display); text-transform: uppercase; letter-spacing: .02em; white-space: nowrap; cursor: pointer; transition: background .2s, color .2s; }
+.tagb.daily { color: var(--accent); }
+.tagb:hover, .tagb:focus-visible, .tagb[aria-pressed="true"] { background: var(--accent); color: var(--bg); outline: none; }
+.sphere.is-static .sphere__tags { position: static; display: flex; flex-wrap: wrap; gap: 6px; padding: 12% 6%; }
+.sphere.is-static .sphere__tags li { position: static; }
+.sphere.is-static .tagb { transform: none; }
+.sphere__hint { position: absolute; left: 0; right: 0; bottom: 0; text-align: center; font: 400 .7rem/1 var(--f-mono); color: var(--muted); }
+.inspect { border: 1px solid var(--line); border-radius: 14px; padding: 28px; background: var(--bg-2); min-height: 260px; }
+.inspect__k { font: 400 .7rem/1 var(--f-mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+.inspect__n { font: 400 clamp(2.6rem, 5vw, 4rem)/1 var(--f-display); text-transform: uppercase; margin: 14px 0 6px; }
+.inspect__t { color: var(--muted); font-size: .92rem; }
+.inspect ul { list-style: none; padding: 0; margin: 18px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.inspect li { font: 400 .74rem/1 var(--f-mono); padding: 8px 11px; border-radius: 999px; background: rgba(34, 216, 119, .14); color: var(--white); border: 1px solid rgba(34, 216, 119, .35); }
+.legend { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px; font: 400 .7rem/1 var(--f-mono); color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 8px; }
+.legend span::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+.legend span + span::before { background: var(--white); }
+@media (max-width: 900px) { .stack { grid-template-columns: 1fr; } .sphere { margin-inline: auto; } }
+
+/* education */
+.edu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.card { position: relative; border: 1px solid var(--line); border-radius: 14px; padding: 28px; background: var(--bg-2); display: grid; gap: 10px; align-content: start; overflow: hidden; transition: border-color .3s, transform .5s var(--ease), opacity 1s var(--ease); }
+.card:hover { border-color: rgba(34, 216, 119, .5); transform: translateY(-6px); }
+.card__n { font: 400 4rem/.8 var(--f-display); color: transparent; -webkit-text-stroke: 1px var(--accent); }
+.card__s { font: 400 .68rem/1.3 var(--f-mono); color: var(--accent); text-transform: uppercase; letter-spacing: .06em; }
+.card h3 { font: 400 1.6rem/1.05 var(--f-display); text-transform: uppercase; }
+.card p { color: var(--muted); font-size: .92rem; }
+.card p.todo { color: var(--pending); font-size: .7rem; }
+.certs { margin-top: 64px; }
+.certs__head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
+.certs__title { font: 400 clamp(1.8rem, 3vw, 2.4rem)/1 var(--f-display); text-transform: uppercase; }
+.certs__count { font: 400 .74rem/1 var(--f-mono); color: var(--muted); }
+.certs__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; align-items: start; }
+.cert { border: 1px solid var(--line); border-radius: 14px; background: var(--bg-2); overflow: hidden; transition: border-color .3s, transform .5s var(--ease), opacity 1s var(--ease); }
+.cert:hover { border-color: rgba(34, 216, 119, .5); transform: translateY(-6px); }
+.cert__img { position: relative; display: block; width: 100%; aspect-ratio: 4 / 3; padding: 14px; border: 0; border-bottom: 1px solid var(--line); background: #0E0E11; cursor: zoom-in; overflow: hidden; }
+.cert__img img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; transition: transform .6s var(--ease); }
+.cert:hover .cert__img img { transform: scale(1.03); }
+.cert__zoom { position: absolute; right: 12px; bottom: 12px; font: 700 .64rem/1 var(--f-mono); color: var(--bg); background: var(--accent); padding: 6px 9px; border-radius: 999px; opacity: 0; transform: translateY(6px); transition: .3s var(--ease); }
+.cert:hover .cert__zoom, .cert__img:focus-visible .cert__zoom { opacity: 1; transform: none; }
+.lightbox { max-width: min(94vw, 1100px); max-height: 92vh; padding: 0; border: 1px solid var(--line); border-radius: 14px; background: var(--bg-2); color: var(--white); overflow: hidden; }
+.lightbox::backdrop { background: rgba(5, 5, 6, .85); backdrop-filter: blur(4px); }
+.lightbox img { display: block; max-width: 100%; max-height: calc(92vh - 64px); margin: 0 auto; }
+.lightbox .pill { margin: 12px auto; display: flex; }
+.cert__img--empty { background: repeating-linear-gradient(135deg, rgba(243, 240, 236, .035) 0 10px, transparent 10px 20px), #0E0E11; }
+.cert__img--empty span { font: 400 .7rem/1.4 var(--f-mono); color: var(--muted); border: 1px dashed rgba(243, 240, 236, .2); border-radius: 8px; padding: 8px 12px; }
+.cert__body { padding: 20px 22px 24px; display: grid; gap: 8px; }
+.cert h4, .deck-wrap h4 { margin: 0; font: 400 1.5rem/1.05 var(--f-display); text-transform: uppercase; }
+.cert p, .deck-wrap p { color: var(--muted); font-size: .9rem; }
+.cert p.todo, .deck-wrap p.todo { color: var(--pending); font-size: .7rem; }
+.deck-wrap { display: grid; gap: 8px; }
+.deck { position: relative; display: block; width: 100%; aspect-ratio: 10 / 7; margin-bottom: 14px; padding: 0; border: 0; background: none; cursor: pointer; text-align: left; color: inherit; font: inherit; border-radius: 14px; }
+.deck__card { --i: 0; position: absolute; inset: 16% 16% 0 0; border-radius: 12px; border: 1px solid var(--line); background: var(--bg-2); padding: 0; overflow: hidden; display: block; transform: translate(calc(var(--i) * 9px), calc(var(--i) * -9px)) rotate(calc(var(--i) * 2deg)); transform-origin: bottom left; z-index: calc(10 - var(--i)); transition: transform .6s var(--ease), border-color .3s, opacity .3s; box-shadow: 0 18px 40px -18px rgba(0, 0, 0, .9); }
+.deck:hover .deck__card, .deck:focus-visible .deck__card { transform: translate(calc(var(--i) * 22px), calc(var(--i) * -12px)) rotate(calc(var(--i) * 4deg)); }
+.deck__card:not(.is-top) { opacity: .92; }
+.deck__card.is-top { border-color: rgba(34, 216, 119, .6); }
+.deck__top { display: flex; justify-content: space-between; align-items: center; font: 400 .68rem/1 var(--f-mono); color: var(--muted); }
+.deck__top b { font: 400 1.3rem/1 var(--f-display); color: var(--white); letter-spacing: .02em; font-weight: 400; }
+.deck__card.is-top .deck__top b { color: var(--accent); }
+.deck__name { font: 400 1.5rem/1.05 var(--f-display); text-transform: uppercase; color: var(--white); }
+.deck__card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.deck__cap { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: end; gap: 10px; padding: 26px 14px 12px; background: linear-gradient(0deg, rgba(10, 10, 12, .92), transparent); }
+.deck__cap b { font: 400 1.05rem/1.1 var(--f-display); text-transform: uppercase; color: var(--white); font-weight: 400; }
+.deck__cap span { font: 400 .64rem/1 var(--f-mono); color: var(--accent); white-space: nowrap; }
+.deck__links { list-style: none; margin: 4px 0 0; padding: 0; display: grid; }
+.deck__links li { display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--line); }
+.deck__row { flex: 1; min-width: 0; display: grid; gap: 3px; padding: 10px 0; background: none; border: 0; color: var(--white); text-align: left; font: 400 .8rem/1.35 var(--f-body); cursor: zoom-in; }
+.deck__row:hover { color: var(--accent); }
+.deck__meta { font: 400 .66rem/1 var(--f-mono); color: var(--muted); }
+.deck__verify { font: 400 .66rem/1 var(--f-mono); color: var(--muted); text-decoration: none; white-space: nowrap; }
+.deck__verify::after { content: " ↗"; }
+.deck__verify:hover { color: var(--accent); }
+.deck__foot { font: 400 .64rem/1 var(--f-mono); color: var(--muted); }
+@media (max-width: 900px) { .certs__grid { grid-template-columns: 1fr; } }
+@media (max-width: 700px) { .edu { grid-template-columns: 1fr; } }
+
+
+/* design spec */
+.spec { background: var(--bg-2); border-top: 1px solid var(--line); }
+.spec__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.spec__box { border: 1px solid var(--line); border-radius: 14px; padding: 24px; background: var(--bg); display: grid; gap: 12px; align-content: start; }
+.spec__box h3 { font: 400 .72rem/1.2 var(--f-mono); text-transform: uppercase; color: var(--accent); letter-spacing: .08em; }
+.spec__box ul { margin: 0; padding-left: 1.1em; display: grid; gap: 7px; font-size: .93rem; color: #C9C6C1; }
+.swatches { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.sw { border-radius: 10px; border: 1px solid var(--line); overflow: hidden; font: 400 .66rem/1.3 var(--f-mono); }
+.sw i { display: block; height: 52px; }
+.sw span { display: block; padding: 7px 9px; color: var(--muted); }
+.t-a { font: 400 3rem/1 var(--f-display); text-transform: uppercase; color: var(--accent); }
+.t-b { font: 700 2.2rem/1 var(--f-script); }
+.t-c { color: #C9C6C1; }
+.t-d { font: 400 .8rem/1.5 var(--f-mono); color: var(--muted); }
+@media (max-width: 860px) { .spec__grid { grid-template-columns: 1fr; } }
+
+footer { border-top: 1px solid var(--line); }
+.foot { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px 40px; align-items: end; padding-block: 64px 40px; }
+.foot__quote { font: 700 clamp(1.5rem, 2.8vw, 2.1rem)/1.15 var(--f-script); color: var(--muted); max-width: 34ch; }
+.foot__links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.foot__links a { display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; font: 700 .78rem/1 var(--f-body); text-decoration: none; transition: border-color .2s, color .2s; }
+.foot__links a:hover { border-color: var(--accent); color: var(--accent); }
+.foot__links svg { width: 15px; height: 15px; }
+.foot__base { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 22px; border-top: 1px solid var(--line); font: 400 .7rem/1.5 var(--f-mono); color: var(--muted); }
+@media (max-width: 760px) { .foot { grid-template-columns: 1fr; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: 1ms !important; transition-delay: 0ms !important; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- ================= BOOT SEQUENCE ================= -->
+<div class="boot" id="boot" aria-hidden="true">
+  <div class="boot__half boot__half--top"></div>
+  <div class="boot__half boot__half--bot"></div>
+  <div class="boot__seam"></div>
+  <div class="boot__log" id="bootLog"></div>
+  <button class="boot__skip" id="bootSkip" type="button" data-i18n="boot.skip">pular intro ⏎</button>
+  <div class="boot__count"><span id="bootNum">000</span><small>%</small></div>
+  <div class="boot__bar"><i id="bootBar"></i></div>
+</div>
+
+<div class="proto-strip"><span data-i18n="strip">Protótipo v3.7 · estilo pôster em verde · EN · PT · ES · conteúdo completo · só design, o código do site ainda não foi alterado</span> <button type="button" id="replay" data-i18n="strip.replay">rever intro</button> <a href="#design" data-i18n="strip.ds">sistema de design</a></div>
+
+<main>
+<!-- ================= HERO ================= -->
+<section class="hero" id="inicio" aria-label="Apresentação">
+  <header class="top">
+    <div class="wrap top__in">
+      <a class="brand" href="#inicio"><b>FELIPE FARIAS<i>.</i></b><span>full stack developer<br>c# · .net · sql · angular</span></a>
+      <ul class="nav">
+        <li><a href="#sobre" data-i18n="nav.about">Sobre</a></li>
+        <li><a href="#experiencia" data-i18n="nav.xp">Experiência</a></li>
+        <li><a href="#projetos" data-i18n="nav.projects">Projetos</a></li>
+        <li><a href="#stack">Stack</a></li>
+        <li><a href="#formacao" data-i18n="nav.edu">Formação</a></li>
+      </ul>
+      <div class="top__actions">
+        <a class="icon-btn" href="https://github.com/ftfariasdev" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.96c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
+        <a class="icon-btn" href="https://www.linkedin.com/in/ftfariasdev" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a>
+        <div class="langs" role="group" aria-label="Language / Idioma"><button type="button" data-lang="en" aria-pressed="true" lang="en">EN</button><button type="button" data-lang="pt" aria-pressed="false" lang="pt-BR">PT</button><button type="button" data-lang="es" aria-pressed="false" lang="es">ES</button></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="layer hero__grid" aria-hidden="true"></div>
+  <div class="layer hero__glow" aria-hidden="true"></div>
+  <div class="layer hero__word" aria-hidden="true"><div class="word" id="word"><span>F</span><span>T</span><span>F</span><span>A</span><span>R</span><span>I</span><span>A</span><span>S</span></div></div>
+  <div class="layer hero__person"><img class="person" src="img/hero.webp" alt="Felipe Farias de camisa branca, olhando para a câmera" width="655" height="1195"></div>
+  <div class="layer hero__front" aria-hidden="true">
+    <span class="spark" style="left:44%;top:30%">+</span>
+    <span class="spark g" style="left:30%;top:64%;animation-delay:.8s">+</span>
+    <span class="spark" style="left:66%;top:20%;animation-delay:1.4s">+</span>
+    <span class="spark g" style="left:80%;top:44%;animation-delay:.4s">✦</span>
+    <span class="spark" style="left:55%;top:72%;animation-delay:2s">+</span>
+    <div class="cursor-tag c1"><svg viewBox="0 0 24 24"><path d="M3 2l7 19 2.6-7.4L20 11z" fill="#22D877" stroke="#fff" stroke-width="1.2"/></svg><span>C#</span></div>
+    <div class="cursor-tag c2"><svg viewBox="0 0 24 24"><path d="M3 2l7 19 2.6-7.4L20 11z" fill="#2E6BFF" stroke="#fff" stroke-width="1.2"/></svg><span>SQL Server</span></div>
+    <div class="cursor-tag c3"><svg viewBox="0 0 24 24"><path d="M3 2l7 19 2.6-7.4L20 11z" fill="#F2F0EC" stroke="#111" stroke-width="1.2"/></svg><span>AngularJS</span></div>
+  </div>
+  <div class="cursor-tag you" id="you" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 2l7 19 2.6-7.4L20 11z" fill="#F3F0EC" stroke="#0A0A0C" stroke-width="1.2"/></svg><span data-i18n="hero.you">você</span></div>
+
+  <div class="wrap hero__ui">
+    <div class="intro">
+      <p class="hello" data-i18n="hero.hello">Olá, eu sou</p>
+      <h1 class="name">Felipe<br>Farias<i>.</i></h1>
+      <p class="role" data-i18n-html="hero.role">Full Stack Developer<br>@ Softwrench</p>
+      <p class="bio" data-i18n="hero.bio">Construo sistemas web de ponta a ponta, do banco de dados à interface. Código limpo, entregue com cuidado do primeiro commit ao deploy.</p>
+      <div class="cta">
+        <a class="btn btn--accent" href="#projetos"><span data-i18n="hero.cta1">Ver meus projetos</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></a>
+        <a class="btn btn--line" href="https://github.com/ftfariasdev">GitHub ↗</a>
+      </div>
+      <p class="loc"><i></i>Hortolândia, SP · BR · <span id="clock">--:--</span></p>
+    </div>
+    <div class="stats">
+      <div class="win" aria-label="Status do último build">
+        <div class="win__bar"><i></i><i></i><i></i><span>~/guardiao-antigolpe</span></div>
+        <div class="win__body">$ git push origin main<br><span class="ok">✓ build passed</span> · 9 <span data-i18n="hero.days">dias</span><br><span class="r">★ <span data-i18n="hero.place">3º lugar · Semana da Tecnologia</span></span></div>
+      </div>
+      <div class="stat"><b data-count="6">06</b><span data-i18n="hero.s1">projetos no GitHub</span></div>
+      <div class="stat"><b>3º</b><span data-i18n-html="hero.s2">lugar · Semana da<br>Tecnologia UNASP</span></div>
+      <div class="stat"><b data-count="17">17</b><span data-i18n="hero.s3">certificados</span></div>
+    </div>
+  </div>
+
+  <div class="hero__bottom">
+    <div class="wrap">
+      <span>© 2026 · ftfariasdev</span>
+      <a class="scroll-cue" href="#sobre"><i></i><span data-i18n="hero.scroll">role para explorar</span></a>
+      <span>C# · .NET · SQL Server · AngularJS</span>
+    </div>
+  </div>
+</section>
+
+<div class="bands" aria-hidden="true">
+  <div class="band band--dark"><div class="band__track" id="bandB"></div></div>
+  <div class="band band--accent"><div class="band__track" id="bandA"></div></div>
+</div>
+
+<!-- ================= SOBRE ================= -->
+<section class="sec" id="sobre">
+  <span class="ghost" aria-hidden="true">SOBRE</span>
+  <div class="wrap about">
+    <figure class="about__fig rv">
+      <img src="img/about.webp" alt="Felipe com microfone e notebook no palco da UNASP, durante o pitch do Guardião Antigolpe" width="740" height="900">
+      <figcaption data-i18n="about.cap">Pitch do Guardião Antigolpe · UNASP Hortolândia</figcaption>
+    </figure>
+    <div class="about__text">
+      <p class="eyebrow" data-i18n="about.eyebrow">Sobre mim</p>
+      <h2 class="about__lead rv" data-i18n-html="about.lead">Do banco de dados à interface, <em>de ponta a ponta.</em></h2>
+      <p class="rv" data-i18n-html="about.p1">Sou <strong>Felipe Teixeira Farias</strong>, desenvolvedor full stack na Softwrench, empresa de Scottsdale, nos EUA. Trabalho 100% remoto com um time internacional.</p>
+      <p class="rv" data-i18n-html="about.p2">No dia a dia desenvolvo funcionalidades completas em uma plataforma web de gestão de manutenção e ativos (CMMS): serviços em <strong>C# e .NET</strong> com <strong>SQL Server</strong> no back-end e <strong>AngularJS</strong> no front-end.</p>
+      <p class="rv" data-i18n-html="about.p3">Sou técnico em desenvolvimento web pela ETEC e curso Sistemas de Informação na UNASP. No grêmio estudantil treinei liderança e trabalho em equipe. Fora do código, toco guitarra e bateria.</p>
+      <div class="facts rv">
+        <div><b>Softwrench</b><span data-i18n="about.f1">empresa atual</span></div>
+        <div><b>100%</b><span data-i18n="about.f2">remoto · time internacional</span></div>
+        <div><b>PT · EN</b><span data-i18n="about.f3">idiomas</span></div>
+        <div><b>2024</b><span data-i18n="about.f4">início na ETEC</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EXPERIÊNCIA ================= -->
+<section class="sec" id="experiencia">
+  <span class="ghost" aria-hidden="true">XP</span>
+  <div class="wrap">
+    <div class="sec__head">
+      <div><p class="eyebrow" data-i18n="xp.eyebrow">Experiência</p><h2 class="h2 rv" data-i18n-html="xp.h">Onde eu <em>trabalho</em></h2></div>
+      <p class="sec__note" data-i18n="xp.note">Experiência profissional e liderança estudantil.</p>
+    </div>
+    <article class="job rv">
+      <div class="job__year">2025<small data-i18n="xp.when">ago 2025 – hoje · tempo integral</small><span class="job__live" data-i18n="xp.live">atual</span></div>
+      <div>
+        <h3>Full Stack Developer</h3>
+        <p class="job__co"><img src="img/sw.png" alt="">Softwrench · <span data-i18n="xp.loc">Scottsdale, AZ, EUA</span> · <span data-i18n="xp.remote">remoto</span></p>
+        <ul>
+          <li data-i18n="xp.b1">Desenvolvimento full stack de uma plataforma web de gestão de manutenção e ativos (CMMS) usada por clientes nos EUA.</li>
+          <li data-i18n="xp.b2">Funcionalidades de ponta a ponta: serviços de back-end em C# e .NET com SQL Server e entrega no front-end em AngularJS.</li>
+          <li data-i18n="xp.b3">Correção de bugs e melhoria contínua de um sistema em produção, com time internacional.</li>
+        </ul>
+        <div class="tags"><span class="tag">C#</span><span class="tag">.NET Framework</span><span class="tag">SQL Server</span><span class="tag">AngularJS</span></div>
+      </div>
+    </article>
+    <article class="job rv">
+      <div class="job__year">4<small data-i18n="xp.scWhen">anos na presidência</small></div>
+      <div>
+        <h3 data-i18n="xp.sc">Presidente do Grêmio Estudantil</h3>
+        <p class="job__co">Escola Estadual Prof. Hedy Madalena Bocchi</p>
+        <ul>
+          <li data-i18n="xp.scb1">Presidi o grêmio estudantil por 4 anos, representando os alunos junto à direção da escola.</li>
+          <li data-i18n="xp.scb2">Liderança, comunicação, planejamento e trabalho em equipe na organização de projetos e eventos.</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ================= PROJETOS ================= -->
+<section class="sec" id="projetos">
+  <span class="ghost" aria-hidden="true">WORK</span>
+  <div class="wrap">
+    <div class="sec__head">
+      <div><p class="eyebrow" data-i18n="pr.eyebrow">Projetos selecionados (06)</p><h2 class="h2 rv" data-i18n-html="pr.h">O que eu <em>construí</em></h2></div>
+      <p class="sec__note" data-i18n="pr.note">Passe o mouse em cada linha para ver uma prévia.</p>
+    </div>
+
+    <article class="feature rv">
+      <div class="feature__img" id="fImg">
+        <img src="img/p2.jpg" alt="Felipe apresentando o Guardião Antigolpe, com o app projetado no telão" style="object-position: 50% 12%">
+        <img src="img/p1.jpg" alt="Felipe no palco da UNASP ao lado do notebook" style="object-position: 60% 18%">
+        <div class="medal"><b>3º</b><span data-i18n-html="pr.g.medal">lugar · Semana da<br>Tecnologia UNASP</span></div>
+        <button class="pill" type="button" id="fSwap" data-i18n="pr.g.swap">próxima foto</button>
+      </div>
+      <div class="feature__body">
+        <p class="feature__meta" data-i18n="pr.g.meta">01 · Destaque · 2026 · solo · 9 dias</p>
+        <h3>Guardião Antigolpe</h3>
+        <p data-i18n="pr.g.d">PWA com IA que analisa mensagens suspeitas e avisa a família antes do Pix. Regras fixas e um LLM decidem juntos, e o risco final é sempre o maior dos dois. Pensado para pessoas idosas, com acessibilidade WCAG 2.1 AA.</p>
+        <p data-i18n="pr.g.d2">Construí sozinho em 9 dias, no 2º semestre da faculdade: app, API em tempo real e uma apresentação 3D programada.</p>
+        <div class="tags"><span class="tag">TypeScript</span><span class="tag">React</span><span class="tag">Fastify</span><span class="tag">Prisma</span><span class="tag">Socket.IO</span><span class="tag">LLM</span></div>
+        <div class="links"><a class="btn btn--accent" href="https://guardiao-antigolpe.vercel.app" data-i18n="pr.g.app">Abrir app ↗</a><a class="btn btn--line" href="https://github.com/ftfariasdev/guardiao-antigolpe" data-i18n="pr.code">Código ↗</a><a class="btn btn--line" href="https://guardiao-pitch.vercel.app">Pitch ↗</a></div>
+      </div>
+    </article>
+
+    <ul class="plist">
+      <li><a class="prow" href="https://github.com/ftfariasdev/pulso" data-prev="pulso"><span class="prow__i">02</span><span class="prow__n">Pulso</span><span class="prow__d" data-i18n="pr.p">Plataforma multiagente que conecta voluntários a ONGs e à Defesa Civil · IBM watsonx · FastAPI</span><span class="prow__y">2026</span><svg class="prow__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></a></li>
+      <li><a class="prow" href="https://github.com/ftfariasdev/SAGA" data-prev="saga"><span class="prow__i">03</span><span class="prow__n">SAGA</span><span class="prow__d" data-i18n="pr.s">Sistema de gestão acadêmica, TCC da ETEC em time de 4 · Node.js · Prisma · PostgreSQL</span><span class="prow__y">2025</span><svg class="prow__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></a></li>
+      <li><a class="prow" href="https://github.com/ftfariasdev/LinSolve" data-prev="linsolve"><span class="prow__i">04</span><span class="prow__n">LinSolve</span><span class="prow__d" data-i18n="pr.l">Calculadora de sistemas lineares · FastAPI · React · TypeScript</span><span class="prow__y">2026</span><svg class="prow__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></a></li>
+      <li><a class="prow" href="https://github.com/ftfariasdev/ElixirBotForTelegram" data-prev="elixir"><span class="prow__i">05</span><span class="prow__n">ElixirBot</span><span class="prow__d" data-i18n="pr.e">Bot de Telegram que valida CPFs, time de 5 · Elixir</span><span class="prow__y">Elixir</span><svg class="prow__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></a></li>
+      <li><a class="prow" href="https://github.com/ftfariasdev/ftfariasdev" data-prev="profile"><span class="prow__i">06</span><span class="prow__n">Profile as Code</span><span class="prow__d" data-i18n="pr.f">README do GitHub gerado por código · SVG · GitHub Actions</span><span class="prow__y">2026</span><svg class="prow__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg></a></li>
+    </ul>
+  </div>
+</section>
+<div class="preview" id="preview" aria-hidden="true"></div>
+<dialog class="lightbox" id="lightbox"><img id="lightboxImg" src="" alt=""><button class="pill" type="button" id="lightboxClose" data-i18n="ce.close">fechar ✕</button></dialog>
+
+<!-- ================= STACK ================= -->
+<section class="sec" id="stack">
+  <span class="ghost" aria-hidden="true">STACK</span>
+  <div class="wrap">
+    <div class="sec__head">
+      <div><p class="eyebrow" data-i18n="st.eyebrow">Tecnologias</p><h2 class="h2 rv" data-i18n-html="st.h">Minha <em>stack</em></h2></div>
+      <p class="sec__note" data-i18n="st.note">Arraste a esfera para girar. Passe o mouse ou toque em uma tecnologia.</p>
+    </div>
+    <div class="stack">
+      <div class="sphere" id="sphere"><ul class="sphere__tags" id="sphereTags" aria-label="Tecnologias"></ul><p class="sphere__hint" data-i18n="st.hint">arraste para girar</p></div>
+      <div>
+        <div class="inspect" aria-live="polite">
+          <p class="inspect__k" data-i18n="st.k">inspecionar</p>
+          <p class="inspect__n" id="iName">C#</p>
+          <p class="inspect__t" id="iType">uso diário na Softwrench</p>
+          <ul id="iUses"><li>Softwrench</li></ul>
+        </div>
+        <div class="legend"><span data-i18n="st.lg1">uso diário no trabalho</span><span data-i18n="st.lg2">projetos e faculdade</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FORMAÇÃO ================= -->
+<section class="sec" id="formacao">
+  <span class="ghost" aria-hidden="true">EDU</span>
+  <div class="wrap">
+    <div class="sec__head">
+      <div><p class="eyebrow" data-i18n="ed.eyebrow">Formação</p><h2 class="h2 rv" data-i18n-html="ed.h">Sempre <em>aprendendo</em></h2></div>
+      <p class="sec__note" data-i18n="ed.note">17 certificados no LinkedIn.</p>
+    </div>
+    <div class="edu">
+      <article class="card rv"><span class="card__n">01</span><span class="card__s" data-i18n="ed.u.s">em andamento · fev 2026 – dez 2029</span><h3 data-i18n="ed.u.h">Sistemas de Informação</h3><p data-i18n="ed.u.d">UNASP, Centro Universitário Adventista de São Paulo, campus Hortolândia.</p></article>
+      <article class="card rv"><span class="card__n">02</span><span class="card__s" data-i18n="ed.e.s">concluído · fev 2024 – jun 2025</span><h3 data-i18n="ed.e.h">Técnico em Desenvolvimento Web</h3><p data-i18n="ed.e.d">ETEC. Lógica de programação, orientação a objetos e desenvolvimento web. TCC: SAGA, sistema de gestão acadêmica feito em time de quatro.</p></article>
+    </div>
+
+    <div class="certs">
+      <div class="certs__head"><h3 class="certs__title" data-i18n="ce.h">Certificados em destaque</h3><span class="certs__count" data-i18n="ce.count">17 no total</span></div>
+      <div class="certs__grid">
+        <article class="cert rv">
+          <button class="cert__img" type="button" data-full="img/cert-profissional50.webp"><img src="img/cert-profissional50.webp" alt="Certificado de participação no treinamento Profissional 5.0, AC International Group e UNASP Hortolândia" width="1200" height="933" loading="lazy"><span class="cert__zoom" data-i18n="ce.zoom">ampliar</span></button>
+          <div class="cert__body"><span class="card__s" data-i18n="ce.p5.s">AC International Group · UNASP · out 2026 · 4 h</span><h4>Profissional 5.0</h4><p data-i18n="ce.p5.d">Treinamento promovido pela AC International Group e pela UNASP Hortolândia.</p></div>
+        </article>
+        <article class="cert rv">
+          <button class="cert__img" type="button" data-full="img/cert-python.webp"><img src="img/cert-python.webp" alt="Certificado do curso de extensão UNASPython, nível intermediário, UNASP campus Hortolândia" width="1200" height="851" loading="lazy"><span class="cert__zoom" data-i18n="ce.zoom">ampliar</span></button>
+          <div class="cert__body"><span class="card__s" data-i18n="ce.py.s">UNASP Hortolândia · set – nov 2025 · 16 h</span><h4 data-i18n="ce.py.h">Python Intermediário</h4><p data-i18n="ce.py.d">4ª edição do curso de extensão UNASPython, nível intermediário. Continuação do Python Básico (mai 2025).</p></div>
+        </article>
+        <div class="deck-wrap rv">
+          <button class="deck" id="deck" type="button">
+          <span class="deck__card"><img src="img/alura-1.webp" alt="" width="1200" height="840" loading="lazy"><span class="deck__cap"><b>Projetos com programação</b><span>7 h · 03/2024</span></span></span>
+          <span class="deck__card"><img src="img/alura-3.webp" alt="" width="1200" height="840" loading="lazy"><span class="deck__cap"><b>Lógica de programação</b><span>10 h · 05/2024</span></span></span>
+          <span class="deck__card"><img src="img/alura-4.webp" alt="" width="1200" height="840" loading="lazy"><span class="deck__cap"><b>ChatGPT: desvendando a IA</b><span>8 h · 07/2024</span></span></span>
+          <span class="deck__card"><img src="img/alura-2.webp" alt="" width="1200" height="840" loading="lazy"><span class="deck__cap"><b>Página web responsiva</b><span>8 h · 11/2024</span></span></span>
+          </button>
+          <h4 data-i18n="ce.alura">Cursos da Alura</h4>
+          <p data-i18n="ce.alura.d">4 cursos · 33 horas. Clique na pilha para folhear e em um curso para ver o certificado.</p>
+          <ul class="deck__links">
+            <li><button type="button" class="deck__row" data-full="img/alura-1.webp" data-alt="Certificado Alura: Projetos com programação: utilizando a criatividade através dos códigos"><span>Projetos com programação: utilizando a criatividade através dos códigos</span><span class="deck__meta">7 h · 03/2024</span></button><a class="deck__verify" href="https://cursos.alura.com.br/certificate/ac3eb375-fda1-4ac9-ac15-802e4355e174" data-i18n="ce.alura.v">verificar</a></li>
+            <li><button type="button" class="deck__row" data-full="img/alura-3.webp" data-alt="Certificado Alura: Lógica de programação: desenvolvendo um jogo estilo Pong"><span>Lógica de programação: desenvolvendo um jogo estilo Pong</span><span class="deck__meta">10 h · 05/2024</span></button><a class="deck__verify" href="https://cursos.alura.com.br/certificate/5a649649-665a-4085-832e-8c5a895a8d25" data-i18n="ce.alura.v">verificar</a></li>
+            <li><button type="button" class="deck__row" data-full="img/alura-4.webp" data-alt="Certificado Alura: ChatGPT: desvendando a IA em conversas e suas aplicações"><span>ChatGPT: desvendando a IA em conversas e suas aplicações</span><span class="deck__meta">8 h · 07/2024</span></button><a class="deck__verify" href="https://cursos.alura.com.br/certificate/8b56d992-7ab5-42e0-9326-ca4db46c9ebc" data-i18n="ce.alura.v">verificar</a></li>
+            <li><button type="button" class="deck__row" data-full="img/alura-2.webp" data-alt="Certificado Alura: Página web: utilizando a responsividade em aplicações com HTML e CSS - Parte 2"><span>Página web: utilizando a responsividade em aplicações com HTML e CSS - Parte 2</span><span class="deck__meta">8 h · 11/2024</span></button><a class="deck__verify" href="https://cursos.alura.com.br/certificate/e6dfdb8b-fb81-4713-9d2f-b802f8a4d5a2" data-i18n="ce.alura.v">verificar</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SISTEMA DE DESIGN (protótipo) ================= -->
+<section class="sec spec" id="design">
+  <div class="wrap">
+    <div class="sec__head"><div><p class="eyebrow" data-i18n="ds.eyebrow">Só no protótipo</p><h2 class="h2" data-i18n-html="ds.h">Sistema de <em>design</em></h2></div></div>
+    <div class="spec__grid">
+      <div class="spec__box">
+        <h3 data-i18n="ds.goal">Objetivo e referência</h3>
+        <ul>
+          <li data-i18n="ds.g1">Direção baseada na referência que você enviou: pôster escuro, palavra gigante atrás da foto recortada e elementos de interface flutuando. A cor de destaque passou de vermelho para verde, a seu pedido.</li>
+          <li data-i18n="ds.g2">Tema 100% de tecnologia, sem referência a nenhum setor de negócio.</li>
+          <li data-i18n="ds.g3">Em 10 segundos, quem chega entende quem você é e o que você constrói. Nada no site sugere busca de emprego.</li>
+          <li data-i18n="ds.g4">Metas técnicas: Lighthouse ≥ 90 em performance e 100 em acessibilidade.</li>
+          <li data-i18n="ds.g5">Idiomas: inglês por padrão, com português e espanhol no seletor do topo.</li>
+        </ul>
+      </div>
+      <div class="spec__box">
+        <h3 data-i18n="ds.pal">Paleta</h3>
+        <div class="swatches">
+          <div class="sw"><i style="background:#0A0A0C"></i><span data-i18n="ds.c1">preto · fundo</span></div>
+          <div class="sw"><i style="background:#131317"></i><span data-i18n="ds.c2">grafite · cards</span></div>
+          <div class="sw"><i style="background:#22D877"></i><span data-i18n="ds.c3">verde · destaque</span></div>
+          <div class="sw"><i style="background:#0C5A33"></i><span data-i18n="ds.c4">verde escuro · apoio</span></div>
+          <div class="sw"><i style="background:#F3F0EC"></i><span data-i18n="ds.c5">off-white · texto</span></div>
+          <div class="sw"><i style="background:#8E8E96"></i><span data-i18n="ds.c6">cinza · secundário</span></div>
+        </div>
+      </div>
+      <div class="spec__box">
+        <h3 data-i18n="ds.type">Tipografia</h3>
+        <p class="t-a">Anton · FTFARIAS</p>
+        <p class="t-b" data-i18n="ds.t1">Caveat · Olá, eu sou</p>
+        <p class="t-c" data-i18n="ds.t2">Manrope no texto corrido, legível em qualquer tamanho.</p>
+        <p class="t-d">JetBrains Mono · rótulos, números e código 0123456789</p>
+      </div>
+      <div class="spec__box">
+        <h3 data-i18n="ds.motion">Efeitos e interações</h3>
+        <ul>
+          <li data-i18n="ds.m1">Inicialização: log de boot, contador 000→100%, barra de progresso e a tela se abrindo ao meio com um traço verde.</li>
+          <li data-i18n="ds.m2">Entrada do hero: as letras de FTFARIAS sobem uma a uma, a foto surge de baixo, e nome, números e janela aparecem em sequência.</li>
+          <li data-i18n="ds.m3">Profundidade 3D: fundo, palavra, foto e interface se movem em camadas com o mouse. Um cursor “você” acompanha o seu.</li>
+          <li data-i18n="ds.m4">Faixas cruzadas com a stack, prévia flutuante dos projetos, esfera 3D da stack que gira com arraste e revelação ao rolar.</li>
+          <li data-i18n="ds.m5">Com “reduzir movimento” ativo, a intro é pulada e nada se anima.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p class="foot__quote" data-i18n="ft.q">“Compare-se com quem você era ontem, não com quem outra pessoa é hoje.”</p>
+    <ul class="foot__links">
+      <li><a href="https://github.com/ftfariasdev"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.96c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/ftfariasdev"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>LinkedIn</a></li>
+      <li><a href="https://www.instagram.com/eu_felipefarias/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1" fill="currentColor" stroke="none"/></svg>Instagram</a></li>
+    </ul>
+    <div class="foot__base"><span>© 2026 Felipe Teixeira Farias</span><span data-i18n="ft">Feito à mão em Hortolândia, SP</span></div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  const root = document.documentElement;
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  /* ---------------- i18n ---------------- */
+  const EN = {
+    "strip": "Prototype v3.7 · green poster style · EN · PT · ES · content complete · design only, no site code has been changed yet",
+    "strip.replay": "replay intro",
+    "strip.ds": "design system",
+    "boot.skip": "skip intro ⏎",
+    "nav.about": "About",
+    "nav.xp": "Experience",
+    "nav.projects": "Projects",
+    "nav.edu": "Education",
+    "hero.you": "you",
+    "hero.hello": "Hello, I'm",
+    "hero.role": "Full Stack Developer<br>@ Softwrench",
+    "hero.bio": "I build web systems end to end, from the database to the interface. Clean code, shipped with care from the first commit to deploy.",
+    "hero.cta1": "See my projects",
+    "hero.days": "days",
+    "hero.place": "3rd place · Tech Week",
+    "hero.s1": "projects on GitHub",
+    "hero.s2": "place · Tech Week<br>UNASP",
+    "hero.s3": "certificates",
+    "hero.scroll": "scroll to explore",
+    "about.cap": "Guardião Antigolpe pitch · UNASP Hortolândia",
+    "about.eyebrow": "About me",
+    "about.lead": "From the database to the interface, <em>end to end.</em>",
+    "about.p1": "I'm <strong>Felipe Teixeira Farias</strong>, a full stack developer at Softwrench, a company based in Scottsdale, USA. I work fully remote with an international team.",
+    "about.p2": "Day to day I build complete features on a web platform for maintenance and asset management (CMMS): <strong>C# and .NET</strong> services with <strong>SQL Server</strong> on the back end and <strong>AngularJS</strong> on the front end.",
+    "about.p3": "I hold a technical degree in web development from ETEC and I'm studying Information Systems at UNASP. On the Student Council I built leadership and teamwork skills. Off the clock I play guitar and drums.",
+    "about.f1": "current company",
+    "about.f2": "remote · international team",
+    "about.f3": "languages",
+    "about.f4": "started at ETEC",
+    "xp.eyebrow": "Experience",
+    "xp.h": "Where I <em>work</em>",
+    "xp.note": "Professional experience and student leadership.",
+    "xp.when": "Aug 2025 – now · full-time",
+    "xp.live": "current",
+    "xp.remote": "remote",
+    "xp.b1": "Full stack development of a web platform for maintenance and asset management (CMMS) used by customers in the US.",
+    "xp.b2": "Features end to end: back-end services in C# and .NET with SQL Server, front-end delivery in AngularJS.",
+    "xp.b3": "Bug fixing and continuous improvement of a production system, with an international team.",
+    "pr.eyebrow": "Selected projects (06)",
+    "pr.h": "What I <em>built</em>",
+    "pr.note": "Hover each row to see a preview.",
+    "pr.g.medal": "place · Tech Week<br>UNASP",
+    "pr.g.swap": "next photo",
+    "pr.g.meta": "01 · Featured · 2026 · solo · 9 days",
+    "pr.g.d": "An AI PWA that checks suspicious messages and alerts the family before a Pix payment. Fixed rules and an LLM decide together, and the final risk is always the higher of the two. Built for older adults, WCAG 2.1 AA.",
+    "pr.g.d2": "I built it solo in 9 days during my second semester: the app, a real-time API and a coded 3D presentation.",
+    "pr.g.app": "Open app ↗",
+    "pr.code": "Code ↗",
+    "pr.p": "Multi-agent platform matching volunteers with NGOs and civil defense · IBM watsonx · FastAPI",
+    "pr.s": "Academic management system, ETEC capstone with a team of 4 · Node.js · Prisma · PostgreSQL",
+    "pr.l": "Linear systems calculator · FastAPI · React · TypeScript",
+    "pr.e": "Telegram bot that validates CPF numbers, team of 5 · Elixir",
+    "pr.f": "GitHub README generated by code · SVG · GitHub Actions",
+    "st.eyebrow": "Technologies",
+    "st.h": "My <em>stack</em>",
+    "st.note": "Drag the sphere to spin it. Hover or tap a technology.",
+    "st.hint": "drag to spin",
+    "st.k": "inspect",
+    "st.lg1": "daily at work",
+    "st.lg2": "projects and college",
+    "ed.eyebrow": "Education",
+    "ed.h": "Always <em>learning</em>",
+    "ed.note": "17 certificates on LinkedIn.",
+    "ed.u.s": "in progress · Feb 2026 – Dec 2029",
+    "ed.u.h": "Information Systems",
+    "ed.u.d": "UNASP, Centro Universitário Adventista de São Paulo, Hortolândia campus.",
+    "ed.e.s": "completed · Feb 2024 – Jun 2025",
+    "ed.e.h": "Web Development Technician",
+    "ed.e.d": "ETEC. Programming logic, object-oriented programming and web development. Capstone: SAGA, an academic management system built by a team of four.",
+    "ce.h": "Featured certificates",
+    "ce.count": "17 in total",
+    "ce.p5.s": "AC International Group · UNASP · Oct 2026 · 4 h",
+    "ce.py.s": "UNASP Hortolândia · Sep – Nov 2025 · 16 h",
+    "ce.py.h": "Intermediate Python",
+    "ce.py.d": "4th edition of the UNASPython extension course, intermediate level. Follow-up to Basic Python (May 2025).",
+    "ce.alura": "Alura courses",
+    "ce.alura.d": "4 courses · 33 hours. Click the stack to flip through it, or a course to view its certificate.",
+    "ds.eyebrow": "Prototype only",
+    "ds.h": "Design <em>system</em>",
+    "ds.goal": "Goal and reference",
+    "ds.g1": "Direction based on the reference you sent: dark poster, a giant word behind the cut-out photo and floating interface elements. The accent moved from red to green, as you asked.",
+    "ds.g2": "A 100% technology theme, with no reference to any business sector.",
+    "ds.g4": "Technical targets: Lighthouse ≥ 90 performance and 100 accessibility.",
+    "ds.g5": "Languages: English by default, with Portuguese and Spanish in the top switcher.",
+    "ds.pal": "Palette",
+    "ds.c1": "black · background",
+    "ds.c2": "graphite · cards",
+    "ds.c3": "green · accent",
+    "ds.c4": "dark green · support",
+    "ds.c5": "off-white · text",
+    "ds.c6": "grey · secondary",
+    "ds.type": "Typography",
+    "ds.t1": "Caveat · Hello, I'm",
+    "ds.t2": "Manrope for running text, readable at any size.",
+    "ds.motion": "Effects and interactions",
+    "ds.m1": "Boot: a startup log, a 000→100% counter, a progress bar and the screen splitting open with a green line.",
+    "ds.m2": "Hero entrance: FTFARIAS letters rise one by one, the photo slides up, then the name, numbers and window appear in sequence.",
+    "ds.m3": "3D depth: background, word, photo and interface move in layers with the mouse. A “you” cursor follows yours.",
+    "ds.m4": "Crossing stack bands, floating project previews, a 3D stack sphere you can drag and reveal on scroll.",
+    "ds.m5": "With reduced motion on, the intro is skipped and nothing animates.",
+    "ft": "Handmade in Hortolândia, Brazil",
+    
+    "_daily": "used daily at Softwrench",
+    "_side": "projects and college",
+    "_deck": "Show the next Alura certificate",
+    "ce.p5.d": "Training promoted by AC International Group and UNASP Hortolândia.",
+    "ce.zoom": "enlarge",
+    "ce.close": "close ✕",
+    "ce.alura.v": "verify",
+    "xp.sc": "Student Council President",
+    "xp.scWhen": "years as president",
+    "xp.scb1": "Led the student council for 4 years, representing students before the school administration.",
+    "xp.scb2": "Leadership, communication, planning and teamwork while organizing projects and events.",
+    "xp.loc": "Scottsdale, AZ, USA",
+    "ds.g3": "In 10 seconds a visitor knows who you are and what you build. Nothing on the site suggests a job search.",
+    "ft.q": "“Compare yourself to who you were yesterday, not to who someone else is today.”"
+  };
+  const ES = {
+    "strip": "Prototipo v3.7 · estilo póster en verde · EN · PT · ES · contenido completo · solo diseño, el código del sitio aún no se modificó",
+    "strip.replay": "ver la intro otra vez",
+    "strip.ds": "sistema de diseño",
+    "boot.skip": "saltar intro ⏎",
+    "nav.about": "Sobre mí",
+    "nav.xp": "Experiencia",
+    "nav.projects": "Proyectos",
+    "nav.edu": "Formación",
+    "hero.you": "tú",
+    "hero.hello": "Hola, soy",
+    "hero.role": "Full Stack Developer<br>@ Softwrench",
+    "hero.bio": "Construyo sistemas web de punta a punta, de la base de datos a la interfaz. Código limpio, entregado con cuidado desde el primer commit hasta el deploy.",
+    "hero.cta1": "Ver mis proyectos",
+    "hero.days": "días",
+    "hero.place": "3.er lugar · Semana de la Tecnología",
+    "hero.s1": "proyectos en GitHub",
+    "hero.s2": "lugar · Semana de la<br>Tecnología UNASP",
+    "hero.s3": "certificados",
+    "hero.scroll": "desliza para explorar",
+    "about.cap": "Pitch de Guardião Antigolpe · UNASP Hortolândia",
+    "about.eyebrow": "Sobre mí",
+    "about.lead": "De la base de datos a la interfaz, <em>de punta a punta.</em>",
+    "about.p1": "Soy <strong>Felipe Teixeira Farias</strong>, desarrollador full stack en Softwrench, una empresa de Scottsdale, en EE. UU. Trabajo 100 % en remoto con un equipo internacional.",
+    "about.p2": "En el día a día desarrollo funcionalidades completas en una plataforma web de gestión de mantenimiento y activos (CMMS): servicios en <strong>C# y .NET</strong> con <strong>SQL Server</strong> en el back-end y <strong>AngularJS</strong> en el front-end.",
+    "about.p3": "Soy técnico en desarrollo web por la ETEC y estudio Sistemas de Información en la UNASP. En el centro de estudiantes desarrollé liderazgo y trabajo en equipo. Fuera del código, toco guitarra y batería.",
+    "about.f1": "empresa actual",
+    "about.f2": "remoto · equipo internacional",
+    "about.f3": "idiomas",
+    "about.f4": "inicio en la ETEC",
+    "xp.eyebrow": "Experiencia",
+    "xp.h": "Dónde <em>trabajo</em>",
+    "xp.note": "Experiencia profesional y liderazgo estudiantil.",
+    "xp.when": "ago 2025 – hoy · tiempo completo",
+    "xp.live": "actual",
+    "xp.remote": "remoto",
+    "xp.b1": "Desarrollo full stack de una plataforma web de gestión de mantenimiento y activos (CMMS) usada por clientes en EE. UU.",
+    "xp.b2": "Funcionalidades de punta a punta: servicios de back-end en C# y .NET con SQL Server y entrega en el front-end con AngularJS.",
+    "xp.b3": "Corrección de errores y mejora continua de un sistema en producción, con un equipo internacional.",
+    "pr.eyebrow": "Proyectos seleccionados (06)",
+    "pr.h": "Lo que <em>construí</em>",
+    "pr.note": "Pasa el cursor por cada fila para ver una vista previa.",
+    "pr.g.medal": "lugar · Semana de la<br>Tecnología UNASP",
+    "pr.g.swap": "siguiente foto",
+    "pr.g.meta": "01 · Destacado · 2026 · solo · 9 días",
+    "pr.g.d": "PWA con IA que analiza mensajes sospechosos y avisa a la familia antes del Pix. Reglas fijas y un LLM deciden juntos, y el riesgo final siempre es el mayor de los dos. Pensado para personas mayores, con accesibilidad WCAG 2.1 AA.",
+    "pr.g.d2": "Lo construí solo en 9 días, en el 2.º semestre de la facultad: la app, una API en tiempo real y una presentación 3D programada.",
+    "pr.g.app": "Abrir app ↗",
+    "pr.code": "Código ↗",
+    "pr.p": "Plataforma multiagente que conecta voluntarios con ONG y Defensa Civil · IBM watsonx · FastAPI",
+    "pr.s": "Sistema de gestión académica, proyecto final de la ETEC en equipo de 4 · Node.js · Prisma · PostgreSQL",
+    "pr.l": "Calculadora de sistemas lineales · FastAPI · React · TypeScript",
+    "pr.e": "Bot de Telegram que valida CPF, equipo de 5 · Elixir",
+    "pr.f": "README de GitHub generado por código · SVG · GitHub Actions",
+    "st.eyebrow": "Tecnologías",
+    "st.h": "Mi <em>stack</em>",
+    "st.note": "Arrastra la esfera para girarla. Pasa el cursor o toca una tecnología.",
+    "st.hint": "arrastra para girar",
+    "st.k": "inspeccionar",
+    "st.lg1": "uso diario en el trabajo",
+    "st.lg2": "proyectos y facultad",
+    "ed.eyebrow": "Formación",
+    "ed.h": "Siempre <em>aprendiendo</em>",
+    "ed.note": "17 certificados en LinkedIn.",
+    "ed.u.s": "en curso · feb 2026 – dic 2029",
+    "ed.u.h": "Sistemas de Información",
+    "ed.u.d": "UNASP, Centro Universitário Adventista de São Paulo, campus Hortolândia.",
+    "ed.e.s": "concluido · feb 2024 – jun 2025",
+    "ed.e.h": "Técnico en Desarrollo Web",
+    "ed.e.d": "ETEC. Lógica de programación, orientación a objetos y desarrollo web. Proyecto final: SAGA, un sistema de gestión académica hecho en equipo de cuatro.",
+    "ce.h": "Certificados destacados",
+    "ce.count": "17 en total",
+    "ce.p5.s": "AC International Group · UNASP · oct 2026 · 4 h",
+    "ce.py.s": "UNASP Hortolândia · sep – nov 2025 · 16 h",
+    "ce.py.h": "Python Intermedio",
+    "ce.py.d": "4.ª edición del curso de extensión UNASPython, nivel intermedio. Continuación de Python Básico (may 2025).",
+    "ce.alura": "Cursos de Alura",
+    "ce.alura.d": "4 cursos · 33 horas. Haz clic en la pila para pasarla, o en un curso para ver su certificado.",
+    "ds.eyebrow": "Solo en el prototipo",
+    "ds.h": "Sistema de <em>diseño</em>",
+    "ds.goal": "Objetivo y referencia",
+    "ds.g1": "Dirección basada en la referencia que enviaste: póster oscuro, palabra gigante detrás de la foto recortada y elementos de interfaz flotando. El color de acento pasó de rojo a verde, como pediste.",
+    "ds.g2": "Tema 100 % de tecnología, sin referencia a ningún sector de negocio.",
+    "ds.g4": "Metas técnicas: Lighthouse ≥ 90 en rendimiento y 100 en accesibilidad.",
+    "ds.g5": "Idiomas: inglés por defecto, con portugués y español en el selector superior.",
+    "ds.pal": "Paleta",
+    "ds.c1": "negro · fondo",
+    "ds.c2": "grafito · tarjetas",
+    "ds.c3": "verde · acento",
+    "ds.c4": "verde oscuro · apoyo",
+    "ds.c5": "blanco roto · texto",
+    "ds.c6": "gris · secundario",
+    "ds.type": "Tipografía",
+    "ds.t1": "Caveat · Hola, soy",
+    "ds.t2": "Manrope para el texto corrido, legible en cualquier tamaño.",
+    "ds.motion": "Efectos e interacciones",
+    "ds.m1": "Inicio: log de arranque, contador 000→100 %, barra de progreso y la pantalla abriéndose al medio con un trazo verde.",
+    "ds.m2": "Entrada del hero: las letras de FTFARIAS suben una a una, la foto aparece desde abajo, y el nombre, los números y la ventana entran en secuencia.",
+    "ds.m3": "Profundidad 3D: fondo, palabra, foto e interfaz se mueven en capas con el cursor. Un cursor “tú” sigue al tuyo.",
+    "ds.m4": "Franjas cruzadas con el stack, vista previa flotante de los proyectos, esfera 3D del stack que gira al arrastrar y aparición al hacer scroll.",
+    "ds.m5": "Con “reducir movimiento” activo, la intro se salta y nada se anima.",
+    "ft": "Hecho a mano en Hortolândia, Brasil",
+    
+    "_daily": "uso diario en Softwrench",
+    "_side": "proyectos y facultad",
+    "_deck": "Ver el siguiente certificado de Alura",
+    "ce.p5.d": "Capacitación promovida por AC International Group y la UNASP Hortolândia.",
+    "ce.zoom": "ampliar",
+    "ce.close": "cerrar ✕",
+    "ce.alura.v": "verificar",
+    "xp.sc": "Presidente del Centro de Estudiantes",
+    "xp.scWhen": "años en la presidencia",
+    "xp.scb1": "Presidí el centro de estudiantes durante 4 años, representando a los alumnos ante la dirección de la escuela.",
+    "xp.scb2": "Liderazgo, comunicación, planificación y trabajo en equipo en la organización de proyectos y eventos.",
+    "xp.loc": "Scottsdale, AZ, EE. UU.",
+    "ds.g3": "En 10 segundos, quien llega entiende quién eres y qué construyes. Nada en el sitio sugiere búsqueda de empleo.",
+    "ft.q": "“Compárate con quien eras ayer, no con quien es otra persona hoy.”"
+  };
+  const PT = { "_daily": "uso diário na Softwrench", "_side": "projetos e faculdade", "_deck": "Ver o próximo certificado da Alura" };
+  document.querySelectorAll("[data-i18n]").forEach(el => { PT[el.dataset.i18n] = el.textContent; });
+  document.querySelectorAll("[data-i18n-html]").forEach(el => { PT[el.dataset.i18nHtml] = el.innerHTML; });
+  const LANGS = { en: EN, pt: PT, es: ES }, HTML_LANG = { en: "en", pt: "pt-BR", es: "es" };
+  let lang = "en";
+  const t = k => (LANGS[lang] || EN)[k] ?? EN[k] ?? PT[k] ?? k;
+  const langBtns = [...document.querySelectorAll(".langs button")];
+  const relabel = [];
+  function applyLang() {
+    root.lang = HTML_LANG[lang];
+    document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
+    document.querySelectorAll("[data-i18n-html]").forEach(el => { el.innerHTML = t(el.dataset.i18nHtml); });
+    langBtns.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+    relabel.forEach(f => f());
+  }
+  langBtns.forEach(b => b.addEventListener("click", () => { lang = b.dataset.lang; applyLang(); try { localStorage.setItem("ff-lang", lang); } catch (e) {} }));
+
+  /* ---------------- boot sequence ---------------- */
+  const boot = document.getElementById("boot"), bootLog = document.getElementById("bootLog"), bootNum = document.getElementById("bootNum"), bootBar = document.getElementById("bootBar");
+  const LOG = [
+    [0, "<b>&gt;</b> <i>ftfarias.dev</i> boot sequence v3.0"],
+    [8, "<b>[ OK ]</b> loading runtime ........ .NET · Node 22"],
+    [22, "<b>[ OK ]</b> connecting database ... SQL Server"],
+    [36, "<b>[ OK ]</b> compiling stack ....... C# · AngularJS · TypeScript"],
+    [52, "<b>[ OK ]</b> mounting ~/projects ... 6 repos"],
+    [68, "<b>[ OK ]</b> loading assets ........ photos · 3d sphere"],
+    [84, "<b>[ OK ]</b> rendering interface ..."],
+    [98, "<b>&gt;</b> <i>welcome.</i>"],
+  ];
+  let bootRaf = 0, bootDone = true, timers = [];
+  function finishBoot() {
+    if (bootDone) return; bootDone = true; cancelAnimationFrame(bootRaf);
+    bootNum.textContent = "100"; bootBar.style.width = "100%";
+    boot.classList.add("is-done");
+    timers.push(setTimeout(() => { boot.classList.add("is-open"); root.classList.remove("pre-hero"); runHeroIntro(); }, reduce ? 0 : 320));
+    timers.push(setTimeout(() => root.classList.remove("booting"), reduce ? 0 : 1250));
+  }
+  function startBoot() {
+    timers.forEach(clearTimeout); timers = [];
+    bootDone = false; bootLog.innerHTML = ""; boot.classList.remove("is-done", "is-open");
+    root.classList.add("booting", "pre-hero");
+    window.scrollTo(0, 0);
+    if (reduce) { finishBoot(); return; }
+    const t0 = performance.now(), DUR = 2300; let shown = 0;
+    (function step(now) {
+      const p = Math.min(1, (now - t0) / DUR), e = 1 - Math.pow(1 - p, 2.2), pct = Math.round(e * 100);
+      bootNum.textContent = String(pct).padStart(3, "0"); bootBar.style.width = pct + "%";
+      while (shown < LOG.length && pct >= LOG[shown][0]) { const d = document.createElement("div"); d.innerHTML = LOG[shown][1]; bootLog.appendChild(d); shown++; }
+      if (p < 1) bootRaf = requestAnimationFrame(step); else finishBoot();
+    })(t0);
+  }
+  document.getElementById("bootSkip").addEventListener("click", finishBoot);
+  addEventListener("keydown", e => { if (root.classList.contains("booting") && (e.key === "Enter" || e.key === "Escape")) finishBoot(); });
+  document.getElementById("replay").addEventListener("click", startBoot);
+
+  /* ---------------- hero entrance (staggered) ---------------- */
+  const letters = [...document.querySelectorAll("#word span")];
+  const introEls = [...document.querySelectorAll(".intro > *")];
+  const statEls = [...document.querySelectorAll(".win, .stat")];
+  function runHeroIntro() {
+    letters.forEach((s, i) => s.style.transitionDelay = (reduce ? 0 : i * 55) + "ms");
+    document.querySelector(".person").style.transitionDelay = reduce ? "0ms" : "350ms";
+    introEls.forEach((el, i) => el.style.transitionDelay = (reduce ? 0 : 600 + i * 90) + "ms");
+    statEls.forEach((el, i) => el.style.transitionDelay = (reduce ? 0 : 900 + i * 110) + "ms");
+    if (!reduce) document.querySelectorAll("[data-count]").forEach(el => {
+      const target = +el.dataset.count, t0 = performance.now() + 1000;
+      (function step(now) { const p = Math.max(0, Math.min(1, (now - t0) / 900)); el.textContent = String(Math.round(target * (1 - Math.pow(1 - p, 3)))).padStart(2, "0"); if (p < 1) requestAnimationFrame(step); })(performance.now());
+    });
+  }
+
+  /* ---------------- parallax + "you" cursor ---------------- */
+  const hero = document.getElementById("inicio"), you = document.getElementById("you");
+  let tx = 0, ty = 0, cx = 0, cy = 0, ux = 0, uy = 0, upx = 0, upy = 0, heroOn = true;
+  if (fine && !reduce) {
+    hero.addEventListener("pointermove", e => {
+      const r = hero.getBoundingClientRect();
+      tx = ((e.clientX - r.left) / r.width - .5) * 2; ty = ((e.clientY - r.top) / r.height - .5) * 2;
+      ux = e.clientX - r.left; uy = e.clientY - r.top; hero.classList.add("has-pointer");
+    });
+    hero.addEventListener("pointerleave", () => { tx = ty = 0; hero.classList.remove("has-pointer"); });
+    const loop = () => {
+      if (!heroOn) return;
+      cx += (tx - cx) * .07; cy += (ty - cy) * .07;
+      hero.style.setProperty("--mx", cx.toFixed(4)); hero.style.setProperty("--my", cy.toFixed(4));
+      upx += (ux + 18 - upx) * .18; upy += (uy + 18 - upy) * .18;
+      you.style.transform = "translate(" + upx.toFixed(1) + "px," + upy.toFixed(1) + "px)";
+      requestAnimationFrame(loop);
+    };
+    new IntersectionObserver(es => { const was = heroOn; heroOn = es[0].isIntersecting; if (heroOn && !was) requestAnimationFrame(loop); }).observe(hero);
+    requestAnimationFrame(loop);
+  }
+
+  /* ---------------- clock ---------------- */
+  const clock = document.getElementById("clock");
+  const fmt = new Intl.DateTimeFormat("pt-BR", { timeZone: "America/Sao_Paulo", hour: "2-digit", minute: "2-digit" });
+  const tick = () => clock.textContent = fmt.format(new Date()) + " BRT"; tick(); setInterval(tick, 15000);
+
+  /* ---------------- marquee bands ---------------- */
+  const A = ["C#", ".NET", "SQL Server", "AngularJS", "TypeScript", "React", "Node.js", "Python", "PostgreSQL", "Docker"];
+  const B = ["Full Stack", "Clean Code", "End to End", "Remote", "Ship it", "Full Stack", "Clean Code", "End to End"];
+  const fill = (el, arr) => { const html = arr.map(x => "<span>" + x + "</span>").join(""); el.innerHTML = html + html + html + html; };
+  fill(document.getElementById("bandA"), A); fill(document.getElementById("bandB"), B);
+
+  /* ---------------- reveal on scroll ---------------- */
+  if (!reduce && "IntersectionObserver" in window) {
+    const rvs = [...document.querySelectorAll(".rv")];
+    rvs.forEach(el => { if (el.getBoundingClientRect().top > innerHeight) el.classList.add("pre"); });
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.remove("pre"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
+    rvs.forEach(el => io.observe(el));
+  }
+
+  /* ---------------- featured photo swap ---------------- */
+  document.getElementById("fSwap").addEventListener("click", () => document.getElementById("fImg").classList.toggle("alt"));
+
+  /* ---------------- project hover preview ---------------- */
+  const PREV = {
+    pulso: '<span class="c">// modo CRISE ativado</span>\n<span class="k">await</span> matchmaker.rank({\n  demanda: <span class="s">"enchente"</span>,\n  skills: [<span class="s">"primeiros_socorros"</span>],\n  raio_km: 15\n})\n<span class="ok">→ 8 voluntários convocados</span>',
+    saga: '<span class="k">SELECT</span> a.nome, t.turma\n<span class="k">FROM</span> alunos a\n<span class="k">JOIN</span> matriculas m <span class="k">ON</span> m.aluno_id = a.id\n<span class="k">JOIN</span> turmas t <span class="k">ON</span> t.id = m.turma_id;\n<span class="ok">→ ok</span>',
+    linsolve: '<span class="c">// POST /api/linear-system/solve</span>\n[ 2  1 | 5 ]\n[ 1 -1 | 1 ]\n\n<span class="ok">→ SPD · x = 2, y = 1</span>',
+    elixir: '<span class="k">CpfValidator</span>.valid?(\n  <span class="s">"529.982.247-25"</span>\n)\n<span class="ok">→ true · CPF válido</span>',
+    profile: '$ npm run build\n<span class="c">reading tokens.json…</span>\n<span class="ok">✓ SVGs rendered</span>\n<span class="ok">✓ README.md updated</span>\n$ git push',
+  };
+  const preview = document.getElementById("preview");
+  let pvx = 0, pvy = 0, pcx = 0, pcy = 0, pvOn = false;
+  if (fine) {
+    const pvLoop = () => { pcx += (pvx - pcx) * .15; pcy += (pvy - pcy) * .15; preview.style.left = pcx + "px"; preview.style.top = pcy + "px"; if (preview.classList.contains("on") || Math.abs(pvx - pcx) > .5) requestAnimationFrame(pvLoop); else pvOn = false; };
+    document.querySelectorAll(".prow").forEach(row => {
+      row.addEventListener("mouseenter", () => { preview.innerHTML = '<div class="preview__code">' + PREV[row.dataset.prev] + "</div>"; preview.classList.add("on"); if (!pvOn) { pvOn = true; requestAnimationFrame(pvLoop); } });
+      row.addEventListener("mouseleave", () => preview.classList.remove("on"));
+    });
+    addEventListener("mousemove", e => { pvx = Math.min(innerWidth - 160, e.clientX + 170); pvy = e.clientY; });
+  }
+
+  /* ---------------- Alura certificate deck ---------------- */
+  const deck = document.getElementById("deck");
+  if (deck) {
+    const dcards = [...deck.querySelectorAll(".deck__card")];
+    const order = dcards.map((_, i) => i);
+    const lay = () => order.forEach((ci, pos) => { dcards[ci].style.setProperty("--i", pos); dcards[ci].classList.toggle("is-top", pos === 0); });
+    lay();
+    deck.addEventListener("click", () => { order.push(order.shift()); lay(); });
+    relabel.push(() => deck.setAttribute("aria-label", t("_deck")));
+  }
+
+  /* ---------------- certificate lightbox ---------------- */
+  const lb = document.getElementById("lightbox"), lbImg = document.getElementById("lightboxImg");
+  document.querySelectorAll("[data-full]").forEach(b => b.addEventListener("click", () => {
+    const img = b.querySelector("img"); lbImg.src = b.dataset.full; lbImg.alt = b.dataset.alt || (img ? img.alt : "");
+    if (lb.showModal) lb.showModal(); else lb.setAttribute("open", "");
+  }));
+  document.getElementById("lightboxClose").addEventListener("click", () => lb.close ? lb.close() : lb.removeAttribute("open"));
+  lb.addEventListener("click", e => { if (e.target === lb && lb.close) lb.close(); });
+
+
+  /* ---------------- 3D stack sphere ---------------- */
+  const TECH = [
+    ["C#", 1, ["Softwrench"]], [".NET", 1, ["Softwrench"]], ["SQL Server", 1, ["Softwrench"]], ["AngularJS", 1, ["Softwrench"]], ["SQL", 1, ["Softwrench", "SAGA"]],
+    ["JavaScript", 0, ["SAGA"]], ["TypeScript", 0, ["Guardião", "LinSolve"]], ["React", 0, ["Guardião", "LinSolve"]], ["Node.js", 0, ["SAGA", "Profile as Code"]],
+    ["Fastify", 0, ["Guardião"]], ["Express", 0, ["SAGA"]], ["Prisma", 0, ["Guardião", "SAGA"]], ["PostgreSQL", 0, ["Guardião", "SAGA"]], ["Socket.IO", 0, ["Guardião"]],
+    ["Python", 0, ["Pulso", "LinSolve"]], ["FastAPI", 0, ["Pulso", "LinSolve"]], ["Elixir", 0, ["ElixirBot"]], ["LLM", 0, ["Guardião", "Pulso"]], ["watsonx", 0, ["Pulso"]],
+    ["Docker", 0, ["Guardião", "SAGA"]], ["Git", 0, ["todos os projetos|every project|todos los proyectos"]], ["GitHub Actions", 0, ["Profile as Code"]], ["Vite", 0, ["Guardião", "LinSolve"]], ["HTML", 0, ["SAGA"]],
+    ["CSS", 0, ["SAGA"]], ["SQLite", 0, ["Pulso"]], ["PWA", 0, ["Guardião"]], ["Three.js", 0, ["Guardião (pitch)"]], ["Bootstrap", 0, ["portfólio v1|portfolio v1|portafolio v1"]],
+  ];
+  const iName = document.getElementById("iName"), iType = document.getElementById("iType"), iUses = document.getElementById("iUses");
+  let current = TECH[0];
+  const pickL = s => { const [pt, en, es] = s.split("|"); return lang === "en" ? (en || pt) : lang === "es" ? (es || en || pt) : pt; };
+  function inspectTech(item) {
+    current = item;
+    iName.textContent = item[0];
+    iType.textContent = item[1] ? t("_daily") : t("_side");
+    iUses.innerHTML = item[2].map(u => "<li>" + pickL(u) + "</li>").join("");
+  }
+  relabel.push(() => inspectTech(current));
+
+  function initSphere() {
+    const wrap = document.getElementById("sphere"), list = document.getElementById("sphereTags");
+    const N = TECH.length, STEP = 11; // spread "daily" items around the sphere instead of clustering them
+    const items = TECH.map((item, i) => {
+      const li = document.createElement("li"), b = document.createElement("button");
+      b.type = "button"; b.className = "tagb" + (item[1] ? " daily" : ""); b.textContent = item[0]; b.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+      const k = (i * STEP) % N, y = 1 - (k + .5) / N * 2, r = Math.sqrt(1 - y * y), th = k * Math.PI * (3 - Math.sqrt(5));
+      li.appendChild(b); list.appendChild(li);
+      const pick = () => { items.forEach(o => o.b.setAttribute("aria-pressed", String(o.b === b))); inspectTech(item); };
+      b.addEventListener("click", pick);
+      b.addEventListener("focus", () => { paused = true; pick(); });
+      b.addEventListener("blur", () => { paused = false; });
+      if (fine) b.addEventListener("mouseenter", pick);
+      return { li, b, x: Math.cos(th) * r, y, z: Math.sin(th) * r };
+    });
+    let rx = -.25, ry = .6, vx = 0, vy = .0035, dragging = false, moved = 0, lx = 0, ly = 0, paused = false, on = true, R = 200;
+    const size = () => { R = wrap.clientWidth * .37; };
+    size(); new ResizeObserver(size).observe(wrap);
+    function place() {
+      const cX = Math.cos(rx), sX = Math.sin(rx), cY = Math.cos(ry), sY = Math.sin(ry);
+      for (const o of items) {
+        const x1 = o.x * cY + o.z * sY, z1 = -o.x * sY + o.z * cY;
+        const y2 = o.y * cX - z1 * sX, z2 = o.y * sX + z1 * cX;
+        const depth = (z2 + 1) / 2; // 0 back, 1 front
+        const sc = .5 + .62 * depth;
+        o.li.style.transform = "translate3d(" + (x1 * R).toFixed(1) + "px," + (y2 * R).toFixed(1) + "px,0) scale(" + sc.toFixed(3) + ")";
+        o.li.style.opacity = (.04 + .96 * Math.pow(Math.max(0, (depth - .28) / .72), 1.1)).toFixed(3);
+        o.li.style.zIndex = String(Math.round(depth * 100));
+        o.b.style.pointerEvents = depth > .5 ? "auto" : "none";
+        o.b.tabIndex = depth > .5 ? 0 : -1;
+      }
+    }
+    wrap.addEventListener("pointerdown", e => { if (e.target.closest(".tagb")) return; dragging = true; moved = 0; lx = e.clientX; ly = e.clientY; wrap.setPointerCapture && wrap.setPointerCapture(e.pointerId); });
+    wrap.addEventListener("pointermove", e => {
+      if (!dragging) return;
+      const dx = e.clientX - lx, dy = e.clientY - ly; lx = e.clientX; ly = e.clientY; moved += Math.abs(dx) + Math.abs(dy);
+      ry += dx * .008; rx -= dy * .008; vy = dx * .0009; vx = -dy * .0009; place();
+    });
+    const stop = () => { dragging = false; };
+    wrap.addEventListener("pointerup", stop); wrap.addEventListener("pointercancel", stop);
+    if (fine) { wrap.addEventListener("mouseenter", () => { paused = true; }); wrap.addEventListener("mouseleave", () => { paused = false; }); }
+    place();
+    if (reduce) return;
+    const loop = () => {
+      if (!on) return;
+      if (!dragging && !paused) { vx += (0 - vx) * .03; vy += (.0035 - vy) * .03; rx += vx; ry += vy; place(); }
+      requestAnimationFrame(loop);
+    };
+    new IntersectionObserver(es => { const was = on; on = es[0].isIntersecting; if (on && !was) requestAnimationFrame(loop); }).observe(wrap);
+    requestAnimationFrame(loop);
+  }
+
+  /* ---------------- fit the giant word to the viewport ---------------- */
+  const word = document.getElementById("word");
+  function fitWord() {
+    word.style.fontSize = "";
+    const mobile = innerWidth < 860;
+    const target = hero.clientWidth * (mobile ? .97 : .94);
+    const w = word.scrollWidth, fs = parseFloat(getComputedStyle(word).fontSize);
+    if (!w) return;
+    // fill the width, but never grow taller than a slice of the hero, so it cannot cover the stats column
+    const maxH = mobile ? Infinity : hero.clientHeight * .34;
+    const byWidth = fs * target / w, byHeight = maxH / .8;
+    word.style.fontSize = Math.min(byWidth, byHeight).toFixed(1) + "px";
+  }
+  addEventListener("resize", fitWord);
+
+  /* ---------------- start ---------------- */
+  try { const saved = localStorage.getItem("ff-lang"); if (saved && LANGS[saved]) lang = saved; } catch (e) {}
+  applyLang();
+  inspectTech(TECH[0]);
+  const fontsReady = document.fonts ? Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1500))]) : Promise.resolve();
+  fitWord();
+  try { initSphere(); } catch (e) { document.getElementById("sphere").classList.add("is-static"); }
+  fontsReady.then(fitWord);
+  startBoot();
+})();
+</script>
+</body>
+</html>

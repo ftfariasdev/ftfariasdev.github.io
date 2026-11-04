@@ -1,0 +1,130 @@
+/* ================= BOOT ================= */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: none;
+}
+html.booting .boot {
+  display: block;
+}
+.boot__half {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50.5%;
+  background: #050506;
+  transition: transform 0.9s var(--ease);
+}
+.boot__half--top {
+  top: 0;
+}
+.boot__half--bot {
+  bottom: 0;
+}
+.boot.is-open .boot__half--top {
+  transform: translateY(-101%);
+}
+.boot.is-open .boot__half--bot {
+  transform: translateY(101%);
+}
+.boot__seam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  box-shadow: 0 0 24px var(--accent);
+}
+.boot.is-done .boot__seam {
+  transform: scaleX(1);
+  transition: transform 0.35s var(--ease);
+}
+.boot.is-open .boot__seam {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.boot__log {
+  position: absolute;
+  left: clamp(20px, 5vw, 64px);
+  top: clamp(24px, 8vh, 80px);
+  font: 400 clamp(0.66rem, 1.2vw, 0.85rem)/1.9 var(--f-mono);
+  color: var(--muted);
+}
+.boot__log div {
+  white-space: pre;
+}
+.boot__log b {
+  color: var(--accent);
+  font-weight: 400;
+}
+.boot__log i {
+  color: var(--white);
+  font-style: normal;
+}
+.boot.is-open .boot__log,
+.boot.is-open .boot__count,
+.boot.is-open .boot__bar,
+.boot.is-open .boot__skip {
+  /* Gone at once as the screen splits: no half-transparent text for an instant. */
+  visibility: hidden;
+}
+.boot__count {
+  position: absolute;
+  right: clamp(20px, 5vw, 64px);
+  bottom: clamp(30px, 8vh, 80px);
+  font: 400 clamp(6rem, 22vw, 18rem)/0.8 var(--f-display);
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.boot__count small {
+  font-size: 0.18em;
+  color: var(--muted);
+  vertical-align: top;
+  margin-left: 0.2em;
+}
+.boot__bar {
+  position: absolute;
+  left: clamp(20px, 5vw, 64px);
+  right: clamp(20px, 5vw, 64px);
+  bottom: clamp(18px, 4vh, 40px);
+  height: 2px;
+  background: var(--line);
+}
+.boot__bar i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+}
+.boot__skip {
+  position: absolute;
+  right: clamp(20px, 5vw, 64px);
+  top: clamp(24px, 8vh, 80px);
+  font: 400 0.72rem/1 var(--f-mono);
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 9px 14px;
+  cursor: pointer;
+}
+.boot__skip:hover {
+  color: var(--white);
+  border-color: var(--accent);
+}
+#bootNum {
+  display: inline-flex;
+}
+#bootNum > span {
+  display: inline-block;
+  width: 0.52em;
+  text-align: center;
+}
+/* The log disappears at once instead of fading, so no half-transparent text is ever on screen. */
+.boot.is-done .boot__log {
+  visibility: hidden;
+}

@@ -1,0 +1,95 @@
+{
+  "hero": {
+    "width": 655,
+    "height": 1195,
+    "widths": [
+      360,
+      520,
+      655
+    ]
+  },
+  "about": {
+    "width": 740,
+    "height": 900,
+    "widths": [
+      380,
+      560,
+      740
+    ]
+  },
+  "guardiao-1": {
+    "width": 1600,
+    "height": 2400,
+    "widths": [
+      480,
+      640,
+      760,
+      1100
+    ]
+  },
+  "guardiao-2": {
+    "width": 1600,
+    "height": 2400,
+    "widths": [
+      480,
+      640,
+      760,
+      1100
+    ]
+  },
+  "softwrench": {
+    "width": 448,
+    "height": 396,
+    "widths": [
+      68
+    ]
+  },
+  "cert-profissional50": {
+    "width": 2250,
+    "height": 1750,
+    "widths": [
+      600,
+      1600
+    ]
+  },
+  "cert-python": {
+    "width": 4320,
+    "height": 3064,
+    "widths": [
+      600,
+      1600
+    ]
+  },
+  "alura-1": {
+    "width": 1462,
+    "height": 1024,
+    "widths": [
+      600,
+      1460
+    ]
+  },
+  "alura-2": {
+    "width": 1452,
+    "height": 1030,
+    "widths": [
+      600,
+      1452
+    ]
+  },
+  "alura-3": {
+    "width": 1452,
+    "height": 1024,
+    "widths": [
+      600,
+      1452
+    ]
+  },
+  "alura-4": {
+    "width": 1454,
+    "height": 1028,
+    "widths": [
+      600,
+      1454
+    ]
+  }
+}
