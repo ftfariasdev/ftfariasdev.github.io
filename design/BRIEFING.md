@@ -92,3 +92,4 @@ Regra do Felipe: o design não pode remeter a nenhum setor de negócio, apenas a
 - **Ícones do GitHub e LinkedIn** (04/11/2026): no topo, ao lado do seletor de idioma, e no rodapé (com Instagram).
 - **Palavra do topo** (04/11/2026): PORTFOLIO trocado por FTFARIAS (marca pessoal e usuário do GitHub). A altura da palavra agora tem limite, para não cobrir os números da direita com a fonte real carregada.
 - **Marca do topo** (04/11/2026): "FELIPE." trocado por "FELIPE FARIAS." (menor no celular para caber ao lado dos ícones e do seletor de idioma).
+- **Design aprovado** (04/11/2026). Plano de implementação em `design/IMPLEMENTATION-PLAN.md`.
