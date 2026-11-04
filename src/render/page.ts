@@ -334,7 +334,7 @@ function stackSection(lang: Lang): string {
   <div class="wrap">
     ${sectionHead(t(lang, "st.eyebrow"), t(lang, "st.h"), t(lang, "st.note"))}
     <div class="stack">
-      <div class="sphere is-static" id="sphere"><ul class="sphere__tags" id="sphereTags" aria-label="${esc(t(lang, "a11y.stack"))}">${tags}</ul><p class="sphere__hint">${t(lang, "st.hint")}</p></div>
+      <div class="sphere is-static" id="sphere"><p class="visually-hidden" id="sphereHelp">${t(lang, "a11y.sphereKeys")}</p><ul class="sphere__tags" id="sphereTags" aria-label="${esc(t(lang, "a11y.stack"))}" aria-describedby="sphereHelp">${tags}</ul><p class="sphere__hint">${t(lang, "st.hint")}</p></div>
       <div>
         <div class="inspect" aria-live="polite">
           <p class="inspect__k">${t(lang, "st.k")}</p>

@@ -39,20 +39,38 @@ export function initSphere(): void {
   const STEP = 11; // spreads the "daily" items around the sphere instead of clustering them
   const n = buttons.length;
   let paused = false;
+  // Roving focus: one tag is in the Tab order, arrow keys move between all of them, and the
+  // sphere turns to bring the focused one to the front.
+  let target: { rx: number; ry: number } | null = null;
+
+  const select = (i: number) => {
+    buttons.forEach((x, j) => {
+      x.setAttribute("aria-pressed", String(j === i));
+      x.tabIndex = j === i ? 0 : -1;
+    });
+    const tech = data[i];
+    if (tech) show(tech);
+  };
 
   const items = buttons.map((b, i) => {
-    const tech = data[i];
-    const select = () => {
-      buttons.forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
-      if (tech) show(tech);
-    };
-    b.addEventListener("click", select);
+    b.addEventListener("click", () => select(i));
     b.addEventListener("focus", () => {
       paused = true;
-      select();
+      select(i);
+      bringToFront(i);
     });
     b.addEventListener("blur", () => (paused = false));
-    if (finePointer) b.addEventListener("mouseenter", select);
+    b.addEventListener("keydown", (e) => {
+      const keys: Record<string, number> = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 };
+      let next = -1;
+      if (e.key in keys) next = (i + (keys[e.key] ?? 0) + n) % n;
+      else if (e.key === "Home") next = 0;
+      else if (e.key === "End") next = n - 1;
+      if (next < 0) return;
+      e.preventDefault();
+      buttons[next]?.focus();
+    });
+    if (finePointer) b.addEventListener("mouseenter", () => select(i));
     const k = (i * STEP) % n;
     const y = 1 - ((k + 0.5) / n) * 2;
     const r = Math.sqrt(1 - y * y);
@@ -61,6 +79,24 @@ export function initSphere(): void {
   });
 
   wrap.classList.remove("is-static");
+  select(0);
+
+  /** Angles that put item i at the front centre of the sphere. */
+  function bringToFront(i: number) {
+    const o = items[i];
+    if (!o) return;
+    const ty = Math.atan2(-o.x, o.z);
+    const tx = Math.atan2(o.y, Math.hypot(o.x, o.z));
+    // Take the short way round from the current angles.
+    const near = (from: number, to: number) => from + Math.atan2(Math.sin(to - from), Math.cos(to - from));
+    target = { rx: near(rx, tx), ry: near(ry, ty) };
+    if (reduceMotion) {
+      rx = target.rx;
+      ry = target.ry;
+      target = null;
+      place();
+    }
+  }
   let rx = -0.25,
     ry = 0.6,
     vx = 0,
@@ -88,7 +124,7 @@ export function initSphere(): void {
       o.li.style.transform = `translate3d(${(x1 * radius).toFixed(1)}px,${(y2 * radius).toFixed(1)}px,0) scale(${scale.toFixed(3)})`;
       o.li.style.opacity = (0.04 + 0.96 * Math.pow(Math.max(0, (depth - 0.28) / 0.72), 1.1)).toFixed(3);
       o.li.style.zIndex = String(Math.round(depth * 100));
-      // Only the front half takes the mouse; every tag stays reachable with Tab.
+      // Only the front half takes the mouse; the keyboard reaches every tag with the arrow keys.
       o.b.style.pointerEvents = depth > 0.5 ? "auto" : "none";
     }
   };
@@ -123,6 +159,13 @@ export function initSphere(): void {
   place();
   if (reduceMotion) return;
   whileVisible(wrap, () => {
+    if (target) {
+      rx += (target.rx - rx) * 0.14;
+      ry += (target.ry - ry) * 0.14;
+      if (Math.abs(target.rx - rx) + Math.abs(target.ry - ry) < 0.002) target = null;
+      place();
+      return;
+    }
     if (dragging || paused) return;
     vx += (0 - vx) * 0.03;
     vy += (0.0035 - vy) * 0.03;

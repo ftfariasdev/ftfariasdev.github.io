@@ -114,11 +114,15 @@ test.describe("stack sphere", () => {
     await page.locator(".tagb", { hasText: /^Prisma$/ }).focus();
     await expect(page.locator("#iName")).toHaveText("Prisma");
     await expect(page.locator("#iUses")).toContainText("SAGA");
-    // Every technology stays reachable by keyboard, including those on the back of the sphere.
-    const unreachable = await page
-      .locator(".tagb")
-      .evaluateAll((els) => els.filter((b) => (b as HTMLElement).tabIndex < 0).length);
-    expect(unreachable).toBe(0);
+    // One tag sits in the Tab order; the arrow keys reach every technology and bring it forward.
+    await expect(page.locator('.tagb[tabindex="0"]')).toHaveCount(1);
+    const total = await page.locator(".tagb").count();
+    const seen = new Set<string>();
+    for (let i = 0; i < total; i++) {
+      seen.add((await page.locator("#iName").textContent()) ?? "");
+      await page.keyboard.press("ArrowRight");
+    }
+    expect(seen.size).toBe(total);
     expect(errors).toEqual([]);
   });
 
