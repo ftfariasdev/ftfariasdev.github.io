@@ -1,0 +1,58 @@
+/* ================= MARQUEE ================= */
+.bands {
+  position: relative;
+  height: 170px;
+  overflow: hidden;
+}
+.band {
+  position: absolute;
+  left: -5%;
+  right: -5%;
+  top: 50%;
+  padding: 14px 0;
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.band--accent {
+  background: var(--accent);
+  transform: translateY(-50%) rotate(-3deg);
+  z-index: 2;
+}
+.band--dark {
+  background: var(--bg-2);
+  border-block: 1px solid var(--line);
+  transform: translateY(-50%) rotate(2.5deg);
+}
+.band__track {
+  display: flex;
+  flex: none;
+  animation: marquee 30s linear infinite;
+}
+.band--dark .band__track {
+  animation-direction: reverse;
+  animation-duration: 38s;
+}
+.band__track span {
+  font: 400 2rem/1 var(--f-display);
+  text-transform: uppercase;
+  padding-right: 28px;
+}
+.band--accent .band__track span {
+  color: var(--bg);
+}
+.band--dark .band__track span {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--muted);
+}
+.band__track span::after {
+  content: "✦";
+  margin-left: 28px;
+  font-size: 0.7em;
+  vertical-align: 0.15em;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}

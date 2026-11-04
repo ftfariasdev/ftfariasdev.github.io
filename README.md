@@ -26,13 +26,13 @@ A modern, responsive single-page portfolio built with vanilla HTML, CSS, and Jav
 
 ## Sections
 
-| Section | Description |
-|---|---|
-| Hero | Introduction, tech stack summary, and CTAs |
-| About | Bio, current company, and location |
-| Skills | Frontend, Backend, Database, and Tools |
-| Experience | Work history with company, role, and period |
-| Profiles | Links to Email, LinkedIn, GitHub, and Instagram |
+| Section    | Description                                     |
+| ---------- | ----------------------------------------------- |
+| Hero       | Introduction, tech stack summary, and CTAs      |
+| About      | Bio, current company, and location              |
+| Skills     | Frontend, Backend, Database, and Tools          |
+| Experience | Work history with company, role, and period     |
+| Profiles   | Links to Email, LinkedIn, GitHub, and Instagram |
 
 ## Project Structure
 
@@ -52,12 +52,12 @@ myWebsite/
 
 ## Customization
 
-| What | Where |
-|---|---|
-| Colors and theme tokens | `css/variables.css` |
-| Page content and sections | `index.html` |
-| Animations and layout | `css/style.css` |
-| Navbar, theme toggle, scroll logic | `js/main.js` |
+| What                               | Where               |
+| ---------------------------------- | ------------------- |
+| Colors and theme tokens            | `css/variables.css` |
+| Page content and sections          | `index.html`        |
+| Animations and layout              | `css/style.css`     |
+| Navbar, theme toggle, scroll logic | `js/main.js`        |
 
 ---
 

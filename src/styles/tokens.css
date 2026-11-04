@@ -1,0 +1,21 @@
+/* Design tokens. Layout idea: a film-poster hero (giant word, cut-out portrait,
+   floating UI) that boots like a machine, followed by bold editorial sections. */
+:root {
+  --bg: #0a0a0c;
+  --bg-2: #131317;
+  --accent: #22d877;
+  --pending: #f5b940;
+  --accent-deep: #0c5a33;
+  --white: #f3f0ec;
+  --muted: #8e8e96;
+  --line: rgba(243, 240, 236, 0.09);
+
+  --f-display: "Anton", "Impact", "Arial Narrow", sans-serif;
+  --f-script: "Caveat", "Segoe Script", cursive;
+  --f-body: "Manrope", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --wrap: 1240px;
+  color-scheme: dark;
+}
