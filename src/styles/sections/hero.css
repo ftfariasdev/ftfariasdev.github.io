@@ -60,7 +60,8 @@ html.pre-hero .word span {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  height: 90%;
+  /* 90% of the hero, but always leaving room for the top bar (about 82 px) plus a gap. */
+  height: min(90%, calc(100% - 100px));
   max-width: 100%;
 }
 .person {
